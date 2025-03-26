@@ -1,0 +1,98 @@
+/* Login */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95%; 
+  height: 95%;
+  background-color: var(--background-color);
+}
+  
+.app-container.sidebar-open .login-container,
+.app-container.sidebar-closed .login-container {
+    margin-left: 0 !important; 
+}
+
+.login-form {
+  background-color: var(--header-color); 
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 320px;
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--text-color); 
+  font-size: 1.5rem;
+}
+
+.login-form h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1rem;
+    color: var(--primary-color);
+}
+
+.login-form h1 a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-form h1 a:hover {
+    text-decoration: underline;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+  width: calc(100% - 30px);
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid var(--border-color); 
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+
+.login-form button {
+  width: 100%;
+  padding: 15px;
+  background-color: var(--primary-color); 
+  color: var(--header-color); 
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 1rem;
+}
+
+.login-form button:hover {
+  background-color: var(--secondary-color); 
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+/* Media Queries para dispositivos móveis */
+@media (max-width: 480px) {
+
+  .login-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    align-items: center;
+    width: 100%; 
+    height: 100%;
+    background-color: var(--background-color);
+    right: 15%;
+  }
+
+}
+

@@ -1,0 +1,364 @@
+.add-student-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  padding: 20px;
+  background-color: var(--background-color);
+  font-family: sans-serif; 
+  color: var(--text-color);
+}
+
+.add-student-container h1 {
+  color: var(--text-color);
+  margin-bottom: 20px;
+}
+
+.student-form {
+  width: 80%; 
+  max-width: 900px; 
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--card-background);
+  box-shadow: var(--card-shadow);
+}
+
+.student-form fieldset {
+  border: 1px solid var(--text-color);
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.student-form legend {
+  font-weight: bold;
+  color: var(--text-color);
+  padding: 0 10px;
+  margin-bottom: 10px;
+  background-color: var(--card-background); 
+}
+
+.form-group-inline {
+  display: flex;
+  gap: 20px; 
+  margin-bottom: 15px;
+  align-items: flex-end; 
+  flex-wrap: wrap; 
+}
+
+.form-group {
+  flex: 1; 
+  display: flex;
+  flex-direction: column; 
+  min-width: 200px; 
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  color: var(--text-color);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--tertiary-color); 
+  color: var(--text-color);
+}
+
+#disability-type {
+  background-color: var(--tertiary-color);
+}
+
+#disability-report {
+  background-color: var(--tertiary-color);
+}
+
+#birthdate {
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--tertiary-color); 
+  color: var(--text-color);
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0; 
+}
+
+.cep-input-group {
+  display: flex;
+}
+
+.cep-input-group input {
+  flex-grow: 1; 
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.cep-input-group button {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-left: none; 
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  background-color: var(--action-btn-bg);
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+.cep-input-group button:hover {
+  background-color: var(--action-btn-hover);
+}
+
+.add-responsible {
+  background-color: var(--secondary-color);
+}
+
+.create-student {
+  background-color: var(--secondary-color);
+}
+
+.add-responsible,
+.create-student {
+  padding: 10px 15px;
+  color: #f4f2effff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px; 
+}
+
+.add-responsible:hover,
+.create-student:hover {
+  background-color: #232f4a; 
+}
+
+.responsibles-list {
+  margin-top: 20px;
+  border: 1px solid var(--text-color);
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.responsibles-list h3 {
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+
+.responsibles-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.responsibles-list li {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+}
+
+.responsible-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.responsible-actions button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: var(--secondary-color);
+  color: #f4f2effff;
+}
+
+.responsible-actions button:hover {
+  background-color: #545b62; 
+}
+
+.category-checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.category-checkbox-item {
+  display: flex;
+  align-items: center;
+}
+
+.category-checkbox-item input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.student-page-info {
+  margin: 0 10px;
+  color: var(--text-color);
+}
+
+.student-file-info {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  width: 100%;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+.student-file-name {
+  flex-grow: 1; 
+  margin-right: 10px;
+  color: var(--text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.student-remove-file {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: var(--error-color);
+  color: #f4f2effff;
+  transition: background-color 0.3s ease;
+}
+
+.student-remove-file:hover {
+  background-color: #c82333; 
+}
+
+.student-file-error {
+  color: var(--error-color);
+  margin-top: 5px;
+  
+  margin-left: 173px; 
+}
+
+.student-file-input {
+  display: none; 
+}
+
+.file-label {
+  display: inline-block;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--action-btn-bg);
+  cursor: pointer;
+  color: var(--text-color);
+  transition: background-color 0.3s ease;
+  
+  margin-left: 17px; 
+}
+
+.file-label:hover {
+  background-color: var(--action-btn-hover);
+}
+
+/* Estilos para a seção PCD */
+.disability-section {
+  margin: 15px 0;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: var(--card-background);
+}
+
+.disability-type-input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--tertiary-color);
+  color: var(--text-color);
+  transition: border-color 0.3s ease;
+}
+
+.disability-type-input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.file-upload-section {
+  margin: 20px 0;
+}
+
+.file-upload-label {
+  display: inline-block;
+  padding: 12px 20px;
+  background-color: var(--secondary-color);
+  color: #f4f2effff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 0;
+}
+
+.file-upload-label:hover {
+  background-color: var(--action-btn-hover);
+  transform: translateY(-1px);
+}
+
+.file-info-container {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: var(--tertiary-color);
+  border-radius: 6px;
+  gap: 15px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.file-name {
+  flex: 1;
+  color: var(--text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 10px;
+  max-width: calc(100% - 120px);
+}
+
+.remove-file-btn {
+  padding: 8px 16px;
+  background-color: var(--error-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.remove-file-btn:hover {
+  background-color: #d32f2f;
+}
+
+.file-error-message {
+  color: var(--error-color);
+  margin-top: 8px;
+  font-size: 0.9em;
+  padding: 5px 10px;
+  background-color: rgba(255, 0, 0, 0.1);
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.disability-select {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--tertiary-color);
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.disability-select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}

@@ -1,0 +1,86 @@
+/* Root variables for light mode */
+:root {
+  --primary-color: #e68c3a; 
+  --secondary-color: #213e60; 
+  --tertiary-color: #6c757d; 
+  --background-color: #f4f2ef; 
+  --text-color: #212529; 
+  --header-color: #f4f2ef; 
+  --error-color: #dc3545; 
+  --link-color: #7BD5F6; 
+  --hover-color: #213e60; 
+  --border-color: #6c757d; 
+  --action-btn-bg: #f8f9fa; 
+  --action-btn-hover: #e9ecef; 
+  --scrollbar-thumb-color: #6c757d;
+  --scrollbar-track-color: #f8f9fa;
+  --card-background: #f4f2ef9c; 
+  --card-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  --grid-gap: 20px; 
+}
+
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column; 
+  min-height: 100vh; 
+}
+
+body.login-page {
+  display: block;
+}
+
+body.login-page .app-container {
+    height: 100vh; 
+}
+
+.app-container {
+  display: flex;
+  min-height: 100vh; 
+}
+
+/* Conteúdo Principal */
+.main-content {
+  padding: 30px;
+  flex-grow: 1;
+  transition: margin-left 0.3s ease; 
+}
+
+.app-container.sidebar-open .main-content {
+  margin-left: 250px; 
+}
+
+.app-container.sidebar-closed .main-content {
+  margin-left: 80px; 
+}
+
+.print-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: var(--primary-color);
+  color: #f4f2ef;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.print-button:hover {
+  background-color: var(--hover-color);
+}
+
+@media print {
+  body {
+    font-family: Arial, sans-serif;
+    width: 100%;
+  }
+  .student-details {
+    width: 100%;
+  }
+}

@@ -1,0 +1,76 @@
+.header-user-container {
+  position: fixed;
+  width: 98%;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1003;
+}
+
+user-info img {
+  width: 30px;
+  height: 30px;
+}
+.no-print {
+  @media print {
+    display: none;
+  }
+}
+
+.logo {
+  width: 100px;
+  height: auto;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 120px;
+  margin-top: 5px;
+  min-width: 200px;
+}
+
+.top-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.user-separator {
+  color: var(--text-color);
+  font-size: 0.85em;
+}
+
+.user-info span {
+  line-height: 1.4;
+  text-align: right;
+}
+
+.polo-name {
+  font-weight: bold;
+  font-size: 0.85em;
+  color: var(--text-color);
+  text-align: right;
+  width: 100%;
+  margin-top: 2px;
+  padding-right: 0;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 0.85em;
+  color: var(--text-color);
+}
+
+.user-type {
+  font-size: 0.85em;
+  color: var(--text-secondary-color);
+}
+

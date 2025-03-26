@@ -1,0 +1,326 @@
+.attendance-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.attendance-modal {
+  background-color: var(--card-background);
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  width: 90%;
+  max-width: 800px;
+  padding: 20px;
+  position: relative;
+}
+
+.attendance-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+.attendance-modal-header {
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.attendance-modal-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.attendance-modal-body {
+  margin-top: 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.attendance-table-container {
+  overflow-x: auto;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+
+.attendance-students-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.attendance-students-table th,
+.attendance-students-table td {
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  text-align: left;
+  min-width: 120px;
+}
+
+.attendance-students-table th:first-child,
+.attendance-students-table td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: var(--card-background);
+  z-index: 1;
+  min-width: 200px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.attendance-students-table th {
+  position: sticky;
+  top: 0;
+  background-color: var(--background-color);
+  z-index: 2;
+}
+
+.attendance-students-table th:first-child {
+  z-index: 3;
+}
+
+.attendance-student-item.focused {
+  background-color: var(--hover-color);
+}
+
+.attendance-attendance-select,
+.attendance-comment-input {
+  width: 100%;
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.attendance-save-button,
+.attendance-cancel-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.attendance-save-button {
+  background-color: #28a745;
+  color: #f4f2ef;
+}
+
+.attendance-cancel-button {
+  background-color: #dc3545;
+  color: #f4f2ef;
+}
+
+.attendance-error-message {
+  color: var(--error-color);
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Estilos Mobile (max-width: 768px) */
+@media screen and (max-width: 768px) {
+  .attendance-modal {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--card-background);
+  }
+
+  .attendance-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 60px;
+  }
+
+  .attendance-students-table {
+    display: block;
+    min-width: auto;
+  }
+
+  .attendance-students-table thead {
+    display: none;
+  }
+
+  .attendance-students-table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .attendance-students-table tr {
+    display: flex;
+    flex-direction: column;
+    background: var(--card-background);
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 8px;
+    border-left: 5px solid var(--primary-color);
+  }
+
+  .attendance-students-table tr[data-status="F"] {
+    border-left-color: var(--error-color);
+  }
+
+  .attendance-students-table tr[data-status="FJ"] {
+    border-left-color: var(--secondary-color);
+  }
+
+  .attendance-students-table tr[data-status="PA"] {
+    border-left-color: var(--link-color);
+  }
+
+  .attendance-student-name {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 4px 0;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+  }
+
+  .attendance-mobile-status-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    margin: 6px 0;
+  }
+
+  .status-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 4px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--card-background);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
+    min-height: 40px;
+  }
+
+  .status-button span {
+    display: block;
+    text-align: center;
+  }
+
+  .status-button.active {
+    border-width: 2px;
+  }
+
+  .status-button.active[data-status="P"] {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--card-background);
+  }
+
+  .status-button.active[data-status="F"] {
+    background: var(--error-color);
+    border-color: var(--error-color);
+    color: var(--card-background);
+  }
+
+  .status-button.active[data-status="FJ"] {
+    background: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: var(--card-background);
+  }
+
+  .status-button.active[data-status="PA"] {
+    background: var(--link-color);
+    border-color: var(--link-color);
+    color: var(--card-background);
+  }
+
+  .attendance-comment-input {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 14px;
+  }
+
+  .modal-buttons {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--card-background);
+    padding: 8px;
+    box-shadow: 0 -4px 12px var(--hover-color);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 6px;
+    z-index: 1000;
+  }
+
+  .modal-buttons button {
+    width: 100%;
+    padding: 10px 8px;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+    flex: 1;
+  }
+
+  .attendance-save-button {
+    background-color: var(--primary-color);
+    color: var(--card-background);
+    border: none;
+    border-radius: 8px;
+  }
+
+  .attendance-save-button:last-of-type {
+    background-color: var(--link-color);
+  }
+
+  .attendance-cancel-button {
+    background-color: var(--error-color);
+    color: var(--card-background);
+    border: none;
+    border-radius: 8px;
+  }
+
+  .swipe-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    color: #666;
+    font-size: 12px;
+  }
+
+  .attendance-modal-header {
+    padding: 8px 0;
+    margin-bottom: 8px;
+  }
+
+  .attendance-modal-header h2 {
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+
+  .attendance-form-group {
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+}
+
+/* AddStudent.css */

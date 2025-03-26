@@ -1,0 +1,1170 @@
+/* Container da Tabela */
+.table-container {
+  width: 100%;
+  overflow: visible;
+  margin-top: 20px;
+  position: relative;
+}
+
+/* Tabela */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+}
+
+/* Cabeçalho */
+.data-table th,
+.data-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.data-table th {
+  background-color: var(--tertiary-color);
+  color: var(--text-color);
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+}
+
+.data-table th:hover {
+  background-color: var(--hover-color);
+}
+
+.data-table tr.selected,
+.data-table tbody tr.selected td {
+  border-color: var(--secondary-color);
+}
+
+.data-table tr.selected td {
+  background-color: transparent; 
+}
+
+.data-table th .resizer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 5px;
+  background-color: var(--primary-color); 
+  cursor: col-resize;
+  user-select: none;
+  touch-action: none;
+  opacity: 0; 
+  z-index: 10; 
+}
+
+.data-table th:hover .resizer {
+  opacity: 1; 
+}
+
+/* Linhas alternadas (efeito zebra) */
+.data-table tbody tr:nth-child(odd) {
+  background-color: var(--card-background);
+}
+
+.data-table tbody tr:nth-child(even) {
+  background-color: var(--background-color);
+}
+
+/* Hover nas linhas */
+.data-table tbody tr:hover {
+  background-color: var(--hover-color);
+}
+
+/* Linhas selecionadas */
+.data-table tbody tr.selected {
+  background-color: rgba(220, 53, 69, 0.11) !important;
+}
+
+/* Nova classe para linha selecionada + clique direito */
+.data-table tbody tr.selected.context-menu-open {
+  background-color: var(--primary-color) !important;
+}
+
+/* Estilos para quando o menu de ações ou contexto estiver aberto */
+.data-table tbody tr.selected.context-menu-open,
+.data-table tbody tr.selected:has(.actions-menu) {
+  background-color: var(--hover-color) !important;
+}
+
+/* Linha deletada (se for necessário) */
+.data-table tbody tr.deleted-item {
+  background-color: #f8d7da !important;
+  /* text-decoration: line-through; */
+  color: #a94442;
+}
+
+
+/* Células */
+.data-table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Coluna de ações */
+.actions-column {
+  width: 90px;
+}
+
+.actions-dropdown {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* Botão de ações */
+.actions-btn {
+  background-color: var(--action-btn-bg);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 1.2em;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.actions-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--tertiary-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 5px 0;
+  z-index: 1000;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  white-space: nowrap;
+  min-width: 100px;
+  width: auto;
+}
+
+.actions-menu[style*="position: fixed"] {
+  position: fixed !important;
+  background-color: var(--tertiary-color);
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  min-width: 100px; 
+  width: auto;
+  right: auto;
+  z-index: 9999;
+  padding: 5px 0;
+}
+
+.actions-menu button {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  text-align: center;
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--text-color); 
+}
+
+.actions-menu button:hover {
+  background-color: var(--secondary-color);
+  color: var(--background-color);
+}
+
+/* Botões de ações para múltiplas seleções */
+.multi-actions-container {
+  margin-bottom: 15px;
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  justify-content: flex-end; 
+  width: 100%; 
+}
+
+.multi-actions-container button {
+  background-color: transparent;
+  border: none; 
+  color: var(--text-color);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: none;
+  border-bottom: 2px solid transparent; 
+}
+
+.multi-actions-container button:hover {
+  background-color: transparent; 
+  color: var (--primary-color);
+  border-color: var(--primary-color); 
+}
+
+/* Mensagem de erro */
+.error-message {
+  color: var(--error-color);
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+/* Paginação */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.pagination button {
+  padding: 8px 15px;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  background: white;
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: var(--primary-color);
+  color: white;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  color: #666;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding: 15px;
+  background-color: var(--background-color);
+  border-radius: 4px;
+}
+
+.pagination-button {
+  padding: 8px 16px;
+  border: none;
+  background-color: var(--secondary-color);
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: var(--primary-color);
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Estilo para o checkbox */
+.data-table input[type="checkbox"] {
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.data-table input[type="checkbox"]:checked {
+  background-color: var(--primary-color);
+  border-color: var (--primary-color);
+}
+
+.data-table input[type="checkbox"]:hover {
+  border-color: var(--primary-color);
+}
+
+/* Estilo para o filter  */
+
+.filters-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  padding: 10px; 
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  background-color: var(--background-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.filter-group {
+  display: flex;
+  flex: 1;
+  min-width: 150px;
+}
+
+.filter-group:last-child {
+  flex-grow: 1;
+  flex-basis: auto;
+}
+
+.filter-group fieldset {
+  width: 100%;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.filter-group input,
+.filter-group select{
+  width: 100%;
+  min-width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+}
+
+.filters-container input,
+.filters-container select {
+  border: 1px solid var(--border-color);
+  border-radius: 6px; 
+  font-size: 16px; 
+  flex-grow: 1; 
+  min-width: 150px; 
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.filters-container label {
+  display: block; 
+  margin-bottom: 5px; 
+  font-weight: bold; 
+  color: var(--text-color);
+}
+
+/* Estilos específicos para os inputs e selects dentro dos filtros */
+.filters-container input:focus,
+.filters-container select:focus {
+  outline: none; 
+  border-color: var(--primary-color); 
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+}
+
+.date-range-picker {
+  min-width: 20px !important;
+}
+
+.refresh-button {
+  background-color: var(--primary-color);
+  color: var(--header-color);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  height: 62px;
+  white-space: nowrap;
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 120px;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.refresh-button svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+
+.refresh-button:hover {
+  background-color: var(--secondary-color);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.refresh-button:hover svg {
+  transform: rotate(180deg);
+}
+
+.refresh-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.refresh-button:disabled {
+  background-color: var(--hover-color);
+  color: var(--text-color);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+.refresh-button:disabled svg {
+  transform: none;
+}
+
+/* Media queries para dispositivos móveis */
+@media screen and (max-width: 768px) {
+    .table-container {
+        margin-top: 10px;
+        overflow-x: hidden;
+    }
+
+    .data-table {
+        display: block;
+    }
+
+    .data-table thead {
+        display: none; 
+    }
+
+    .data-table tbody {
+        display: block;
+    }
+
+    .data-table tr {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 10px;
+        background: var(--background-color);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .data-table td {
+        display: flex;
+        padding: 10px 5px;
+        border: none;
+        position: relative;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .data-table td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: var(--text-color);
+        font-size: 14px;
+    }
+
+    /* Ajuste na célula de ações */
+    td.actions {
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    td.actions:before {
+        content: "Ações";
+        margin-right: auto;
+        margin-bottom: 0;
+    }
+
+    /* Adiciona labels antes de cada célula */
+    .data-table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        width: 40%;
+        margin-right: 10px;
+    }
+
+    /* Ajustes para ações */
+    .actions {
+        justify-content: flex-end;
+        padding-top: 10px !important;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .actions-menu {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--background-color);
+        border-radius: 15px 15px 0 0;
+        padding: 15px;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    }
+
+    .actions-menu button {
+        padding: 15px;
+        width: 100%;
+        text-align: center;
+        font-size: 16px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .actions-menu button:last-child {
+        border-bottom: none;
+    }
+
+    /* Melhorias na área de ações */
+    .actions {
+        position: sticky;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        padding: 15px !important;
+        background: var(--background-color);
+        border-top: 1px solid var(--border-color);
+        margin-top: 10px;
+    }
+
+    .actions-btn {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--primary-color);
+        color: white;
+        border-radius: 50%;
+        font-size: 24px;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+    }
+
+    .actions-btn:active {
+        background-color: var(--secondary-color);
+        transform: scale(0.95);
+    }
+
+    .actions-btn::after {
+        content: none;
+    }
+
+    .actions-menu {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-height: 70vh;
+        overflow-y: auto;
+        background: var(--background-color);
+        border-radius: 15px 15px 0 0;
+        padding: 20px;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        z-index: 1100;
+    }
+
+    .actions-menu button {
+        width: 100%;
+        padding: 16px;
+        margin: 5px 0;
+        font-size: 16px;
+        text-align: center;
+        background: var(--secondary-color);
+        color: var(--text-color);
+        border-radius: 8px;
+        border: none;
+    }
+
+    .actions-menu button:last-child {
+        margin-bottom: 0;
+    }
+
+    /* Melhoria na paginação para mobile */
+    .pagination {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--background-color);
+        padding: 15px;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        margin: 0;
+        z-index: 1000;
+        gap: 8px;
+    }
+
+    .pagination button {
+        flex: 1;
+        min-width: 44px;
+        height: 44px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        background: var(--secondary-color);
+        color: var(--text-color);
+        border: none;
+        border-radius: 8px;
+    }
+
+    .pagination span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 10px;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+
+    /* Ajuste no container principal para dar espaço à paginação fixa */
+    .table-container {
+        padding-bottom: 80px;
+    }
+
+    /* Ajuste nos itens por página */
+    .items-per-page-selector {
+        position: sticky;
+        bottom: 74px;
+        background: var(--background-color);
+        padding: 10px;
+        border-top: 1px solid var(--border-color);
+        z-index: 999;
+    }
+
+    .items-per-page-selector select {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 8px;
+        background: var(--background-color);
+        border: 1px solid var(--border-color);
+    }
+
+    /* Melhorias no botão e menu de ações */
+    .actions {
+        position: relative;
+        display: flex;
+        justify-content: flex-end;
+        padding: 10px 0 !important;
+        margin-top: 10px;
+    }
+
+    .actions-btn {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--primary-color);
+        color: white;
+        border-radius: 50%;
+        font-size: 20px;
+        padding: 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .actions-menu {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-height: 60vh;
+        overflow-y: auto;
+        background: var(--background-color);
+        border-radius: 15px 15px 0 0;
+        padding: 20px;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        z-index: 9999;
+        transform: translateY(0);
+        transition: transform 0.3s ease;
+    }
+
+    .actions-menu:before {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 4px;
+        background: #ccc;
+        border-radius: 2px;
+        margin: 0 auto 15px;
+    }
+
+    .actions-menu button {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0;
+        font-size: 16px;
+        text-align: center;
+        background: var(--background-color);
+        color: var(--text-color);
+        border-radius: 8px;
+        border: none;
+    }
+
+    .actions-menu button:active {
+        background: var(--hover-color);
+    }
+
+    /* Overlay para o menu de ações */
+    .actions-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9998;
+    }
+
+    .actions-overlay.active {
+        display: block;
+    }
+
+    /* Ajuste no padding do container para evitar que o conteúdo fique sob a paginação fixa */
+    .table-container {
+        padding-bottom: 100px;
+    }
+
+    /* Garantir que o menu de ações fique acima da paginação */
+    .pagination {
+        z-index: 9997;
+    }
+
+    /* Novo estilo para o menu de ações em mobile */
+    .actions {
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+    }
+
+    .actions-btn {
+        background: var(--primary-color);
+        color: white;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .actions-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9998;
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.3s ease;
+    }
+
+    .actions-menu {
+        display: flex !important;
+        flex-direction: column;
+        position: fixed !important;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 20px;
+        border-radius: 20px 20px 0 0;
+        z-index: 9999;
+        transform: translateY(0);
+        transition: transform 0.3s ease;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+    .actions-menu:before {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 4px;
+        background: #ddd;
+        margin: 0 auto 20px;
+        border-radius: 4px;
+    }
+
+    .actions-menu button {
+        width: 100%;
+        padding: 16px;
+        margin: 4px 0;
+        border: none;
+        background: var(--background-color);
+        color: var(--text-color);
+        font-size: 16px;
+        text-align: center;
+        border-radius: 12px;
+        transition: background 0.2s;
+    }
+
+    .actions-menu button:active {
+        background: var(--hover-color);
+    }
+
+    /* Adicionar botão de fechar */
+    .actions-menu-close {
+        margin-top: 10px;
+        padding: 16px !important;
+        background: var(--tertiary-color) !important;
+        color: var(--text-color) !important;
+        font-weight: bold;
+    }
+
+    /* Ajustes revisados para o menu de ações em mobile */
+    .actions-btn {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--primary-color);
+        color: white;
+        border-radius: 50%;
+        font-size: 24px;
+        padding: 0;
+        margin-left: auto;
+        border: none;
+        cursor: pointer;
+    }
+
+    .actions-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9998;
+        display: block;
+    }
+
+    .actions-menu {
+        display: flex !important;
+        flex-direction: column;
+        position: fixed !important;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100% !important;
+        background-color: white;
+        padding: 20px;
+        border-radius: 20px 20px 0 0;
+        z-index: 9999;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+    }
+
+    .actions-menu:before {
+        content: '';
+        width: 40px;
+        height: 4px;
+        background-color: #ddd;
+        border-radius: 4px;
+        margin: 0 auto 20px;
+        display: block;
+    }
+
+    .actions-menu button {
+        width: 100%;
+        padding: 16px;
+        margin: 4px 0;
+        font-size: 16px;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .actions-menu-close {
+        margin-top: 10px !important;
+        background-color: var(--tertiary-color) !important;
+        font-weight: bold;
+    }
+
+    /* Garante que o container de ações tenha posição relativa */
+    .actions {
+        position: relative !important;
+        display: flex;
+        justify-content: flex-end;
+        padding: 10px 0;
+        width: 100%;
+    }
+
+    /* Ajuste na célula de ações */
+    td.actions {
+        justify-content: flex-end;
+    }
+
+    .actions-btn::after {
+        content: "⋮"; 
+    }
+
+    .data-table tr {
+        padding: 8px;
+        margin-bottom: 8px;
+    }
+
+    .data-table td {
+        padding: 4px 5px;
+        min-height: 32px;
+        font-size: 14px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .data-table td::before {
+        content: attr(data-label);
+        font-weight: 500;
+        font-size: 13px;
+        width: auto;
+        min-width: 80px;
+        margin-right: 8px;
+        color: var(--text-color);
+    }
+
+    .data-table td:not(.actions) {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    td.actions {
+        margin-top: 4px;
+        padding-top: 8px !important;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .actions-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+    }
+
+    .pagination {
+        padding: 8px;
+    }
+
+    .pagination button {
+        min-width: 36px;
+        height: 36px;
+    }
+
+    .items-per-page-selector {
+        padding: 8px;
+    }
+
+    .items-per-page-selector select {
+        padding: 8px;
+    }
+
+    .actions-menu[style*="position: fixed"] {
+        position: fixed !important;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100% !important;
+        background: var(--background-color);
+        padding: 20px;
+        border-radius: 20px 20px 0 0;
+        z-index: 9999;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+    }
+
+    .actions-menu[style*="position: fixed"]:before {
+        content: '';
+        width: 40px;
+        height: 4px;
+        background-color: #ddd;
+        border-radius: 4px;
+        margin: 0 auto 20px;
+        display: block;
+    }
+
+    .actions-menu[style*="position: fixed"] button {
+        width: 100%;
+        padding: 16px;
+        margin: 4px 0;
+        font-size: 16px;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .pagination {
+        flex-wrap: nowrap;
+    }
+
+    .pagination button {
+        min-width: 40px;
+    }
+
+    .pagination span {
+        font-size: 12px;
+    }
+
+    .actions-menu button {
+        padding: 14px;
+    }
+
+    .actions-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+
+    .actions-menu button {
+        padding: 12px;
+        font-size: 15px;
+    }
+
+    .data-table td {
+        font-size: 13px;
+    }
+
+    .data-table td::before {
+        font-size: 12px;
+        min-width: 70px;
+    }
+
+    .actions-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+    }
+
+    .pagination button {
+        min-width: 32px;
+        height: 32px;
+        font-size: 12px;
+    }
+}
+
+/* Menu de contexto para desktop */
+tr.context-menu-open {
+  background-color: var(--hover-color) !important;
+}
+
+.time-filters {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    margin-right: 10px;
+}
+
+.time-filters span {
+    color: var(--text-color);
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+    padding-bottom: 3px;
+}
+
+.filter-button {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 15px;
+}
+
+.filter-button:hover {
+    background-color: var(--hover-color);
+    border-color: var(--primary-color);
+}
+
+.filter-button svg {
+    width: 14px;
+    height: 14px;
+}
+
+.filter-button.primary {
+    background-color: var(--primary-color);
+    color: var(--header-color);
+    border: none;
+}
+
+.filter-button.primary:hover {
+    background-color: var(--secondary-color);
+}
+
+.switch-container {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  flex-direction: column; 
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(14px);
+}

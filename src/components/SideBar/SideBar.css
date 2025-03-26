@@ -1,0 +1,273 @@
+/* Sidebar Container */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  width: 250px;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  position: fixed;
+}
+
+.sidebar.closed {
+  width: 80px;
+}
+
+/* Header do Sidebar */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: 1px solid #34495e;
+}
+
+.sidebar-logo {
+  font-size: 1.2rem;
+  color: #ecf0f1;
+  text-decoration: none;
+}
+
+.sidebar-toggle {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Conteúdo */
+.sidebar-content {
+  overflow-y: auto;
+  flex-grow: 1;
+  padding: 10px;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-item {
+  margin-bottom: 5px;
+}
+
+/* Ajuste do container do link para posicionamento relativo */
+.sidebar-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  color: #ecf0f1;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.sidebar-link span {
+  margin-left: 10px;
+  flex: 1;
+  text-align: left;
+}
+
+.sidebar-link:hover {
+  background-color: #34495e;
+}
+
+.sidebar-link svg {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.sidebar.closed .sidebar-link span {
+  display: none;
+}
+
+.sidebar.closed .sidebar-link {
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.sidebar.closed .sidebar-link svg {
+  margin-right: 0;
+}
+
+/* Submenu */
+.sidebar-submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.sidebar-submenu.open {
+  max-height: 500px;
+}
+
+.sidebar-submenu li {
+  padding-left: 20px;
+}
+
+.sidebar-submenu a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ecf0f1;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.sidebar-submenu a span {
+  margin-left: 10px;
+  flex: 1;
+  text-align: left;
+}
+
+.sidebar-submenu a:hover {
+  background-color: #34495e;
+}
+
+.sidebar-submenu svg {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+/* Footer */
+.sidebar-footer {
+  border-top: 1px solid #34495e;
+  padding: 15px;
+  text-align: center;
+}
+
+.sidebar-link.has-requests {
+  color: var(--error-color);
+  font-weight: bold;
+}
+
+/* Estilo do ícone do sino com solicitações */
+.bell-icon {
+  transform-origin: top;
+}
+
+.bell-animation {
+  animation: bellRing 1s ease-in-out infinite;
+  color: var(--error-color);
+}
+
+@keyframes bellRing {
+  0% { transform: rotate(0); }
+  20% { transform: rotate(15deg); }
+  40% { transform: rotate(-15deg); }
+  60% { transform: rotate(7deg); }
+  80% { transform: rotate(-7deg); }
+  100% { transform: rotate(0); }
+}
+
+/* Ajuste da bolinha de notificação */
+.notification-dot {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--error-color);
+  border-radius: 50%;
+}
+
+/* Quando o sidebar está fechado */
+.sidebar.closed .notification-dot {
+  right: 10px;
+  top: 5px;
+}
+
+/* Adicione estas media queries no final do arquivo */
+@media screen and (max-width: 1024px) {
+    .sidebar {
+        width: 200px;
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        z-index: 1000;
+    }
+
+    .sidebar.closed {
+        width: 60px;
+    }
+
+    .sidebar-header {
+        padding: 10px;
+    }
+
+    .sidebar-logo {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 180px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.closed {
+        width: 0;
+        transform: translateX(-100%);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+
+    .sidebar-overlay.active {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .sidebar {
+        width: 100%;
+    }
+
+    .sidebar-content {
+        padding: 5px;
+    }
+
+    .sidebar-link {
+        padding: 8px;
+    }
+
+    .sidebar-submenu li {
+        padding-left: 10px;
+    }
+}
+
+/* Ajuste para o conteúdo principal quando o sidebar estiver aberto */
+@media screen and (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        transition: margin-left 0.3s ease;
+    }
+
+    .main-content.sidebar-open {
+        margin-left: 180px;
+    }
+}
