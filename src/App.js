@@ -47,13 +47,11 @@ function App() {
     const token = Cookies.get('token');
     const storedUserType = Cookies.get('userType');
     const storedUserName = Cookies.get('userName');
-    const storedProfilePhoto = Cookies.get('profilePhoto');
     
     if (token) {
       setIsLoggedIn(true);
       setUserType(storedUserType);
       setUserName(storedUserName);
-      setProfilePhoto(storedProfilePhoto);
     }
   }, []);
 
@@ -85,7 +83,6 @@ function App() {
 
   const handleProfilePhotoUpdate = (newPhotoUrl) => {
     setProfilePhoto(newPhotoUrl);
-    Cookies.set('profilePhoto', newPhotoUrl, { secure: true, sameSite: 'strict' });
   };
 
   const renderProtectedRoute = (path, Component, requiredUserType = "master") => (
@@ -120,7 +117,6 @@ function App() {
               userName={userName}
               userType={userType}
               profilePhoto={profilePhoto}
-              onProfilePhotoUpdate={handleProfilePhotoUpdate}
             />
           </>
         )}

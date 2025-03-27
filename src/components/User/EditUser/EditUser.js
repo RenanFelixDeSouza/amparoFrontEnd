@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './EditUser.css';
 import api, { staticApi } from '../../../services/api';
 import Table from '../../Shared/Table';
+import { FaUserCircle } from 'react-icons/fa';
 
 function EditUser({ onProfilePhotoUpdate }) {
   const [activeTab, setActiveTab] = useState('personal');
@@ -26,9 +27,11 @@ function EditUser({ onProfilePhotoUpdate }) {
         const response = await api.get('/user');
         setFormData(response.data);
 
-        if (response.data.photo) {
+
+        console.log(response.data, 'response.data');
+        if (response.data.photo && response.data.photo !== "") {
           setPhotoPreview(`${staticApi.defaults.baseURL}/storage/${response.data.photo}`);
-        }
+        } 
       } catch (error) {
         console.error('Erro ao buscar dados do usuário:', error);
         setError('Erro ao carregar dados do usuário.');
@@ -53,11 +56,15 @@ function EditUser({ onProfilePhotoUpdate }) {
       key: 'image',
       label: 'Imagem',
       render: (image) => (
-        <img
-          src={image || "https://placehold.co/600x400"}
-          alt="Ação"
-          style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '5px' }}
-        />
+        image ? (
+          <img
+            src={image}
+            alt="Ação"
+            style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '5px' }}
+          />
+        ) : (
+          <FaUserCircle size={50} color="#ccc" />
+        )
       ),
     },
     { key: 'type', label: 'Tipo' },
@@ -110,8 +117,7 @@ function EditUser({ onProfilePhotoUpdate }) {
       setSuccess('Foto enviada com sucesso!');
       if (response.data.photo_url) {
         setPhotoPreview(response.data.photo_url);
-        setIsPhotoChanged(false);
-        onProfilePhotoUpdate(response.data.photo_url);
+        onProfilePhotoUpdate(response.data.photo_url); // Atualiza a foto no Header
       }
     } catch (error) {
       console.error('Erro ao enviar a foto:', error);
@@ -175,11 +181,15 @@ function EditUser({ onProfilePhotoUpdate }) {
   return (
     <div className="edit-user-container">
       <div className="photo-upload-container">
-        <img
-          src={photoPreview || 'https://via.placeholder.com/100'}
-          alt="Preview"
-          className="photo-preview"
-        />
+        {photoPreview ? (
+          <img
+            src={photoPreview}
+            alt="Preview"
+            className="photo-preview"
+          />
+        ) : (
+          <FaUserCircle size={100} color="#ccc" />
+        )}
         <label htmlFor="photo-upload" className="photo-upload-label">
           Alterar Foto
         </label>
@@ -193,6 +203,11 @@ function EditUser({ onProfilePhotoUpdate }) {
         {isPhotoChanged && (
           <button type="button" onClick={handlePhotoSubmit} className="save-photo-button">
             Salvar Foto
+          </button>
+        )}
+        {photoPreview && !isPhotoChanged && (
+          <button type="button" onClick={() => setPhotoPreview(null)} className="remove-photo-button">
+            Remover Foto
           </button>
         )}
       </div>

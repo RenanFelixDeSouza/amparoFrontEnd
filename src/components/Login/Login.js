@@ -45,11 +45,6 @@ function Login({ setIsLoggedIn }) {
         throw new Error("Falha na autenticação");
       }
 
-      // Atualize o caminho da foto de perfil, se necessário
-      if (loginResponse.data.user.photo) {
-        loginResponse.data.user.photo = loginResponse.data.user.photo.replace('uploads/photos', 'uploads/users');
-      }
-
       localStorage.setItem("token", loginResponse.data.token);
       api.defaults.headers.common['Authorization'] = `Bearer ${loginResponse.data.token}`;
 

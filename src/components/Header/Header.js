@@ -6,12 +6,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
-import api, { staticApi } from '../../services/api'; // Importa a instância para URLs estáticas
+import api, { staticApi } from '../../services/api'; 
+import { FaUserCircle } from 'react-icons/fa';
 
-function Header({ userName, userType, profilePhoto, onProfilePhotoUpdate }) {
+function Header({ userName, userType, profilePhoto }) {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [userPhoto, setUserPhoto] = useState(profilePhoto || 'https://placehold.co/600x400'); // Estado para a foto de perfil
-  const [currentUserName, setCurrentUserName] = useState(userName); // Estado para o nome do usuário
+  const [userPhoto, setUserPhoto] = useState(profilePhoto); 
+  const [currentUserName, setCurrentUserName] = useState(userName); 
+  const [isLoading, setIsLoading] = useState(true); // Estado de carregamento
   const userMenuRef = useRef(null);
 
   const toggleUserMenu = () => {
@@ -32,36 +34,43 @@ function Header({ userName, userType, profilePhoto, onProfilePhotoUpdate }) {
   }, []);
 
   useEffect(() => {
-    onProfilePhotoUpdate(profilePhoto);
-  }, [profilePhoto, onProfilePhotoUpdate]);
-
-  useEffect(() => {
     const fetchProfilePhoto = async () => {
       try {
         const response = await api.get('/user'); // Endpoint para buscar dados do usuário
         if (response.data.photo) {
-          setUserPhoto(`${staticApi.defaults.baseURL}/storage/${response.data.photo}`);
-          onProfilePhotoUpdate(response.data.photo_url);
+          const photoUrl = `${staticApi.defaults.baseURL}/storage/${response.data.photo}`;
+          const img = new Image();
+          img.src = photoUrl;
+          img.onload = () => {
+            setUserPhoto(photoUrl);
+            setIsLoading(false); // Define como carregado após a imagem ser carregada
+          };
+        } else {
+          setUserPhoto(null); // Usa o ícone padrão
+          setIsLoading(false); // Define como carregado mesmo sem foto
         }
         if (response.data.name) {
           setCurrentUserName(response.data.name); // Atualiza o nome do usuário
         }
       } catch (error) {
         console.error('Erro ao buscar a foto de perfil:', error);
+        setIsLoading(false); // Define como carregado em caso de erro
       }
     };
 
     fetchProfilePhoto();
-  }, [onProfilePhotoUpdate]);
+  }, []);
 
   useEffect(() => {
-    if (userName) {
-      setCurrentUserName(userName); // Atualiza o nome do usuário dinamicamente
-    }
-  }, [userName]);
+    setUserPhoto(profilePhoto); // Atualiza a foto de perfil ao receber uma nova URL
+  }, [profilePhoto]);
+
+  if (isLoading) {
+    return null; // Não renderiza nada enquanto está carregando
+  }
 
   return (
-    <div className="header-user-container" style={{overflowY: 'hidden'}}>
+    <div className="header-user-container" style={{ overflowY: 'hidden' }}>
       <div className="user-info">
         <div className="top-line">
           <span className="user-name">{currentUserName}</span>
@@ -70,17 +79,30 @@ function Header({ userName, userType, profilePhoto, onProfilePhotoUpdate }) {
         </div>
       </div>
       <div className="user-menu" ref={userMenuRef}>
-        <img
-          src={userPhoto}
-          alt="Foto de Perfil"
-          className="user-icon"
-          onClick={toggleUserMenu}
-          style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-        />
+        {userPhoto ? (
+          <img
+            src={userPhoto}
+            alt="Foto de Perfil"
+            className="user-icon"
+            onClick={toggleUserMenu}
+            style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+          />
+        ) : (
+          <FaUserCircle
+            className="user-icon"
+            onClick={toggleUserMenu}
+            style={{ width: '50px', height: '50px', cursor: 'pointer' }}
+          />
+        )}
         {isUserMenuOpen && (
           <ul className="user-menu-dropdown">
             <li>
-              <Link to="/configuracao-usuario">Editar Usuário</Link>
+              <Link
+                to="/configuracao-usuario"
+                onClick={() => setIsUserMenuOpen(false)}
+              >
+                Editar Usuário
+              </Link>
             </li>
           </ul>
         )}
