@@ -26,6 +26,7 @@ import Attendance from './components/Attendance/AttendanceList/AttendanceList';
 import ListRequest from './components/Requests/ListRequest/ListRequest';
 import ReportPage from './components/Reports/ReportPage';
 import Register from './components/Register/Register';
+import EditUser from './components/User/EditUser/EditUser';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -34,6 +35,7 @@ function App() {
   const [userName, setUserName] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [hasRequests, setHasRequests] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState(null);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -45,11 +47,13 @@ function App() {
     const token = Cookies.get('token');
     const storedUserType = Cookies.get('userType');
     const storedUserName = Cookies.get('userName');
+    const storedProfilePhoto = Cookies.get('profilePhoto');
     
     if (token) {
       setIsLoggedIn(true);
       setUserType(storedUserType);
       setUserName(storedUserName);
+      setProfilePhoto(storedProfilePhoto);
     }
   }, []);
 
@@ -77,6 +81,11 @@ function App() {
     Cookies.set('token', token, { secure: true, sameSite: 'strict' });
     Cookies.set('userType', user.type, { secure: true, sameSite: 'strict' });
     Cookies.set('userName', user.name, { secure: true, sameSite: 'strict' });
+  };
+
+  const handleProfilePhotoUpdate = (newPhotoUrl) => {
+    setProfilePhoto(newPhotoUrl);
+    Cookies.set('profilePhoto', newPhotoUrl, { secure: true, sameSite: 'strict' });
   };
 
   const renderProtectedRoute = (path, Component, requiredUserType = "master") => (
@@ -107,7 +116,12 @@ function App() {
               onMouseLeave={handleMouseLeave}
               hasRequests={hasRequests}
             />
-            <Header userName={userName} userType={userType} />
+            <Header
+              userName={userName}
+              userType={userType}
+              profilePhoto={profilePhoto}
+              onProfilePhotoUpdate={handleProfilePhotoUpdate}
+            />
           </>
         )}
 
@@ -136,6 +150,7 @@ function App() {
             {renderProtectedRoute("/adicionar-usuario", <UserManager />)}
             {renderProtectedRoute("/listar-usuarios", <ListUsers />)}
             {renderProtectedRoute("/solicitacoes", <ListRequest />)}
+            {renderProtectedRoute("/configuracao-usuario", <EditUser onProfilePhotoUpdate={handleProfilePhotoUpdate} />)}
             {renderProtectedRoute("/relatorios", <ReportPage />, 'master')}
           </Routes>
         </div>

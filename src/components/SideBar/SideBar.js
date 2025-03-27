@@ -91,7 +91,7 @@ function Sidebar({ isOpen, toggleSidebar, setIsLoggedIn, userType, onMouseEnter,
             </Link>
           </div>
         )}
-        <Link to="/dashboard" className="sidebar-logo">{isOpen ? 'Gestão' : 'amparoserver'}</Link>
+        <Link to="/dashboard" className="sidebar-logo">{isOpen ? 'Gestão' : 'AA'}</Link>
       </div>
 
       <div className="sidebar-content">

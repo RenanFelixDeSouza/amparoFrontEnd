@@ -98,7 +98,6 @@
   color: #a94442;
 }
 
-
 /* Células */
 .data-table td {
   padding: 10px;
@@ -707,8 +706,8 @@
         border: none;
     }
 
-    .actions-menu button:active {
-        background: var(--hover-color);
+    .actions-menu button:last-child {
+        margin-bottom: 0;
     }
 
     /* Overlay para o menu de ações */
@@ -1167,4 +1166,12 @@ input:checked + .slider {
 
 input:checked + .slider:before {
   transform: translateX(14px);
+}
+
+.data-table img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--secondary-color); 
 }

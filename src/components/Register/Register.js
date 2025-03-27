@@ -47,9 +47,9 @@ function Register({ setIsLoggedIn }) {
         confirmPassword: formData.confirmPassword,
       });
 
-      // if (!loginResponse.data.token) {
-      //   throw new Error("Falha na autenticação");
-      // }
+      if (!loginResponse.data.token) {
+        throw new Error("Falha na autenticação");
+      }
 
       setIsModalOpen(true);
     } catch (error) {
