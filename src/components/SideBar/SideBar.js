@@ -87,7 +87,7 @@ function Sidebar({ isOpen, toggleSidebar, setIsLoggedIn, userType, onMouseEnter,
         {isOpen && (
           <div className="sidebar-toggle" onClick={toggleSidebar}>
             <Link to="/dashboard" className="sidebar-logo">
-              <img src="/logo-amparoserver.png" alt="logo" width={'60px'} />
+              {/* <img src="/logo-amparoserver.png" alt="logo" width={'60px'} /> */}
             </Link>
           </div>
         )}

@@ -41,7 +41,8 @@
 
 .edit-user-form input,
 .edit-user-form select {
-  width: 97%;
+  width: 100%; 
+  max-width: 97%; 
   padding: 10px;
   border: 1px solid var(--border-color);
   border-radius: 4px;
@@ -109,4 +110,78 @@
 
 .photo-upload-label:hover {
   background-color: var(--hover-color);
+}
+
+.form-group-address-inline {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  max-width: 97%; 
+}
+
+.form-group-address {
+  flex: 1;
+}
+
+.cep-input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+
+.cep-search-button {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary-color);
+}
+
+.cep-search-button:hover {
+  color: var(--hover-color);
+}
+
+.form-group-personal-inline {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  max-width: 97%;
+}
+
+.form-group-personal {
+  flex: 1;
+}
+
+.city-list {
+  position: absolute;
+  width: 10%; 
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  max-height: 200px; 
+  overflow-y: auto; 
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--background-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 199;
+}
+
+.city-list li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.city-list li:hover {
+  background-color: var(--primary-color);
+  color: var(--header-color);
+}
+
+.city-list li:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
 }

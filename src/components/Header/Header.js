@@ -13,7 +13,7 @@ function Header({ userName, userType, profilePhoto }) {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [userPhoto, setUserPhoto] = useState(profilePhoto); 
   const [currentUserName, setCurrentUserName] = useState(userName); 
-  const [isLoading, setIsLoading] = useState(true); // Estado de carregamento
+  const [isLoading, setIsLoading] = useState(true); 
   const userMenuRef = useRef(null);
 
   const toggleUserMenu = () => {
@@ -36,25 +36,26 @@ function Header({ userName, userType, profilePhoto }) {
   useEffect(() => {
     const fetchProfilePhoto = async () => {
       try {
-        const response = await api.get('/user'); // Endpoint para buscar dados do usuário
+        const response = await api.get('/user'); 
         if (response.data.photo) {
           const photoUrl = `${staticApi.defaults.baseURL}/storage/${response.data.photo}`;
           const img = new Image();
           img.src = photoUrl;
           img.onload = () => {
             setUserPhoto(photoUrl);
-            setIsLoading(false); // Define como carregado após a imagem ser carregada
+            setIsLoading(false); 
           };
         } else {
-          setUserPhoto(null); // Usa o ícone padrão
-          setIsLoading(false); // Define como carregado mesmo sem foto
+          setUserPhoto(null); 
+          setIsLoading(false); 
         }
         if (response.data.name) {
-          setCurrentUserName(response.data.name); // Atualiza o nome do usuário
+          setCurrentUserName(response.data.name); 
         }
       } catch (error) {
         console.error('Erro ao buscar a foto de perfil:', error);
-        setIsLoading(false); // Define como carregado em caso de erro
+        setUserPhoto(null); 
+        setIsLoading(false); 
       }
     };
 
@@ -62,11 +63,11 @@ function Header({ userName, userType, profilePhoto }) {
   }, []);
 
   useEffect(() => {
-    setUserPhoto(profilePhoto); // Atualiza a foto de perfil ao receber uma nova URL
+    setUserPhoto(profilePhoto); 
   }, [profilePhoto]);
 
   if (isLoading) {
-    return null; // Não renderiza nada enquanto está carregando
+    return null; 
   }
 
   return (
