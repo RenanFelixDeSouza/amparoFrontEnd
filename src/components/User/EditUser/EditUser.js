@@ -27,7 +27,7 @@ function EditUser({ onProfilePhotoUpdate }) {
   const [success, setSuccess] = useState('');
   const [isPhotoChanged, setIsPhotoChanged] = useState(false);
   const [filteredCities, setFilteredCities] = useState([]);
-  const [cityError, setCityError] = useState(''); 
+  const [cityError, setCityError] = useState('');
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -43,7 +43,7 @@ function EditUser({ onProfilePhotoUpdate }) {
           email: userData.email || '',
           phone: userData.phone || '',
           address: userData.address || '',
-          photo: userData.photo || null,
+          photo: userData.photo_url || null,
           user_name: userData.user_name || '',
           zip_code: addressData.zip_code || '',
           street: addressData.street || '',
@@ -51,11 +51,13 @@ function EditUser({ onProfilePhotoUpdate }) {
           complement: addressData.complement || '',
           district_name: addressData.district_name || '',
           city: `${addressData.city_name} - ${addressData.city_federative_unit}` || '',
-          city_id: addressData.city_id || null, 
+          city_id: addressData.city_id || null,
           state: addressData.city_federative_unit || '',
         });
 
-        if (userData.photo && userData.photo !== "") {
+        if (userData.photo_url) {
+          setPhotoPreview(userData.photo_url);
+        } else if (userData.photo && userData.photo !== "") {
           setPhotoPreview(`${staticApi.defaults.baseURL}/storage/${userData.photo}`);
         }
       } catch (error) {
@@ -130,7 +132,7 @@ function EditUser({ onProfilePhotoUpdate }) {
               setFilteredCities(cities);
 
               if (cities.length === 1) {
-                handleCitySelect(cities[0]); 
+                handleCitySelect(cities[0]);
               }
             }
           } else {
@@ -256,15 +258,16 @@ function EditUser({ onProfilePhotoUpdate }) {
     try {
       const formDataToSend = {
         ...formData,
-        city: undefined, 
-        city_id: formData.city_id, 
-        photo: formData.photo || null, 
+        city: undefined,
+        city_id: formData.city_id,
       };
+
+      delete formDataToSend.photo;
+
 
       await api.put('/user/update', formDataToSend);
 
       setSuccess('Dados atualizados com sucesso!');
-      onProfilePhotoUpdate(formData.photo ? formData.photo : null); 
     } catch (error) {
       console.error('Erro ao atualizar dados do usuário:', error);
       if (error.response && error.response.data.errors) {
@@ -295,50 +298,47 @@ function EditUser({ onProfilePhotoUpdate }) {
     };
   };
 
-  const fetchCities = async (cityFilter) => {
+  const fetchCities = useCallback(async (cityFilter) => {
     try {
+      console.log("Buscando cidades com filtro:", cityFilter);
       const response = await api.get('/city', { params: { name: cityFilter } });
-      setFilteredCities(response.data || []); 
+      setFilteredCities(response.data || []);
     } catch (error) {
       console.error("Erro ao buscar cidades:", error);
-      setFilteredCities([]); 
+      setFilteredCities([]);
     }
-  };
+  }, []);
 
-  const debouncedFetchCities = useCallback(
-    ((cityFilter) => {
-      let timer;
-      return (...args) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => fetchCities(cityFilter, ...args), 500);
-      };
-    })(),
-    [fetchCities]
-  );
+  const debouncedFetchCities = useCallback((cityFilter) => {
+    const debouncedFunction = debounce((filter) => {
+      fetchCities(filter);
+    }, 500);
+    debouncedFunction(cityFilter);
+  }, [fetchCities]);
 
   const handleCityFilterChange = (e) => {
     const cityFilter = e.target.value;
-    setFormData({ ...formData, city: cityFilter, city_id: null }); 
-    setCityError(''); 
+    setFormData({ ...formData, city: cityFilter, city_id: null });
+    setCityError('');
     if (cityFilter.length >= 3) {
-      debouncedFetchCities(cityFilter);
+      debouncedFetchCities(cityFilter); // Agora o valor correto será passado
     } else {
-      setFilteredCities([]); 
+      setFilteredCities([]);
     }
   };
 
   const handleCitySelect = (city) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      city: `${city.name} - ${city.federative_unit}`, 
-      city_id: city.id, 
+      city: `${city.name} - ${city.federative_unit}`,
+      city_id: city.id,
     }));
     setFilteredCities([]);
-    setCityError(''); 
+    setCityError('');
   };
 
   const handleNumberChange = (e) => {
-    const value = e.target.value.replace(/\D/g, ''); 
+    const value = e.target.value.replace(/\D/g, '');
     setFormData({ ...formData, number: value });
   };
 
@@ -496,7 +496,7 @@ function EditUser({ onProfilePhotoUpdate }) {
                   id="number"
                   name="number"
                   value={formData.number}
-                  onChange={handleNumberChange} 
+                  onChange={handleNumberChange}
                   placeholder="Digite o número"
                 />
               </div>
