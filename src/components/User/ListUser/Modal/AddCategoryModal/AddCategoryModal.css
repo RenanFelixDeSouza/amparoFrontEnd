@@ -1,19 +1,5 @@
 
 
-.modal-content {
-    background: var(--card-background);
-    color: var(--text-color);
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 500px;
-    width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
-    width: 800px;
-    max-width: 90vw;
-    box-shadow: var(--card-shadow);
-}
-
 .workshops-list {
     margin: 20px 0;
     max-height: 300px;
@@ -33,61 +19,8 @@
     cursor: pointer;
 }
 
-.modal-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-}
 
-.modal-buttons button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
 
-.modal-buttons button[type="submit"] {
-    background-color: var(--primary-color);
-    color: var(--header-color);
-}
-
-.modal-buttons button[type="submit"]:disabled {
-    background-color: var(--tertiary-color);
-    color: var(--text-color);
-    cursor: not-allowed;
-}
-
-.modal-buttons button[type="button"] {
-    background-color: var(--error-color);
-    color: var(--header-color);
-}
-
-.search-container {
-    margin-bottom: 15px;
-    padding: 0 10px;
-}
-
-.search-input {
-    width: 100%;
-    padding: 8px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
-    background-color: var(--background-color);
-    color: var(--text-color);
-}
-
-.search-input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(48, 65, 98, 0.2);
-}
-
-.search-input::placeholder {
-    color: var(--tertiary-color);
-}
 
 .category-item label.disabled {
     color: var(--tertiary-color);

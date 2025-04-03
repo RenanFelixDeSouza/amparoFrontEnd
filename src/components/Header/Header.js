@@ -37,8 +37,9 @@ function Header({ userName, userType, profilePhoto }) {
     const fetchProfilePhoto = async () => {
       try {
         const response = await api.get('/user'); 
-        if (response.data.photo) {
-          const photoUrl = `${staticApi.defaults.baseURL}/storage/${response.data.photo}`;
+        console.log('Respostaddfs da API:', response?.data?.user?.photo_url);
+        if (response?.data?.user?.photo_url) {
+          const photoUrl = response?.data?.user?.photo_url;
           const img = new Image();
           img.src = photoUrl;
           img.onload = () => {

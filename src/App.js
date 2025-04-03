@@ -18,6 +18,7 @@ import ListCourses from './components/Course/ListCourses/ListCourses';
 
 import ListStudent from './components/Student/ListStudent/ListStudent';
 import AddStudent from './components/Student/AddStudent/AddStudent';
+import AddPet from './components/Pet/AddPet/AddPet';
 
 import UserManager from './components/User/UserManager/UserManager';
 import ListUsers from './components/User/ListUser/ListUsers';
@@ -140,7 +141,7 @@ function App() {
             {renderProtectedRoute("/adicionar-turma", <AddCourse />)}
             {renderProtectedRoute("/listar-turmas", <ListCourses />)}
 
-            {renderProtectedRoute("/adicionar-aluno", <AddStudent />)}
+            {renderProtectedRoute("/adicionar-pet", <AddPet />)}
             {renderProtectedRoute("/alunos", <ListStudent />)}
 
             {renderProtectedRoute("/adicionar-usuario", <UserManager />)}

@@ -8,7 +8,7 @@
   --header-color: #f4f2ef; 
   --error-color: #dc3545; 
   --link-color: #7BD5F6; 
-  --hover-color: #6c757d6b; 
+  --hover-color: #6c757d; 
   --border-color: #6c757d; 
   --action-btn-bg: #f8f9fa; 
   --action-btn-hover: #e9ecef; 
@@ -84,3 +84,224 @@ body.login-page .app-container {
     width: 100%;
   }
 }
+
+/* Estilo para o modal */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+
+.modal-content {
+  background: var(--background-color);
+  color: var(--text-color);
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  width: 800px;
+  max-width: 90vw;
+  box-shadow: var(--card-shadow);
+}
+
+.modal button {
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.modal button:hover {
+  background-color: var(--secondary-color);
+}
+
+.modal-header {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.modal-buttons button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+
+.modal-buttons button:first-child {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.modal-buttons button:first-child:hover {
+  opacity: 0.5;
+}
+
+.modal-buttons button:last-child {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.modal-buttons button:last-child:hover {
+  opacity: 0.5;
+}
+
+.categories-grid {
+  border-top: 1px solid var(--text-color);
+}
+
+/* Estilo para itens clicáveis na lista */
+.category-grid-item {
+  border: 1px solid var(--border-color); 
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.category-grid-item:hover {
+  border: 1px solid var(--primary-color); 
+  background-color: rgba(0, 123, 255, 0.1); 
+}
+
+.category-grid-item.selected {
+  border: 1px solid var(--primary-color); 
+  background-color: var(--primary-color); 
+  color: var(--background-color); 
+}
+
+
+.pagination button {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  background-color: #f4f2ef;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.pagination button:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 14px;
+}
+
+.search-container {
+  margin-bottom: 15px;
+  padding: 0;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 2px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.search-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 5px rgba(48, 65, 98, 0.2);
+}
+
+.search-input::placeholder {
+  color: var(--tertiary-color);
+}
+
+/* Estilo para o botão de adicionar nova raça */
+.add-data-button {
+  width: 100%;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.add-data-button:hover {
+  background-color: var(--hover-color);
+}
+
+/* Campo de entrada para nova raça */
+.new-data-field { 
+  padding: 6px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.new-data-input [type="text"] {
+  width: 75%;
+  padding: 6px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Botões dentro do contêiner de nova raça */
+.new-data-input button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  margin-left: 17px;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.new-data-input button:hover {
+  background-color: var(--hover-color);
+}
+
+/* Botão de cancelar */
+.new-data-input button:last-child {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.new-data-input button:last-child:hover {
+  background-color: var(--hover-color); 
+}
+

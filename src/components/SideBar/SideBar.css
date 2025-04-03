@@ -116,7 +116,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-color);
+  color: var(--background-color);
   text-decoration: none;
   padding: 10px;
   border-radius: 5px;

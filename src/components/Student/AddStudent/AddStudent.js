@@ -183,12 +183,7 @@ function AddStudent() {
           },
         });
       }
-
-      alert("Aluno criado com sucesso!");
-      const storedStudents = JSON.parse(localStorage.getItem("studentsData")) || [];
-      const updatedStudents = [...storedStudents, studentData];
-      localStorage.setItem("studentsData", JSON.stringify(updatedStudents));
-
+      
       // Reset form fields
       setFirstName("");
       setLastName("");

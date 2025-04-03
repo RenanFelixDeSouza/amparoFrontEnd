@@ -50,7 +50,6 @@ function Sidebar({ isOpen, toggleSidebar, setIsLoggedIn, userType, onMouseEnter,
     Cookies.remove('userType');
     Cookies.remove('userName');
     localStorage.removeItem('token');
-    localStorage.removeItem('studentsData');
     setIsLoggedIn(false);
     toggleSidebar();
     navigate('/');
@@ -133,12 +132,12 @@ function Sidebar({ isOpen, toggleSidebar, setIsLoggedIn, userType, onMouseEnter,
             </li>
 
             <li className="sidebar-item">
-              <div className="sidebar-link" onClick={() => handleSubmenuToggle('alunos')}>
-                <FaUsers /> <span>Alunos</span>
+              <div className="sidebar-link" onClick={() => handleSubmenuToggle('pet')}>
+                <FaUsers /> <span>pet</span>
               </div>
-              <ul className={`sidebar-submenu ${openSubmenu.alunos ? 'open' : ''}`}>
-                <li><Link to="/alunos"><FaUsers /> <span>Lista de Alunos</span></Link></li>
-                <li><Link to="/adicionar-aluno"><FaPlus /> <span>Criar Aluno</span></Link></li>
+              <ul className={`sidebar-submenu ${openSubmenu.pet ? 'open' : ''}`}>
+                <li><Link to="/pet"><FaUsers /> <span>Lista de pet</span></Link></li>
+                <li><Link to="/adicionar-pet"><FaPlus /> <span>Criar Pet</span></Link></li>
               </ul>
             </li>
 

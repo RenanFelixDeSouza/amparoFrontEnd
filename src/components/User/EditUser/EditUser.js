@@ -39,20 +39,22 @@ function EditUser({ onProfilePhotoUpdate }) {
         console.log(response, 'dados responde');
 
         setFormData({
-          name: userData.name || '',
-          email: userData.email || '',
-          phone: userData.phone || '',
-          address: userData.address || '',
-          photo: userData.photo_url || null,
-          user_name: userData.user_name || '',
-          zip_code: addressData.zip_code || '',
-          street: addressData.street || '',
-          number: addressData.number || '',
-          complement: addressData.complement || '',
-          district_name: addressData.district_name || '',
-          city: `${addressData.city_name} - ${addressData.city_federative_unit}` || '',
-          city_id: addressData.city_id || null,
-          state: addressData.city_federative_unit || '',
+          name: userData?.name || '',
+          email: userData?.email || '',
+          phone: userData?.phone || '',
+          address: userData?.address || '',
+          photo: userData?.photo_url || null,
+          user_name: userData?.user_name || '',
+          zip_code: addressData?.zip_code || '',
+          street: addressData?.street || '',
+          number: addressData?.number || '',
+          complement: addressData?.complement || '',
+          district_name: addressData?.district_name || '',
+          city: addressData
+            ? `${addressData.city_name} - ${addressData.city_federative_unit}`
+            : '',
+          city_id: addressData?.city_id || null,
+          state: addressData?.city_federative_unit || '',
         });
 
         if (userData.photo_url) {
