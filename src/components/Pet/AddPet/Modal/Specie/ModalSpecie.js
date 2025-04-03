@@ -3,7 +3,7 @@ import api from "../../../../../services/api";
 
 /**
  * Modal para selecionar ou buscar espécies.
- * Permite a pesquisa, paginação e seleção de uma espécie.
+ * Permite a pesquisa, paginação, seleção e criação de uma nova espécie.
  * 
  * @param {boolean} isOpen - Indica se o modal está aberto.
  * @param {function} onClose - Função para fechar o modal.
@@ -12,6 +12,8 @@ import api from "../../../../../services/api";
 function ModalSpecie({ isOpen, onClose, onSave }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSpecie, setSelectedSpecie] = useState(null);
+  const [newSpecie, setNewSpecie] = useState("");
+  const [isAddingNewSpecie, setIsAddingNewSpecie] = useState(false);
   const [pagination, setPagination] = useState({
     currentPage: 1,
     totalPages: 1,
@@ -56,6 +58,18 @@ function ModalSpecie({ isOpen, onClose, onSave }) {
       fetchSpecies();
     }
   }, [isOpen, fetchSpecies]);
+
+  const addNewSpecie = async () => {
+    try {
+      const response = await api.post("/species/store", { description: newSpecie });
+      setSpecies((prevSpecies) => [...prevSpecies, response.data]);
+      setNewSpecie("");
+      setIsAddingNewSpecie(false);
+      fetchSpecies();
+    } catch (error) {
+      console.error("Erro ao adicionar nova espécie:", error);
+    }
+  };
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -111,6 +125,41 @@ function ModalSpecie({ isOpen, onClose, onSave }) {
                 ))}
               </div>
             )}
+            <div className="add-new-data">
+              {isAddingNewSpecie ? (
+                <div className="new-data-input">
+                  <label className="new-data-label">Digite o nome da nova espécie:</label>
+                  <input
+                    type="text"
+                    placeholder="Nova espécie"
+                    value={newSpecie}
+                    onChange={(e) => setNewSpecie(e.target.value)}
+                    className="new-data-field"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => addNewSpecie()}
+                  >
+                    Adicionar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsAddingNewSpecie(false)}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setIsAddingNewSpecie(true)}
+                  className="add-data-button"
+                >
+                  + Adicionar Nova Espécie
+                </button>
+              )}
+            </div>
+
             <div className="pagination">
               <button
                 type="button"

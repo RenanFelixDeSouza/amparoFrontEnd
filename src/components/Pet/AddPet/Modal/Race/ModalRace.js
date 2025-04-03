@@ -51,6 +51,17 @@ function ModalRace({ isOpen, onClose, onSave }) {
     }
   }, [isOpen, fetchRaces]);
 
+  const addNewRace = async () => {
+    try {
+      const response = await api.post("/races/store", { description: newRace });
+      setRaces((prevRaces) => [...prevRaces, response.data]);
+      setNewRace("");
+      setIsAddingNewRace(false);
+      fetchRaces();
+    } catch (error) {
+      console.error("Erro ao adicionar nova raça:", error);
+    }
+  };
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     setPagination((prev) => ({ ...prev, currentPage: 1 }));
@@ -117,7 +128,9 @@ function ModalRace({ isOpen, onClose, onSave }) {
                     onChange={(e) => setNewRace(e.target.value)}
                     className="new-data-field"
                   />
-                  <button type="button" >
+                  <button
+                    type="button"
+                    onClick={() => addNewRace()}>
                     Adicionar
                   </button>
                   <button
