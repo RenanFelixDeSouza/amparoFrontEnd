@@ -256,29 +256,6 @@
     font-size: 14px;
   }
 
-  .modal-buttons {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--card-background);
-    padding: 8px;
-    box-shadow: 0 -4px 12px var(--hover-color);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 6px;
-    z-index: 1000;
-  }
-
-  .modal-buttons button {
-    width: 100%;
-    padding: 10px 8px;
-    font-size: 14px;
-    font-weight: 500;
-    margin: 0;
-    flex: 1;
-  }
 
   .attendance-save-button {
     background-color: var(--primary-color);

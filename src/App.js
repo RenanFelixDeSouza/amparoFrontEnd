@@ -17,7 +17,7 @@ import AddCourse from './components/Course/AddCourse/AddCourse';
 import ListCourses from './components/Course/ListCourses/ListCourses';
 
 import ListStudent from './components/Student/ListStudent/ListStudent';
-import AddStudent from './components/Student/AddStudent/AddStudent';
+import AddPet from './components/Pet/AddPet/AddPet';
 
 import UserManager from './components/User/UserManager/UserManager';
 import ListUsers from './components/User/ListUser/ListUsers';
@@ -26,6 +26,9 @@ import Attendance from './components/Attendance/AttendanceList/AttendanceList';
 import ListRequest from './components/Requests/ListRequest/ListRequest';
 import ReportPage from './components/Reports/ReportPage';
 import Register from './components/Register/Register';
+import EditUser from './components/User/EditUser/EditUser';
+
+import TabsPet from './components/Pet/TabsPet/TabsPet';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -34,6 +37,7 @@ function App() {
   const [userName, setUserName] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [hasRequests, setHasRequests] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState(null);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -79,6 +83,10 @@ function App() {
     Cookies.set('userName', user.name, { secure: true, sameSite: 'strict' });
   };
 
+  const handleProfilePhotoUpdate = (newPhotoUrl) => {
+    setProfilePhoto(newPhotoUrl);
+  };
+
   const renderProtectedRoute = (path, Component, requiredUserType = "master") => (
     <Route
       path={path}
@@ -107,7 +115,11 @@ function App() {
               onMouseLeave={handleMouseLeave}
               hasRequests={hasRequests}
             />
-            <Header userName={userName} userType={userType} />
+            <Header
+              userName={userName}
+              userType={userType}
+              profilePhoto={profilePhoto}
+            />
           </>
         )}
 
@@ -130,12 +142,14 @@ function App() {
             {renderProtectedRoute("/adicionar-turma", <AddCourse />)}
             {renderProtectedRoute("/listar-turmas", <ListCourses />)}
 
-            {renderProtectedRoute("/adicionar-aluno", <AddStudent />)}
+            {renderProtectedRoute("/adicionar-pet", <AddPet />)}
+            {renderProtectedRoute("/listar-pets", <TabsPet />)}
             {renderProtectedRoute("/alunos", <ListStudent />)}
 
             {renderProtectedRoute("/adicionar-usuario", <UserManager />)}
             {renderProtectedRoute("/listar-usuarios", <ListUsers />)}
             {renderProtectedRoute("/solicitacoes", <ListRequest />)}
+            {renderProtectedRoute("/configuracao-usuario", <EditUser onProfilePhotoUpdate={handleProfilePhotoUpdate} />)}
             {renderProtectedRoute("/relatorios", <ReportPage />, 'master')}
           </Routes>
         </div>

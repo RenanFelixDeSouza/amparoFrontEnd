@@ -1,5 +1,5 @@
 .categories-list-container {
-  padding: 20px;
+  padding: 0px;
   background-color: var(--background-color);
   font-family: sans-serif;
   color: var(--text-color);
@@ -48,10 +48,6 @@
   border: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: 14px;
-}
-
-.modal {
-  position: relative;
 }
 
 

@@ -39,7 +39,7 @@ function Register({ setIsLoggedIn }) {
         return;
       }
 
-      const loginResponse = await api.post("/register", {
+      await api.post("/register", {
         email: formData.email,
         password: formData.password,
         phone: formData.phone,
@@ -47,10 +47,8 @@ function Register({ setIsLoggedIn }) {
         confirmPassword: formData.confirmPassword,
       });
 
-      // if (!loginResponse.data.token) {
-      //   throw new Error("Falha na autenticação");
-      // }
-
+      await performLogin();
+      
       setIsModalOpen(true);
     } catch (error) {
       console.error("Erro ao realizar registro:", error);
@@ -62,22 +60,23 @@ function Register({ setIsLoggedIn }) {
   };
 
   const performLogin = async () => {
-    const loginResponse = await api.post("/login", {
-      email: formData.email,
-      password: formData.password,
-    });
+    try {
+      const loginResponse = await api.post("/login", {
+        email: formData.email,
+        password: formData.password,
+      });
 
-    if (!loginResponse.data.token) {
-      throw new Error("Falha na autenticação");
+      if (!loginResponse.data.token) {
+        throw new Error("Falha na autenticação");
+      }
+      localStorage.setItem("token", loginResponse.data.token);
+      api.defaults.headers.common['Authorization'] = `Bearer ${loginResponse.data.token}`;
+
+        setIsLoggedIn(loginResponse.data.token, loginResponse.data.user);
+    } catch (error) {
+      console.error("Erro ao realizar login automático:", error);
+      throw new Error("Erro ao realizar login automático.");
     }
-
-    localStorage.setItem("token", loginResponse.data.token);
-    api.defaults.headers.common['Authorization'] = `Bearer ${loginResponse.data.token}`;
-
-    setIsLoggedIn(loginResponse.data.token, loginResponse.data.user);
-
-    const isMobile = window.innerWidth <= 768;
-    navigate(isMobile ? '/chamadas' : '/dashboard');
   };
 
   const handleFinalizeNow = async () => {
@@ -85,16 +84,15 @@ function Register({ setIsLoggedIn }) {
     setIsLoading(true);
 
     try {
-      await performLogin();
+      // Redireciona para a página de edição de usuário
+      navigate('/configuracao-usuario');
     } catch (error) {
-      console.error("Erro ao realizar login:", error);
-      setError("Usuário ou senha inválidos");
+      setError("Erro ao redirecionar para a edição de usuário.");
       localStorage.clear();
     } finally {
       setIsLoading(false);
     }
     setIsModalOpen(false);
-    navigate('/dashboard');
   };
 
   const handleEditLater = async () => {
@@ -102,16 +100,15 @@ function Register({ setIsLoggedIn }) {
     setIsLoading(true);
 
     try {
-      await performLogin();
+      // Redireciona para o dashboard
+      navigate('/dashboard');
     } catch (error) {
-      console.error("Erro ao realizar login:", error);
-      setError("Usuário ou senha inválidos");
+      setError("Erro ao redirecionar para o dashboard.");
       localStorage.clear();
     } finally {
       setIsLoading(false);
     }
     setIsModalOpen(false);
-    navigate('/configuracao-usuario');
   };
 
   return (

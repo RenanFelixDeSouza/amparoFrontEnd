@@ -23,7 +23,7 @@
 }
 
 .data-table th {
-  background-color: var(--tertiary-color);
+  background-color: var(--primary-color);
   color: var(--text-color);
   cursor: pointer;
   user-select: none;
@@ -31,7 +31,7 @@
 }
 
 .data-table th:hover {
-  background-color: var(--hover-color);
+  background-color: var(--tertiary-color-opacity);
 }
 
 .data-table tr.selected,
@@ -49,7 +49,7 @@
   top: 0;
   height: 100%;
   width: 5px;
-  background-color: var(--primary-color); 
+  background-color: var(--secondary-color); 
   cursor: col-resize;
   user-select: none;
   touch-action: none;
@@ -63,7 +63,7 @@
 
 /* Linhas alternadas (efeito zebra) */
 .data-table tbody tr:nth-child(odd) {
-  background-color: var(--card-background);
+  background-color: #eceaea;
 }
 
 .data-table tbody tr:nth-child(even) {
@@ -72,12 +72,12 @@
 
 /* Hover nas linhas */
 .data-table tbody tr:hover {
-  background-color: var(--hover-color);
+  background-color: var(--tertiary-color-opacity) ;
 }
 
 /* Linhas selecionadas */
 .data-table tbody tr.selected {
-  background-color: rgba(220, 53, 69, 0.11) !important;
+  background-color: var(--tertiary-color-opacity) !important;
 }
 
 /* Nova classe para linha selecionada + clique direito */
@@ -88,7 +88,7 @@
 /* Estilos para quando o menu de ações ou contexto estiver aberto */
 .data-table tbody tr.selected.context-menu-open,
 .data-table tbody tr.selected:has(.actions-menu) {
-  background-color: var(--hover-color) !important;
+  background-color: var(--tertiary-color-opacity) !important;
 }
 
 /* Linha deletada (se for necessário) */
@@ -98,12 +98,12 @@
   color: #a94442;
 }
 
-
 /* Células */
 .data-table td {
   padding: 10px;
   border-bottom: 1px solid var(--border-color);
 }
+
 
 /* Coluna de ações */
 .actions-column {
@@ -295,7 +295,6 @@
 .filters-container {
   display: flex;
   gap: 10px;
-  margin-bottom: 15px;
   flex-wrap: wrap;
   padding: 10px; 
   border: 2px solid var(--primary-color);
@@ -707,8 +706,8 @@
         border: none;
     }
 
-    .actions-menu button:active {
-        background: var(--hover-color);
+    .actions-menu button:last-child {
+        margin-bottom: 0;
     }
 
     /* Overlay para o menu de ações */
@@ -1057,7 +1056,7 @@
 
 /* Menu de contexto para desktop */
 tr.context-menu-open {
-  background-color: var(--hover-color) !important;
+  background-color: var(--tertiary-color-opacity) !important;
 }
 
 .time-filters {
@@ -1167,4 +1166,21 @@ input:checked + .slider {
 
 input:checked + .slider:before {
   transform: translateX(14px);
+}
+
+.data-table img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--secondary-color); 
+}
+
+/* Efeito de zoom ao passar o mouse nas imagens */
+.data-table img {
+  transition: transform 0.3s ease-in-out;
+}
+
+.data-table img:hover {
+  transform: scale(1.4);
 }

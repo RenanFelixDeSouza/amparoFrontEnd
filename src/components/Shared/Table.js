@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import PropTypes from "prop-types";
+import { FaImage } from "react-icons/fa"; // Importa o ícone de imagem
 import "./Table.css";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
@@ -11,7 +12,7 @@ function Table({
   loading = false,
   isModalError = false,
   error,
-  getActionItems,
+  getActionItems = null,
   getMultiActions = null,
   handleSort,
   sortColumn,
@@ -184,6 +185,31 @@ function Table({
     });
   };
 
+  const renderCellContent = (column, item) => {
+    if (column.render) {
+      return column.render(item[column.key], item);
+    }
+
+    if (column.key === "image") {
+      const imageUrl = item[column.key]?.replace('uploads/photos', 'uploads/users');
+      return imageUrl ? (
+        <img
+          src={imageUrl}
+          alt="Imagem"
+          onError={(e) => {
+            e.target.onerror = null; // Evita loop infinito
+            e.target.src = "https://placehold.co/600x400"; // Define como vazio para exibir o ícone
+          }}
+          style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "50%" }}
+        />
+      ) : (
+        <FaImage style={{ fontSize: "24px", color: "var(--secondary-color)" }} />
+      );
+    }
+
+    return item[column.key] || "N/A";
+  };
+
   return (
     <div className="table-container">
       {error && !isModalError && <div className="error-message">{isModalError}</div>}
@@ -228,14 +254,18 @@ function Table({
                   style={{
                     cursor: isSortable ? "pointer" : "default",
                     width: columnWidths[index] ? columnWidths[index] + "px" : "150px",
+                    textAlign: column.align || "center"
                   }}
+
                 >
                   {column.label}
                   {sortColumn === column.key && (sortOrder === "asc" ? " ↑" : " ↓")}
                   <div className="resizer" onMouseDown={(e) => handleMouseDown(index, e)}></div>
                 </th>
               ))}
-              <th className="actions-column">Ações</th>
+              {getActionItems  && (
+                <th className="actions-column">Ações</th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -263,21 +293,12 @@ function Table({
                   <td
                     key={column.key}
                     data-label={column.label}
+                    style={{ textAlign: column.align || "center" }}
                   >
-                    {column.render
-                      ? column.render(item[column.key], item)
-                      : column.key === "gender"
-                        ? item[column.key] === "female"
-                          ? "Feminino"
-                          : item[column.key] === "male"
-                            ? "Masculino"
-                            : "Outro"
-                        : typeof item[column.key] === "object" &&
-                          item[column.key] !== null
-                          ? "N/A"
-                          : String(item[column.key])}
+                    {renderCellContent(column, item)}
                   </td>
                 ))}
+                {getActionItems && (
                 <td className="actions">
                   <div
                     className="actions-dropdown"
@@ -315,6 +336,7 @@ function Table({
                     )}
                   </div>
                 </td>
+                )}
               </tr>
             ))}
           </tbody>
@@ -338,7 +360,7 @@ Table.propTypes = {
   loading: PropTypes.bool,
   isModalError: PropTypes.bool,
   error: PropTypes.string,
-  getActionItems: PropTypes.func.isRequired,
+  getActionItems: PropTypes.func,
   getMultiActions: PropTypes.func,
   handleSort: PropTypes.func.isRequired,
   onModalStateChange: PropTypes.func,

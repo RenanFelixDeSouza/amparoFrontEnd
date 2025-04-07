@@ -5,13 +5,7 @@
   color: var(--text-color);
 }
 
-.header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start; 
-  margin-bottom: 20px;
-  flex-wrap: wrap; 
-}
+
 
 
 .actions-column {
@@ -53,9 +47,7 @@
   color: var(--text-color);
 }
 
-.modal {
-  position: relative; 
-}
+
 
 .close-button {
   position: absolute;
@@ -177,17 +169,6 @@ input[type="checkbox"]:checked {
   cursor: pointer;
 }
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 10px;
-}
 
 .print-button {
   background-color: var(--primary-color);
@@ -343,12 +324,7 @@ input[type="checkbox"]:checked {
   padding: 20px;
 }
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
+
 
 .modal-actions {
   display: flex;

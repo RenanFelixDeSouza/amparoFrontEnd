@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import logo from '../../../../img/logo-prefeitura/logomarca-oficial.png';
 
 // Estilo global para impressão
 const GlobalStyle = createGlobalStyle`
@@ -232,7 +231,6 @@ const ContractView = ({ student, polo, allCategory }) => {
       <Contract id="contract" ref={contractRef}>
         <Container>
           <Header>
-            <HeaderImg src={logo} alt="Logo" />
             <Title>Termo de Matrícula - Atividades Culturais</Title>
             {polo && <Subtitle>{polo.name}</Subtitle>}
           </Header>
