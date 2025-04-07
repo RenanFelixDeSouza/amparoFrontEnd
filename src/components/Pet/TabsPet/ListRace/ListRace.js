@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useCallback } from "react";
-import api from "../../../services/api.js";
-import Table from "../../Shared/Table.js";
-import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner.js";
+import api from "../../../../services/api";
+import Table from "../../../Shared/Table.js";
+import LoadingSpinner from "../../../LoadingSpinner/LoadingSpinner";
 import { FaSync } from "react-icons/fa";
 
-function ListSpecie() {
-  const [specie, setspecie] = useState([]);
+function ListRace() {
+  const [races, setRaces] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   // Estados para filtros
-  const [filterId, setFilterId] = useState("");
   const [filterDescription, setFilterDescription] = useState("");
 
   // Estados para paginação
@@ -32,14 +31,13 @@ function ListSpecie() {
       const params = {
         page: pagination.currentPage,
         limit: pagination.itemsPerPage,
-        id: filterId,
         description: filterDescription,
         sort_column: sortColumn,
         sort_order: sortOrder,
       };
-      const response = await api.get("/species/index", { params });
+      const response = await api.get("/races/index", { params });
       const data = response.data.data || [];
-      setspecie(data);
+      setRaces(data);
 
       setPagination({
         currentPage: response.data.meta.current_page,
@@ -48,12 +46,12 @@ function ListSpecie() {
         itemsPerPage: response.data.meta.per_page,
       });
     } catch (error) {
-      console.error("Erro ao buscar especies:", error);
+      console.error("Erro ao buscar raças:", error);
       setError("Erro ao atualizar a tabela.");
     } finally {
       setIsLoading(false);
     }
-  }, [filterId, filterDescription, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
+  }, [ filterDescription, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
 
   useEffect(() => {
     handleRefresh();
@@ -89,31 +87,19 @@ function ListSpecie() {
 
   return (
     <div>
-      <h2>Lista de especies</h2>
+      <h2>Lista de Raças</h2>
 
       {isLoading && <LoadingSpinner />}
 
       <div className="header-container">
         <div className="filters-container">
-          <div className="filter-group" >
-            <fieldset>
-              <legend>ID:</legend>
-              <input
-                type="text"
-                placeholder="Digie uma ID..."
-                id="filter-id"
-                value={filterId}
-                onChange={(e) => setFilterId(e.target.value)}
-              />
-            </fieldset>
-          </div>
 
           <div className="filter-group">
             <fieldset>
               <legend>Descrição:</legend>
               <input
                 type="text"
-                placeholder="Digie uma Descrição..."
+                placeholder="Digite uma Descrição..."
                 id="filter-description"
                 value={filterDescription}
                 onChange={(e) => setFilterDescription(e.target.value)}
@@ -136,7 +122,7 @@ function ListSpecie() {
 
       {!isLoading && (
         <Table
-          data={specie}
+          data={races}
           columns={columns}
           itemsPerPage={pagination.itemsPerPage}
           currentPage={pagination.currentPage}
@@ -193,4 +179,4 @@ function ListSpecie() {
   );
 }
 
-export default ListSpecie;
+export default ListRace;

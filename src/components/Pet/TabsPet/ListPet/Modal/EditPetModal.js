@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import api from "../../../../services/api";
-import ModalRace from "../../../../components/Pet/AddPet/Modal/Race/ModalRace";
-import ModalSpecie from "../../../../components/Pet/AddPet/Modal/Specie/ModalSpecie";
+import api from "../../../../../services/api";
+import ModalRace from "../../../AddPet/Modal/Race/ModalRace";
+import ModalSpecie from "../../../AddPet/Modal/Specie/ModalSpecie";
 
 function EditPetModal({ pet, onClose, onSave }) {
   const [formData, setFormData] = useState({
@@ -113,12 +113,6 @@ function EditPetModal({ pet, onClose, onSave }) {
     }
   };
 
-  const handleOverlayClick = (e) => {
-    if (e.target.className === "modal-overlay") {
-      onClose();
-    }
-  };
-
   const fetchRaces = async (raceFilter) => {
     try {
       const response = await api.get("/races/index", { params: { search: raceFilter } });
@@ -173,8 +167,14 @@ function EditPetModal({ pet, onClose, onSave }) {
     setSpecieError("");
   };
 
+  const handleOverlayClick = (e) => {
+    if (e.target.className === "modal-overlay-edit") {
+      onClose();
+    }
+  };
+
   return (
-    <div className="modal-overlay" onClick={handleOverlayClick}>
+    <div className="modal-overlay-edit" onClick={handleOverlayClick}>
       <div className="modal-content">
         <div className="modal-header">
           <h2>Editar Pet</h2>

@@ -4,9 +4,9 @@
  */
 
 import React, { useState } from 'react';
-import ListPet from '../ListPet/ListPet';
-import ListRace from '../ListRace/ListRace';
-import ListSpecie from '../ListSpecie/ListSpecie';
+import ListPet from './ListPet/ListPet';
+import ListRace from './ListRace/ListRace';
+import ListSpecie from './ListSpecie/ListSpecie';
 
 function TabsPet() {
   const [activeTab, setActiveTab] = useState('ListPet');

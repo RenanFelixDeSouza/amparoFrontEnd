@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
-import api from "../../../services/api";
-import Table from "../../Shared/Table.js";
-import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
+import api from "../../../../services/api";
+import Table from "../../../Shared/Table.js";
+import LoadingSpinner from "../../../LoadingSpinner/LoadingSpinner";
 import DetailsPetModal from "./Modal/DetailsPetModal.js";
 import EditPetModal from "./Modal/EditPetModal";
 import { FaPaw, FaSync } from "react-icons/fa";
