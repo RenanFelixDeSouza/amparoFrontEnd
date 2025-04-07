@@ -7,18 +7,16 @@ import api from "../../../services/api";
 
 /**
  * Componente para adicionar um novo pet.
- * Permite o preenchimento de informações como nome, cor, idade, raça, espécie, foto e status de castração.
+ * Permite o preenchimento de informações como nome, cor, data de nascimento, raça, espécie, foto e status de castração.
  * Inclui validações e integração com modais para seleção de raça e espécie.
  */
 function AddPet() {
   const [petName, setPetName] = useState("");
   const [color, setColor] = useState("");
   const [age, setAge] = useState("");
-  const [ageUnit, setAgeUnit] = useState("meses");
   const [race, setrace] = useState("");
   const [species, setSpecies] = useState("");
   const [isCastrated, setisCastrated] = useState(false);
-  const [isAgeUnknown, setIsAgeUnknown] = useState(false);
   const [filteredRaces, setFilteredRaces] = useState([]);
   const [raceError, setRaceError] = useState("");
   const [filteredSpecies, setFilteredSpecies] = useState([]);
@@ -30,6 +28,7 @@ function AddPet() {
   const [photoError, setPhotoError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isUnknownBirthDate, setIsUnknownBirthDate] = useState(false);
 
   /**
    * Manipula a alteração da foto do pet.
@@ -62,6 +61,23 @@ function AddPet() {
   };
 
   /**
+   * Manipula a alteração do campo de data de nascimento.
+   */
+  const handleBirthDateChange = (e) => {
+    setAge(e.target.value);
+  };
+
+  /**
+   * Alterna o estado de "Não sabe a data de nascimento".
+   */
+  const handleUnknownBirthDateToggle = () => {
+    setIsUnknownBirthDate((prev) => !prev);
+    if (!isUnknownBirthDate) {
+      setAge(""); // Limpa o campo de data se for marcado como desconhecido
+    }
+  };
+
+  /**
    * Submete os dados do formulário para criar um novo pet.
    * Inclui validações e envio de dados para a API.
    */
@@ -70,7 +86,7 @@ function AddPet() {
     setSuccessMessage("");
     setErrorMessage("");
 
-    if (!petName || !color || (!isAgeUnknown && !age) || !race || !species) {
+    if (!petName || !color || (!age && !isUnknownBirthDate) || !race || !species) {
       setErrorMessage("Por favor, preencha todos os campos obrigatórios.");
       return;
     }
@@ -79,12 +95,10 @@ function AddPet() {
       const petData = {
         name: petName,
         color: color,
-        age: isAgeUnknown ? null : age,
-        age_unit: isAgeUnknown ? null : ageUnit,
+        birth_date: age,
         race_id: race.id,
         specie_id: species.id,
         is_castrated: isCastrated ? 1 : 0,
-        is_age_unknown: isAgeUnknown ? 1 : 0,
       };
 
       const response = await api.post("/pets/create", petData);
@@ -134,41 +148,12 @@ function AddPet() {
     setPetName("");
     setColor("");
     setAge("");
-    setAgeUnit("meses");
     setrace("");
     setSpecies("");
     setisCastrated(false);
-    setIsAgeUnknown(false);
     setPhoto(null);
     setPhotoPreview(null);
     setPhotoError("");
-  };
-
-  /**
-   * Alterna a unidade de idade entre meses e anos.
-   */
-  const toggleAgeUnit = () => {
-    setAgeUnit((prevUnit) => (prevUnit === "meses" ? "anos" : "meses"));
-  };
-
-  /**
-   * Manipula a alteração do campo de idade.
-   */
-  const handleAgeChange = (e) => {
-    const value = e.target.value;
-    if (value >= 0) {
-      setAge(value);
-    }
-  };
-
-  /**
-   * Alterna o estado de idade desconhecida.
-   */
-  const handleUnknownAge = () => {
-    setIsAgeUnknown((prev) => !prev);
-    if (!isAgeUnknown) {
-      setAge("");
-    }
   };
 
   /**
@@ -321,31 +306,21 @@ function AddPet() {
               />
             </div>
             <div className="add-form-group">
-              <label htmlFor="age">Idade: *</label>
-              <div className="age-container">
-                <input
-                  type="number"
-                  id="age"
-                  value={isAgeUnknown ? "" : age}
-                  onChange={handleAgeChange}
-                  disabled={isAgeUnknown}
-                  required={!isAgeUnknown}
-                  min="0"
-                />
-                <button
-                  type="button"
-                  onClick={toggleAgeUnit}
-                  className="toggle-age-unit"
-                >
-                  {ageUnit}
-                </button>
-              </div>
+              <label htmlFor="birth-date">Data de Nascimento: *</label>
+              <input
+                type="date"
+                id="birth-date"
+                value={age}
+                onChange={handleBirthDateChange}
+                disabled={isUnknownBirthDate} 
+                required={!isUnknownBirthDate} 
+              />
               <button
                 type="button"
-                onClick={handleUnknownAge}
                 className="unknown-age"
+                onClick={handleUnknownBirthDateToggle}
               >
-                {isAgeUnknown ? "Idade conhecida" : "Idade desconhecida"}
+                {isUnknownBirthDate ? "Marcar como conhecida" : "Não sabe a data de nascimento"}
               </button>
             </div>
           </div>

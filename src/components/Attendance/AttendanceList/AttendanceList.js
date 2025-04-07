@@ -7,7 +7,6 @@ import React, { useState, useEffect } from 'react';
 import ListCourses from '../../Course/ListCourses/ListCourses'; 
 import AttendanceRecords from '../AttendanceRecords/AttendanceRecords'; 
 import LessonPlan from '../LessonPlan/LessonPlan'; 
-import './AttendanceList.css';
 import Cookies from 'js-cookie';
 
 function AttendanceList() {

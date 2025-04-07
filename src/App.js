@@ -17,7 +17,6 @@ import AddCourse from './components/Course/AddCourse/AddCourse';
 import ListCourses from './components/Course/ListCourses/ListCourses';
 
 import ListStudent from './components/Student/ListStudent/ListStudent';
-import AddStudent from './components/Student/AddStudent/AddStudent';
 import AddPet from './components/Pet/AddPet/AddPet';
 
 import UserManager from './components/User/UserManager/UserManager';
@@ -28,6 +27,8 @@ import ListRequest from './components/Requests/ListRequest/ListRequest';
 import ReportPage from './components/Reports/ReportPage';
 import Register from './components/Register/Register';
 import EditUser from './components/User/EditUser/EditUser';
+
+import TabsPet from './components/Pet/TabsPet/TabsPet';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -142,6 +143,7 @@ function App() {
             {renderProtectedRoute("/listar-turmas", <ListCourses />)}
 
             {renderProtectedRoute("/adicionar-pet", <AddPet />)}
+            {renderProtectedRoute("/listar-pets", <TabsPet />)}
             {renderProtectedRoute("/alunos", <ListStudent />)}
 
             {renderProtectedRoute("/adicionar-usuario", <UserManager />)}

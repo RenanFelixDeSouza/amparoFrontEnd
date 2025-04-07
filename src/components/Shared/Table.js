@@ -12,7 +12,7 @@ function Table({
   loading = false,
   isModalError = false,
   error,
-  getActionItems,
+  getActionItems = null,
   getMultiActions = null,
   handleSort,
   sortColumn,
@@ -254,14 +254,18 @@ function Table({
                   style={{
                     cursor: isSortable ? "pointer" : "default",
                     width: columnWidths[index] ? columnWidths[index] + "px" : "150px",
+                    textAlign: column.align || "center"
                   }}
+
                 >
                   {column.label}
                   {sortColumn === column.key && (sortOrder === "asc" ? " ↑" : " ↓")}
                   <div className="resizer" onMouseDown={(e) => handleMouseDown(index, e)}></div>
                 </th>
               ))}
-              <th className="actions-column">Ações</th>
+              {getActionItems  && (
+                <th className="actions-column">Ações</th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -289,10 +293,12 @@ function Table({
                   <td
                     key={column.key}
                     data-label={column.label}
+                    style={{ textAlign: column.align || "center" }}
                   >
                     {renderCellContent(column, item)}
                   </td>
                 ))}
+                {getActionItems && (
                 <td className="actions">
                   <div
                     className="actions-dropdown"
@@ -330,6 +336,7 @@ function Table({
                     )}
                   </div>
                 </td>
+                )}
               </tr>
             ))}
           </tbody>
@@ -353,7 +360,7 @@ Table.propTypes = {
   loading: PropTypes.bool,
   isModalError: PropTypes.bool,
   error: PropTypes.string,
-  getActionItems: PropTypes.func.isRequired,
+  getActionItems: PropTypes.func,
   getMultiActions: PropTypes.func,
   handleSort: PropTypes.func.isRequired,
   onModalStateChange: PropTypes.func,

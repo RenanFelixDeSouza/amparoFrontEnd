@@ -1,5 +1,6 @@
 /* Sidebar Container */
 .sidebar {
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -239,6 +240,21 @@
     .sidebar-overlay.active {
         display: block;
     }
+}
+
+.sidebar-search {
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  padding: 10px 15px; 
+}
+
+.sidebar-search input {
+  width: 90%; 
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 @media screen and (max-width: 480px) {

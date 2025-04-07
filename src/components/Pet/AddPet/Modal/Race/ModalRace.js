@@ -82,9 +82,15 @@ function ModalRace({ isOpen, onClose, onSave }) {
     }
   };
 
+  const handleOverlayClick = (e) => {
+    if (e.target.className === "modal-overlay") {
+      onClose();
+    }
+  };
+
   return (
     isOpen && (
-      <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-overlay" onClick={handleOverlayClick}>
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <div className="modal-header">
             <h2>Selecione a Raça</h2>
