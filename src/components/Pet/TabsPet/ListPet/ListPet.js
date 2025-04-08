@@ -77,9 +77,13 @@ function ListPet() {
     }
   }, [filterName, filterSpecie, filterRace, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
 
-  useEffect(() => {
-    handleRefresh();
-  }, [handleRefresh]);
+useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      handleRefresh();
+    }, 500); 
+  
+    return () => clearTimeout(delayDebounce); 
+  }, [ handleRefresh, filterName, filterSpecie, filterRace, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
 
   const handlePageChange = (page) => {
     setPagination({ ...pagination, currentPage: page });

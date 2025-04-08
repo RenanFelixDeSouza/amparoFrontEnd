@@ -54,8 +54,13 @@ function ListRace() {
   }, [ filterDescription, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
 
   useEffect(() => {
-    handleRefresh();
-  }, [handleRefresh]);
+    const delayDebounce = setTimeout(() => {
+      handleRefresh();
+    }, 500); 
+  
+    return () => clearTimeout(delayDebounce); 
+  }, [ handleRefresh, filterDescription, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
+  
 
   const handlePageChange = (page) => {
     setPagination({ ...pagination, currentPage: page });

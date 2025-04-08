@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import api from "../../../../../services/api";
 import ModalRace from "../../../AddPet/Modal/Race/ModalRace";
 import ModalSpecie from "../../../AddPet/Modal/Specie/ModalSpecie";
@@ -30,6 +30,13 @@ function EditPetModal({ pet, onClose, onSave }) {
       [name]: type === "checkbox" ? checked : value,
     });
   };
+
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      birth_date: pet?.birth_date ? pet.birth_date.split(" ")[0] : "",
+    }));
+  }, [pet]);
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];

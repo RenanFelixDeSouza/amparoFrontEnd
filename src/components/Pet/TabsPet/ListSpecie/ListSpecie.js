@@ -10,7 +10,6 @@ function ListSpecie() {
   const [error, setError] = useState(null);
 
   // Estados para filtros
-  const [filterId, setFilterId] = useState("");
   const [filterDescription, setFilterDescription] = useState("");
 
   // Estados para paginação
@@ -32,7 +31,6 @@ function ListSpecie() {
       const params = {
         page: pagination.currentPage,
         limit: pagination.itemsPerPage,
-        id: filterId,
         description: filterDescription,
         sort_column: sortColumn,
         sort_order: sortOrder,
@@ -53,12 +51,15 @@ function ListSpecie() {
     } finally {
       setIsLoading(false);
     }
-  }, [filterId, filterDescription, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
+  }, [filterDescription, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
 
-  useEffect(() => {
-    handleRefresh();
-  }, [handleRefresh]);
-
+useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      handleRefresh();
+    }, 500); 
+  
+    return () => clearTimeout(delayDebounce); 
+  }, [ handleRefresh, filterDescription, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
   const handlePageChange = (page) => {
     setPagination({ ...pagination, currentPage: page });
   };
@@ -95,18 +96,7 @@ function ListSpecie() {
 
       <div className="header-container">
         <div className="filters-container">
-          <div className="filter-group" >
-            <fieldset>
-              <legend>ID:</legend>
-              <input
-                type="text"
-                placeholder="Digie uma ID..."
-                id="filter-id"
-                value={filterId}
-                onChange={(e) => setFilterId(e.target.value)}
-              />
-            </fieldset>
-          </div>
+
 
           <div className="filter-group">
             <fieldset>
