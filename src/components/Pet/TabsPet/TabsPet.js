@@ -17,7 +17,7 @@ function TabsPet() {
   };
 
   return (
-    <div className="list-containet-tab">
+    <div className="list-container-tab">
         <div className="tabs">
             <button
               className={`tab-button ${activeTab === 'ListPet' ? 'active' : ''}`}

@@ -1,0 +1,31 @@
+/* Estilo para o select de Inscrição Estadual */
+.ie-select {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-align: center;
+}
+
+.ie-select:active {
+  transform: scale(0.95);
+}
+
+.ie-select:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  color: #666;
+}
+
+.error-message {
+  color: var(--error-color);
+  margin-bottom: 10px;
+}
+
+.success-message {
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
