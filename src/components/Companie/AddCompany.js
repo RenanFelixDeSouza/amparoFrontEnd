@@ -47,6 +47,10 @@ function AddCompany() {
     setFormData({ ...formData, cnpj: e.target.value });
   };
 
+  const handleCepChange = (e) => {
+    setFormData({ ...formData, zip_code: e.target.value });
+  };
+
   const fetchCompanyByCnpj = async () => {
     setIsLoading(true);
     const cnpj = formData.cnpj.replace(/\D/g, "");
@@ -95,6 +99,47 @@ function AddCompany() {
     } else {
       setError("CNPJ inválido. Certifique-se de que possui 14 dígitos.");
       setIsLoading(false);
+    }
+  };
+
+  const fetchAddressByCep = async () => {
+    const cep = formData.zip_code.replace(/\D/g, "");
+    if (cep.length === 8) {
+      try {
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        if (response.ok) {
+          const data = await response.json();
+          if (!data.erro) {
+            setFormData((prevFormData) => ({
+              ...prevFormData,
+              street: data.logradouro || prevFormData.street,
+              complement: data.complemento || prevFormData.complement,
+              district_name: data.bairro || prevFormData.district_name,
+              city: data.localidade || prevFormData.city,
+              state: data.uf || prevFormData.state,
+            }));
+
+            if (data.localidade) {
+              const cityResponse = await api.get('/city', { params: { name: data.localidade } });
+              const cities = cityResponse.data || [];
+              setFilteredCities(cities);
+
+              if (cities.length === 1) {
+                handleCitySelect(cities[0]);
+              }
+            }
+          } else {
+            setError("CEP não encontrado.");
+          }
+        } else {
+          setError("Erro ao buscar CEP. Verifique sua conexão.");
+        }
+      } catch (error) {
+        console.error("Erro ao buscar CEP:", error);
+        setError("Erro ao buscar CEP. Tente novamente.");
+      }
+    } else {
+      setError("CEP inválido. Certifique-se de que possui 8 dígitos.");
     }
   };
 
@@ -348,14 +393,23 @@ function AddCompany() {
             </legend>
             <div className="add-form-group">
               <label htmlFor="zip_code">CEP *</label>
-              <input
-                type="text"
-                id="zip_code"
-                name="zip_code"
-                value={formData.zip_code}
-                onChange={handleChange}
-                required
-              />
+              <div className="input-with-button">
+                <input
+                  type="text"
+                  id="zip_code"
+                  name="zip_code"
+                  value={formData.zip_code}
+                  onChange={handleCepChange}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={fetchAddressByCep}
+                  className="open-modal-button"
+                >
+                  Buscar CEP
+                </button>
+              </div>
             </div>
             <div className="add-form-group">
               <label htmlFor="street">Rua *</label>
@@ -401,7 +455,7 @@ function AddCompany() {
                 required
               />
               {filteredCities.length > 0 && (
-                <ul className="add-pet-field-list">
+                <ul className="s">
                   {filteredCities.map((city) => (
                     <li key={city.id} onClick={() => handleCitySelect(city)}>
                       {`${city.name} - ${city.federative_unit}`}
