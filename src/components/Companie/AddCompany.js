@@ -205,7 +205,16 @@ function AddCompany() {
     }
 
     try {
-      const response = await api.post("/companies/create", formData);
+      // Ajustando os campos antes do envio
+      const adjustedFormData = {
+        ...formData,
+        ie_status: formData.ieStatus,
+        im_status: formData.imExempt,
+      };
+      delete adjustedFormData.ieStatus;
+      delete adjustedFormData.imExempt;
+
+      const response = await api.post("/companies/create", adjustedFormData);
       if (response.status === 201) {
         setSuccess("Empresa criada com sucesso!");
         setFormData({

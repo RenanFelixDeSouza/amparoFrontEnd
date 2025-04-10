@@ -29,7 +29,9 @@ import Register from './components/Register/Register';
 import EditUser from './components/User/EditUser/EditUser';
 
 import TabsPet from './components/Pet/TabsPet/TabsPet';
+
 import AddCompany from './components/Companie/AddCompany';
+import ListCompany from './components/Companie/ListCompanies/ListCompanies';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -153,6 +155,7 @@ function App() {
             {renderProtectedRoute("/configuracao-usuario", <EditUser onProfilePhotoUpdate={handleProfilePhotoUpdate} />)}
             {renderProtectedRoute("/relatorios", <ReportPage />, 'master')}
             {renderProtectedRoute("/adicionar-empresa", <AddCompany />)}
+            {renderProtectedRoute("/listar-empresas", <ListCompany />)}
           </Routes>
         </div>
       </div>
