@@ -6,7 +6,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
-import api, { staticApi } from '../../services/api'; 
+import api from '../../services/api'; 
 import { FaUserCircle } from 'react-icons/fa';
 
 function Header({ userName, userType, profilePhoto }) {

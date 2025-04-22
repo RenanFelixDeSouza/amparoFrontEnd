@@ -90,33 +90,33 @@ margin-top: 25px;
 
 @media (max-width: 768px) {
   .dashboard-grid {
-      grid-template-columns: 1fr; /* Uma coluna para telas menores */
-      gap: 15px; /* Reduzir o espaçamento */
+      grid-template-columns: 1fr; 
+      gap: 15px; 
   }
 
   .dashboard-graphs {
-      grid-template-columns: 1fr; /* Uma coluna para gráficos */
-      gap: 15px; /* Reduzir o espaçamento */
+      grid-template-columns: 1fr; 
+      gap: 15px; 
   }
 
   .dashboard-card {
-      padding: 10px; /* Ajustar o padding para telas menores */
+      padding: 10px; 
   }
 
   .dashboard-card h2 {
-      font-size: 14px; /* Reduzir o tamanho da fonte */
+      font-size: 14px; 
   }
 
   .dashboard-card p {
-      font-size: 12px; /* Reduzir o tamanho da fonte */
+      font-size: 12px; 
   }
 
   .dashboard-icon {
-      font-size: 20px; /* Ajustar o tamanho do ícone */
+      font-size: 20px; 
   }
 
   .account-selector {
-      font-size: 12px; /* Reduzir o tamanho da fonte do seletor */
-      padding: 4px; /* Ajustar o padding */
+      font-size: 12px; 
+      padding: 4px; 
   }
 }

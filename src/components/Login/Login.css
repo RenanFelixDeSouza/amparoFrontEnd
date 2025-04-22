@@ -1,4 +1,3 @@
-/* Login */
 .login-container {
   display: flex;
   justify-content: center;
@@ -80,7 +79,6 @@
   font-size: 0.9rem;
 }
 
-/* Media Queries para dispositivos móveis */
 @media (max-width: 480px) {
 
   .login-container {
