@@ -3,7 +3,6 @@ import { FaBuilding, FaSearch } from "react-icons/fa";
 import api from "../../services/api";
 import "../Pet/AddPet/AddPet.css";
 import "./AddCompany.css";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 function AddCompany() {
   const [formData, setFormData] = useState({
@@ -31,7 +30,6 @@ function AddCompany() {
   const [filteredCities, setFilteredCities] = useState([]);
   const [cityError, setCityError] = useState("");
   const [activeTab, setActiveTab] = useState("company");
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -52,7 +50,6 @@ function AddCompany() {
   };
 
   const fetchCompanyByCnpj = async () => {
-    setIsLoading(true);
     const cnpj = formData.cnpj.replace(/\D/g, "");
     if (cnpj.length === 14) {
       try {
@@ -93,12 +90,9 @@ function AddCompany() {
       } catch (error) {
         console.error("Erro ao buscar CNPJ:", error);
         setError("Erro ao buscar CNPJ. Tente novamente.");
-      } finally {
-        setIsLoading(false);
-      }
+      } 
     } else {
       setError("CNPJ inválido. Certifique-se de que possui 14 dígitos.");
-      setIsLoading(false);
     }
   };
 
