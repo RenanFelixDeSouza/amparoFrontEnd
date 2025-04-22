@@ -3,32 +3,18 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import './App.css';
 import Cookies from 'js-cookie';
 
+
 import Login from './components/Login/Login';
 import Dashboard from './components/Dashboard/Dashboard';
 import Sidebar from './components/SideBar/SideBar';
 import Header from './components/Header/Header';
 
 import ProtectedRoute from './services/ProtectedRoute';
-
-import ListCategories from './components/Category/ListCategories/ListCategories';
-import AddCategory from './components/Category/AddCategory/AddCategory';
-
-import AddCourse from './components/Course/AddCourse/AddCourse';
-import ListCourses from './components/Course/ListCourses/ListCourses';
-
-import ListStudent from './components/Student/ListStudent/ListStudent';
-import AddPet from './components/Pet/AddPet/AddPet';
-
-import UserManager from './components/User/UserManager/UserManager';
-import ListUsers from './components/User/ListUser/ListUsers';
-
-import Attendance from './components/Attendance/AttendanceList/AttendanceList';
-import ListRequest from './components/Requests/ListRequest/ListRequest';
-import ReportPage from './components/Reports/ReportPage';
 import Register from './components/Register/Register';
-import EditUser from './components/User/EditUser/EditUser';
 
+import AddPet from './components/Pet/AddPet/AddPet';
 import TabsPet from './components/Pet/TabsPet/TabsPet';
+
 
 import AddCompany from './components/Companie/AddCompany';
 import ListCompany from './components/Companie/ListCompanies/ListCompanies';
@@ -89,7 +75,7 @@ function App() {
   const handleProfilePhotoUpdate = (newPhotoUrl) => {
     setProfilePhoto(newPhotoUrl);
   };
-
+  console.log(handleProfilePhotoUpdate);  
   const renderProtectedRoute = (path, Component, requiredUserType = "master") => (
     <Route
       path={path}
@@ -130,30 +116,16 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={isLoggedIn ? <Navigate to={isMobile || userType === 'professor' ? "/chamadas" : "/dashboard"} /> : <Login setIsLoggedIn={handleLoginSuccess} />}
+              element={isLoggedIn ? <Navigate to={isMobile ? "/dashboard" : "/dashboard"} /> : <Login setIsLoggedIn={handleLoginSuccess} />}
             />
-            <Route
+          <Route
               path="/register"
               element={<Register setIsLoggedIn={handleLoginSuccess} />}
             />
 
-            {renderProtectedRoute("/chamadas", <Attendance />, ['master', 'professor'])}
             {renderProtectedRoute("/dashboard", <Dashboard />)}
-            {renderProtectedRoute("/listar-oficinas", <ListCategories />)}
-            {renderProtectedRoute("/criar-oficina", <AddCategory />)}
-            {renderProtectedRoute("/criar-aula", <AddCourse />)}
-            {renderProtectedRoute("/adicionar-turma", <AddCourse />)}
-            {renderProtectedRoute("/listar-turmas", <ListCourses />)}
-
             {renderProtectedRoute("/adicionar-pet", <AddPet />)}
             {renderProtectedRoute("/listar-pets", <TabsPet />)}
-            {renderProtectedRoute("/alunos", <ListStudent />)}
-
-            {renderProtectedRoute("/adicionar-usuario", <UserManager />)}
-            {renderProtectedRoute("/listar-usuarios", <ListUsers />)}
-            {renderProtectedRoute("/solicitacoes", <ListRequest />)}
-            {renderProtectedRoute("/configuracao-usuario", <EditUser onProfilePhotoUpdate={handleProfilePhotoUpdate} />)}
-            {renderProtectedRoute("/relatorios", <ReportPage />, 'master')}
             {renderProtectedRoute("/adicionar-empresa", <AddCompany />)}
             {renderProtectedRoute("/listar-empresas", <ListCompany />)}
           </Routes>
