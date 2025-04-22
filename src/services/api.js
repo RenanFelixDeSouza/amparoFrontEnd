@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: process.env.amparobackend.railway.internal    + '/api', // http://amparoserver.test:8080/api
+    baseURL: process.env.REACT_APP_API_URL    + '/api', // http://amparoserver.test:8080/api
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
