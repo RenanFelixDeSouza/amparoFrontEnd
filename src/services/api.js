@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: process.env.REACT_APP_API_URL    + '/api', // http://amparoserver.test:8080/api
+    // Usar https:// antes da URL do backend
+    baseURL: `https://${process.env.REACT_APP_API_URL}/api`,
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
@@ -24,8 +25,9 @@ api.interceptors.request.use(config => {
 
 // Nova instância para lidar com URLs estáticos (sem o prefixo /api)
 export const staticApi = axios.create({
-    baseURL: process.env.REACT_APP_API_URL, // http://amparoserver.test:8080
-    withCredentials: false, // Não precisa de credenciais para acessar imagens
+    // Usar https:// antes da URL do backend
+    baseURL: `https://${process.env.REACT_APP_API_URL}`,
+    withCredentials: false,
 });
 
 export default api;
