@@ -1,0 +1,29 @@
+{
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build",
+        "optimizeCss": true,
+        "minify": {
+          "css": false
+        }
+      }
+    }
+  ],
+  "routes": [
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/static/(.*)",
+      "headers": { "cache-control": "public, max-age=31536000, immutable" },
+      "continue": true
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}

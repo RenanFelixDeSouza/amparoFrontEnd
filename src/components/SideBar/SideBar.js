@@ -10,6 +10,7 @@ import {
   FaBell,
   FaFileAlt,
   FaPaw,
+  FaBuilding,
 } from 'react-icons/fa';
 import './SideBar.css';
 import Cookies from 'js-cookie';
@@ -188,6 +189,14 @@ function Sidebar({ isOpen, toggleSidebar, setIsLoggedIn, userType, onMouseEnter,
       submenu: [
         { label: 'Lista de pet', icon: <FaPaw />, link: '/listar-pets' },
         { label: 'Criar Pet', icon: <FaPaw />, link: '/adicionar-pet' },
+      ]
+    },
+    {
+      label: 'Empresas',
+      icon: <FaBuilding />,
+      submenu: [
+        { label: 'Lista de Empresas', icon: <FaBuilding />, link: '/listar-empresas' },
+        { label: 'Criar Empresa', icon: <FaBuilding />, link: '/adicionar-empresa' },
       ]
     },
     { label: 'Relatórios', icon: <FaFileAlt />, link: '/relatorios' },

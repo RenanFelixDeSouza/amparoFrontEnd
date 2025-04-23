@@ -1,4 +1,4 @@
-/* Sidebar Container */
+
 .sidebar {
 
   display: flex;
@@ -17,7 +17,7 @@
   width: 80px;
 }
 
-/* Header do Sidebar */
+
 .sidebar-header {
   display: flex;
   align-items: center;
@@ -37,7 +37,7 @@
   cursor: pointer;
 }
 
-/* Conteúdo */
+
 .sidebar-content {
   overflow-y: auto;
   flex-grow: 1;
@@ -54,7 +54,7 @@
   margin-bottom: 5px;
 }
 
-/* Ajuste do container do link para posicionamento relativo */
+
 .sidebar-link {
   position: relative;
   display: flex;
@@ -95,7 +95,7 @@
   margin-right: 0;
 }
 
-/* Submenu */
+
 .sidebar-submenu {
   list-style: none;
   padding: 0;
@@ -138,7 +138,7 @@
   font-size: 1.2rem;
 }
 
-/* Footer */
+
 .sidebar-footer {
   border-top: 1px solid var(--border-color);
   padding: 15px;
@@ -150,7 +150,7 @@
   font-weight: bold;
 }
 
-/* Estilo do ícone do sino com solicitações */
+
 .bell-icon {
   transform-origin: top;
 }
@@ -169,7 +169,7 @@
   100% { transform: rotate(0); }
 }
 
-/* Ajuste da bolinha de notificação */
+
 .notification-dot {
   position: absolute;
   top: 5px;
@@ -180,13 +180,13 @@
   border-radius: 50%;
 }
 
-/* Quando o sidebar está fechado */
+
 .sidebar.closed .notification-dot {
   right: 10px;
   top: 5px;
 }
 
-/* Adicione estas media queries no final do arquivo */
+
 @media screen and (max-width: 1024px) {
     .sidebar {
         width: 200px;
@@ -275,7 +275,7 @@
     }
 }
 
-/* Ajuste para o conteúdo principal quando o sidebar estiver aberto */
+
 @media screen and (max-width: 768px) {
     .main-content {
         margin-left: 0;

@@ -1,4 +1,4 @@
-/* Container da Tabela */
+
 .table-container {
   width: 100%;
   overflow: visible;
@@ -6,7 +6,7 @@
   position: relative;
 }
 
-/* Tabela */
+
 .data-table {
   width: 100%;
   border-collapse: collapse;
@@ -14,7 +14,7 @@
   font-size: 15px;
 }
 
-/* Cabeçalho */
+
 .data-table th,
 .data-table td {
   padding: 10px;
@@ -61,7 +61,7 @@
   opacity: 1; 
 }
 
-/* Linhas alternadas (efeito zebra) */
+
 .data-table tbody tr:nth-child(odd) {
   background-color: #eceaea;
 }
@@ -70,42 +70,42 @@
   background-color: var(--background-color);
 }
 
-/* Hover nas linhas */
+
 .data-table tbody tr:hover {
   background-color: var(--tertiary-color-opacity) ;
 }
 
-/* Linhas selecionadas */
+
 .data-table tbody tr.selected {
   background-color: var(--tertiary-color-opacity) !important;
 }
 
-/* Nova classe para linha selecionada + clique direito */
+
 .data-table tbody tr.selected.context-menu-open {
   background-color: var(--primary-color) !important;
 }
 
-/* Estilos para quando o menu de ações ou contexto estiver aberto */
+
 .data-table tbody tr.selected.context-menu-open,
 .data-table tbody tr.selected:has(.actions-menu) {
   background-color: var(--tertiary-color-opacity) !important;
 }
 
-/* Linha deletada (se for necessário) */
+
 .data-table tbody tr.deleted-item {
   background-color: #f8d7da !important;
-  /* text-decoration: line-through; */
+  
   color: #a94442;
 }
 
-/* Células */
+
 .data-table td {
   padding: 10px;
   border-bottom: 1px solid var(--border-color);
 }
 
 
-/* Coluna de ações */
+
 .actions-column {
   width: 90px;
 }
@@ -116,7 +116,7 @@
   cursor: pointer;
 }
 
-/* Botão de ações */
+
 .actions-btn {
   background-color: var(--action-btn-bg);
   border: none;
@@ -172,7 +172,7 @@
   color: var(--background-color);
 }
 
-/* Botões de ações para múltiplas seleções */
+
 .multi-actions-container {
   margin-bottom: 15px;
   display: flex;
@@ -201,14 +201,14 @@
   border-color: var(--primary-color); 
 }
 
-/* Mensagem de erro */
+
 .error-message {
   color: var(--error-color);
   font-weight: bold;
   margin: 10px 0;
 }
 
-/* Paginação */
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -272,7 +272,7 @@
   cursor: not-allowed;
 }
 
-/* Estilo para o checkbox */
+
 .data-table input[type="checkbox"] {
   background-color: var(--background-color);
   border: 1px solid var(--border-color);
@@ -290,7 +290,7 @@
   border-color: var(--primary-color);
 }
 
-/* Estilo para o filter  */
+
 
 .filters-container {
   display: flex;
@@ -351,7 +351,7 @@
   color: var(--text-color);
 }
 
-/* Estilos específicos para os inputs e selects dentro dos filtros */
+
 .filters-container input:focus,
 .filters-container select:focus {
   outline: none; 
@@ -419,7 +419,7 @@
   transform: none;
 }
 
-/* Media queries para dispositivos móveis */
+
 @media screen and (max-width: 768px) {
     .table-container {
         margin-top: 10px;
@@ -465,7 +465,7 @@
         font-size: 14px;
     }
 
-    /* Ajuste na célula de ações */
+    
     td.actions {
         flex-direction: row;
         justify-content: flex-end;
@@ -478,7 +478,7 @@
         margin-bottom: 0;
     }
 
-    /* Adiciona labels antes de cada célula */
+    
     .data-table td::before {
         content: attr(data-label);
         font-weight: bold;
@@ -486,7 +486,7 @@
         margin-right: 10px;
     }
 
-    /* Ajustes para ações */
+    
     .actions {
         justify-content: flex-end;
         padding-top: 10px !important;
@@ -516,7 +516,7 @@
         border-bottom: none;
     }
 
-    /* Melhorias na área de ações */
+    
     .actions {
         position: sticky;
         right: 0;
@@ -582,7 +582,7 @@
         margin-bottom: 0;
     }
 
-    /* Melhoria na paginação para mobile */
+    
     .pagination {
         position: fixed;
         bottom: 0;
@@ -620,12 +620,12 @@
         white-space: nowrap;
     }
 
-    /* Ajuste no container principal para dar espaço à paginação fixa */
+    
     .table-container {
         padding-bottom: 80px;
     }
 
-    /* Ajuste nos itens por página */
+    
     .items-per-page-selector {
         position: sticky;
         bottom: 74px;
@@ -644,7 +644,7 @@
         border: 1px solid var(--border-color);
     }
 
-    /* Melhorias no botão e menu de ações */
+    
     .actions {
         position: relative;
         display: flex;
@@ -710,7 +710,7 @@
         margin-bottom: 0;
     }
 
-    /* Overlay para o menu de ações */
+    
     .actions-overlay {
         position: fixed;
         top: 0;
@@ -725,17 +725,17 @@
         display: block;
     }
 
-    /* Ajuste no padding do container para evitar que o conteúdo fique sob a paginação fixa */
+    
     .table-container {
         padding-bottom: 100px;
     }
 
-    /* Garantir que o menu de ações fique acima da paginação */
+    
     .pagination {
         z-index: 9997;
     }
 
-    /* Novo estilo para o menu de ações em mobile */
+    
     .actions {
         display: flex;
         justify-content: flex-end;
@@ -812,7 +812,7 @@
         background: var(--hover-color);
     }
 
-    /* Adicionar botão de fechar */
+    
     .actions-menu-close {
         margin-top: 10px;
         padding: 16px !important;
@@ -821,7 +821,7 @@
         font-weight: bold;
     }
 
-    /* Ajustes revisados para o menu de ações em mobile */
+    
     .actions-btn {
         width: 36px;
         height: 36px;
@@ -892,7 +892,7 @@
         font-weight: bold;
     }
 
-    /* Garante que o container de ações tenha posição relativa */
+    
     .actions {
         position: relative !important;
         display: flex;
@@ -901,7 +901,7 @@
         width: 100%;
     }
 
-    /* Ajuste na célula de ações */
+    
     td.actions {
         justify-content: flex-end;
     }
@@ -1054,7 +1054,7 @@
     }
 }
 
-/* Menu de contexto para desktop */
+
 tr.context-menu-open {
   background-color: var(--tertiary-color-opacity) !important;
 }
@@ -1176,7 +1176,7 @@ input:checked + .slider:before {
   border: 2px solid var(--secondary-color); 
 }
 
-/* Efeito de zoom ao passar o mouse nas imagens */
+
 .data-table img {
   transition: transform 0.3s ease-in-out;
 }

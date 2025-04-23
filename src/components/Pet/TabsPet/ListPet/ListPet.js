@@ -4,6 +4,8 @@ import Table from "../../../Shared/Table.js";
 import LoadingSpinner from "../../../LoadingSpinner/LoadingSpinner";
 import DetailsPetModal from "./Modal/DetailsPetModal.js";
 import EditPetModal from "./Modal/EditPetModal";
+import AdoptionModal from "./Modal/AdoptionModal";
+import TemporaryHomeModal from "./Modal/TemporaryHomeModal";
 import { FaPaw, FaSync } from "react-icons/fa";
 
 function ListPet() {
@@ -13,6 +15,8 @@ function ListPet() {
   const [message, setMessage] = useState(null);
   const [selectedPet, setSelectedPet] = useState(null);
   const [editPet, setEditPet] = useState(null);
+  const [adoptionPet, setAdoptionPet] = useState(null);
+  const [temporaryHomePet, setTemporaryHomePet] = useState(null);
 
   // Estados para filtros
   const [filterName, setFilterName] = useState("");
@@ -198,6 +202,14 @@ useEffect(() => {
         label: "Editar",
         action: () => setEditPet(item),
       },
+      {
+        label: "Adotar",
+        action: () => setAdoptionPet(item),
+      },
+      {
+        label: "Atribuir Lar Temporário",
+        action: () => setTemporaryHomePet(item),
+      },
     ];
   };
 
@@ -284,6 +296,22 @@ useEffect(() => {
           pet={editPet}
           onClose={handleCloseEditModal} 
           onSave={handleSaveEdit}
+        />
+      )}
+
+      {adoptionPet && (
+        <AdoptionModal
+          pet={adoptionPet}
+          onClose={() => setAdoptionPet(null)}
+          onSave={handleRefresh}
+        />
+      )}
+
+      {temporaryHomePet && (
+        <TemporaryHomeModal
+          pet={temporaryHomePet}
+          onClose={() => setTemporaryHomePet(null)}
+          onSave={handleRefresh}
         />
       )}
 
