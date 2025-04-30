@@ -2,7 +2,7 @@
   "name": "frontend-react-js",
   "version": "0.1.0",
   "private": true,
-  "proxy": "amparobackend.railway.internal",
+  "proxy": "http://amparoserver.test",
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^44.2.0",
     "@ckeditor/ckeditor5-react": "^9.5.0",

@@ -1,4 +1,3 @@
-
 :root {
   --primary-color: #e68c3a; 
   --secondary-color: #213e60; 
@@ -99,6 +98,8 @@ body.login-page .app-container {
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal-overlay-edit {
@@ -167,6 +168,13 @@ body.login-page .app-container {
   width: 800px;
   max-width: 90vw;
   box-shadow: var(--card-shadow);
+  position: relative;
+  margin: 1.75rem auto;
+}
+
+.modal-divider {
+  margin: 20px 0;
+  border: 1px solid var(--border-color);
 }
 
 .modal button {
@@ -186,7 +194,7 @@ body.login-page .app-container {
 
 .modal-header {
   display: flex;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--primary-color);
   padding-bottom: 10px;
   margin-bottom: 20px;
   
@@ -200,38 +208,62 @@ body.login-page .app-container {
   font-weight: bold;
 }
 
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
 .modal-buttons button {
-  margin-left: 10px;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
+  min-width: 120px;
 }
-
 
 .modal-buttons button:first-child {
   background-color: var(--secondary-color);
   color: white;
+  transition: opacity 0.3s ease;
 }
 
 .modal-buttons button:first-child:hover {
-  opacity: 0.5;
+  opacity: 0.8;
 }
 
 .modal-buttons button:last-child {
   background-color: var(--primary-color);
   color: white;
+  transition: opacity 0.3s ease;
 }
 
 .modal-buttons button:last-child:hover {
-  opacity: 0.5;
+  opacity: 0.8;
 }
 
 .categories-grid {
   border-top: 1px solid var(--text-color);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+  padding: 10px 0;
 }
 
+.categories-grid p {
+  color: var(--tertiary-color);
+  text-align: center;
+  font-size: 0.9rem;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
 
 .category-grid-item {
   border: 1px solid var(--border-color); 
@@ -324,7 +356,7 @@ body.login-page .app-container {
 }
 
 .new-data-input [type="text"] {
-  width: 75%;
+  width: 48.7%;
   padding: 6px;
   font-size: 14px;
   border: 1px solid #ddd;
@@ -390,4 +422,50 @@ body.login-page .app-container {
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   background-color: var(--background-color);
+}
+
+.section-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--secondary-color);
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+}
+
+.no-results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+  width: 100%;
+  color: var(--tertiary-color);
+  font-size: 0.9rem;
+}
+
+.date-group {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.date-group label {
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.date-input {
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
+  width: 200px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+.date-input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(230, 140, 58, 0.2);
 }

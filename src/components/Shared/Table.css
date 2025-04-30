@@ -1,4 +1,3 @@
-
 .table-container {
   width: 100%;
   overflow: visible;
@@ -6,14 +5,12 @@
   position: relative;
 }
 
-
 .data-table {
   width: 100%;
   border-collapse: collapse;
   font-family: Arial, sans-serif;
   font-size: 15px;
 }
-
 
 .data-table th,
 .data-table td {
@@ -61,7 +58,6 @@
   opacity: 1; 
 }
 
-
 .data-table tbody tr:nth-child(odd) {
   background-color: #eceaea;
 }
@@ -70,27 +66,22 @@
   background-color: var(--background-color);
 }
 
-
 .data-table tbody tr:hover {
   background-color: var(--tertiary-color-opacity) ;
 }
-
 
 .data-table tbody tr.selected {
   background-color: var(--tertiary-color-opacity) !important;
 }
 
-
 .data-table tbody tr.selected.context-menu-open {
   background-color: var(--primary-color) !important;
 }
-
 
 .data-table tbody tr.selected.context-menu-open,
 .data-table tbody tr.selected:has(.actions-menu) {
   background-color: var(--tertiary-color-opacity) !important;
 }
-
 
 .data-table tbody tr.deleted-item {
   background-color: #f8d7da !important;
@@ -98,13 +89,10 @@
   color: #a94442;
 }
 
-
 .data-table td {
   padding: 10px;
   border-bottom: 1px solid var(--border-color);
 }
-
-
 
 .actions-column {
   width: 90px;
@@ -115,7 +103,6 @@
   display: inline-block;
   cursor: pointer;
 }
-
 
 .actions-btn {
   background-color: var(--action-btn-bg);
@@ -172,7 +159,6 @@
   color: var(--background-color);
 }
 
-
 .multi-actions-container {
   margin-bottom: 15px;
   display: flex;
@@ -201,13 +187,18 @@
   border-color: var(--primary-color); 
 }
 
-
 .error-message {
-  color: var(--error-color);
-  font-weight: bold;
+  padding: 15px 20px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
   margin: 10px 0;
+  font-weight: 500;
+  text-align: center;
+  animation: slideIn 0.3s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
 
 .pagination {
   display: flex;
@@ -272,25 +263,43 @@
   cursor: not-allowed;
 }
 
-
 .data-table input[type="checkbox"] {
-  background-color: var(--background-color);
-  border: 1px solid var(--border-color);
-  width: 16px;
-  height: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: 2px solid var(--primary-color);
+  border-radius: 4px;
+  width: 18px;
+  height: 18px;
   cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
 }
 
 .data-table input[type="checkbox"]:checked {
   background-color: var(--primary-color);
-  border-color: var (--primary-color);
-}
-
-.data-table input[type="checkbox"]:hover {
   border-color: var(--primary-color);
 }
 
+.data-table input[type="checkbox"]:checked::after {
+  content: "✓";
+  color: white;
+  font-size: 12px;
+  position: absolute;
+}
 
+.data-table input[type="checkbox"]:hover {
+  border-color: var(--secondary-color);
+  transform: scale(1.1);
+}
+
+.data-table input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2);
+}
 
 .filters-container {
   display: flex;
@@ -350,7 +359,6 @@
   font-weight: bold; 
   color: var(--text-color);
 }
-
 
 .filters-container input:focus,
 .filters-container select:focus {
@@ -419,701 +427,711 @@
   transform: none;
 }
 
+.items-per-page-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  justify-content: flex-end;
+  padding: 8px 0;
+}
+
+.items-per-page-selector label {
+  color: var(--text-color);
+  font-size: 14px;
+}
+
+.items-per-page-selector select {
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background: var(--background-color);
+  color: var(--text-color);
+  cursor: pointer;
+  min-width: 70px;
+  outline: none;
+}
+
+.items-per-page-selector select:hover {
+  border-color: var(--primary-color);
+}
+
+/* Ajuste para mobile */
+@media screen and (max-width: 768px) {
+  .items-per-page-selector {
+    padding: 8px 0;
+  }
+
+  .items-per-page-selector select {
+    padding: 4px 8px;
+    font-size: 13px;
+  }
+}
 
 @media screen and (max-width: 768px) {
-    .table-container {
-        margin-top: 10px;
-        overflow-x: hidden;
-    }
-
-    .data-table {
-        display: block;
-    }
-
-    .data-table thead {
-        display: none; 
-    }
-
-    .data-table tbody {
-        display: block;
-    }
-
-    .data-table tr {
-        display: block;
-        margin-bottom: 15px;
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        padding: 10px;
-        background: var(--background-color);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .data-table td {
-        display: flex;
-        padding: 10px 5px;
-        border: none;
-        position: relative;
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .data-table td:before {
-        content: attr(data-label);
-        font-weight: bold;
-        margin-bottom: 5px;
-        color: var(--text-color);
-        font-size: 14px;
-    }
-
-    
-    td.actions {
-        flex-direction: row;
-        justify-content: flex-end;
-        align-items: center;
-    }
-
-    td.actions:before {
-        content: "Ações";
-        margin-right: auto;
-        margin-bottom: 0;
-    }
-
-    
-    .data-table td::before {
-        content: attr(data-label);
-        font-weight: bold;
-        width: 40%;
-        margin-right: 10px;
-    }
-
-    
-    .actions {
-        justify-content: flex-end;
-        padding-top: 10px !important;
-        border-top: 1px solid var(--border-color);
-    }
-
-    .actions-menu {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: var(--background-color);
-        border-radius: 15px 15px 0 0;
-        padding: 15px;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-    }
-
-    .actions-menu button {
-        padding: 15px;
-        width: 100%;
-        text-align: center;
-        font-size: 16px;
-        border-bottom: 1px solid var(--border-color);
-    }
-
-    .actions-menu button:last-child {
-        border-bottom: none;
-    }
-
-    
-    .actions {
-        position: sticky;
-        right: 0;
-        display: flex;
-        justify-content: center;
-        padding: 15px !important;
-        background: var(--background-color);
-        border-top: 1px solid var(--border-color);
-        margin-top: 10px;
-    }
-
-    .actions-btn {
-        width: 44px;
-        height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: var(--primary-color);
-        color: white;
-        border-radius: 50%;
-        font-size: 24px;
-        transition: background-color 0.3s ease;
-        cursor: pointer;
-    }
-
-    .actions-btn:active {
-        background-color: var(--secondary-color);
-        transform: scale(0.95);
-    }
-
-    .actions-btn::after {
-        content: none;
-    }
-
-    .actions-menu {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        max-height: 70vh;
-        overflow-y: auto;
-        background: var(--background-color);
-        border-radius: 15px 15px 0 0;
-        padding: 20px;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-        z-index: 1100;
-    }
-
-    .actions-menu button {
-        width: 100%;
-        padding: 16px;
-        margin: 5px 0;
-        font-size: 16px;
-        text-align: center;
-        background: var(--secondary-color);
-        color: var(--text-color);
-        border-radius: 8px;
-        border: none;
-    }
-
-    .actions-menu button:last-child {
-        margin-bottom: 0;
-    }
-
-    
-    .pagination {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: var(--background-color);
-        padding: 15px;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-        margin: 0;
-        z-index: 1000;
-        gap: 8px;
-    }
-
-    .pagination button {
-        flex: 1;
-        min-width: 44px;
-        height: 44px;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-        background: var(--secondary-color);
-        color: var(--text-color);
-        border: none;
-        border-radius: 8px;
-    }
-
-    .pagination span {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0 10px;
-        font-size: 14px;
-        white-space: nowrap;
-    }
-
-    
-    .table-container {
-        padding-bottom: 80px;
-    }
-
-    
-    .items-per-page-selector {
-        position: sticky;
-        bottom: 74px;
-        background: var(--background-color);
-        padding: 10px;
-        border-top: 1px solid var(--border-color);
-        z-index: 999;
-    }
-
-    .items-per-page-selector select {
-        width: 100%;
-        padding: 12px;
-        font-size: 16px;
-        border-radius: 8px;
-        background: var(--background-color);
-        border: 1px solid var(--border-color);
-    }
-
-    
-    .actions {
-        position: relative;
-        display: flex;
-        justify-content: flex-end;
-        padding: 10px 0 !important;
-        margin-top: 10px;
-    }
-
-    .actions-btn {
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: var(--primary-color);
-        color: white;
-        border-radius: 50%;
-        font-size: 20px;
-        padding: 0;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .actions-menu {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        max-height: 60vh;
-        overflow-y: auto;
-        background: var(--background-color);
-        border-radius: 15px 15px 0 0;
-        padding: 20px;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-        z-index: 9999;
-        transform: translateY(0);
-        transition: transform 0.3s ease;
-    }
-
-    .actions-menu:before {
-        content: '';
-        display: block;
-        width: 40px;
-        height: 4px;
-        background: #ccc;
-        border-radius: 2px;
-        margin: 0 auto 15px;
-    }
-
-    .actions-menu button {
-        width: 100%;
-        padding: 15px;
-        margin: 5px 0;
-        font-size: 16px;
-        text-align: center;
-        background: var(--background-color);
-        color: var(--text-color);
-        border-radius: 8px;
-        border: none;
-    }
-
-    .actions-menu button:last-child {
-        margin-bottom: 0;
-    }
-
-    
-    .actions-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 9998;
-    }
-
-    .actions-overlay.active {
-        display: block;
-    }
-
-    
-    .table-container {
-        padding-bottom: 100px;
-    }
-
-    
-    .pagination {
-        z-index: 9997;
-    }
-
-    
-    .actions {
-        display: flex;
-        justify-content: flex-end;
-        position: relative;
-    }
-
-    .actions-btn {
-        background: var(--primary-color);
-        color: white;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .actions-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 9998;
-        opacity: 1;
-        visibility: visible;
-        transition: opacity 0.3s ease;
-    }
-
-    .actions-menu {
-        display: flex !important;
-        flex-direction: column;
-        position: fixed !important;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: white;
-        padding: 20px;
-        border-radius: 20px 20px 0 0;
-        z-index: 9999;
-        transform: translateY(0);
-        transition: transform 0.3s ease;
-        max-height: 70vh;
-        overflow-y: auto;
-    }
-
-    .actions-menu:before {
-        content: '';
-        display: block;
-        width: 40px;
-        height: 4px;
-        background: #ddd;
-        margin: 0 auto 20px;
-        border-radius: 4px;
-    }
-
-    .actions-menu button {
-        width: 100%;
-        padding: 16px;
-        margin: 4px 0;
-        border: none;
-        background: var(--background-color);
-        color: var(--text-color);
-        font-size: 16px;
-        text-align: center;
-        border-radius: 12px;
-        transition: background 0.2s;
-    }
-
-    .actions-menu button:active {
-        background: var(--hover-color);
-    }
-
-    
-    .actions-menu-close {
-        margin-top: 10px;
-        padding: 16px !important;
-        background: var(--tertiary-color) !important;
-        color: var(--text-color) !important;
-        font-weight: bold;
-    }
-
-    
-    .actions-btn {
-        width: 36px;
-        height: 36px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: var(--primary-color);
-        color: white;
-        border-radius: 50%;
-        font-size: 24px;
-        padding: 0;
-        margin-left: auto;
-        border: none;
-        cursor: pointer;
-    }
-
-    .actions-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 9998;
-        display: block;
-    }
-
-    .actions-menu {
-        display: flex !important;
-        flex-direction: column;
-        position: fixed !important;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100% !important;
-        background-color: white;
-        padding: 20px;
-        border-radius: 20px 20px 0 0;
-        z-index: 9999;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
-    }
-
-    .actions-menu:before {
-        content: '';
-        width: 40px;
-        height: 4px;
-        background-color: #ddd;
-        border-radius: 4px;
-        margin: 0 auto 20px;
-        display: block;
-    }
-
-    .actions-menu button {
-        width: 100%;
-        padding: 16px;
-        margin: 4px 0;
-        font-size: 16px;
-        background-color: var(--background-color);
-        color: var(--text-color);
-        border: 1px solid var(--border-color);
-        border-radius: 10px;
-        text-align: center;
-    }
-
-    .actions-menu-close {
-        margin-top: 10px !important;
-        background-color: var(--tertiary-color) !important;
-        font-weight: bold;
-    }
-
-    
-    .actions {
-        position: relative !important;
-        display: flex;
-        justify-content: flex-end;
-        padding: 10px 0;
-        width: 100%;
-    }
-
-    
-    td.actions {
-        justify-content: flex-end;
-    }
-
-    .actions-btn::after {
-        content: "⋮"; 
-    }
-
-    .data-table tr {
-        padding: 8px;
-        margin-bottom: 8px;
-    }
-
-    .data-table td {
-        padding: 4px 5px;
-        min-height: 32px;
-        font-size: 14px;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .data-table td::before {
-        content: attr(data-label);
-        font-weight: 500;
-        font-size: 13px;
-        width: auto;
-        min-width: 80px;
-        margin-right: 8px;
-        color: var(--text-color);
-    }
-
-    .data-table td:not(.actions) {
-        display: flex;
-        flex-wrap: nowrap;
-    }
-
-    td.actions {
-        margin-top: 4px;
-        padding-top: 8px !important;
-        border-top: 1px solid var(--border-color);
-    }
-
-    .actions-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 18px;
-    }
-
-    .pagination {
-        padding: 8px;
-    }
-
-    .pagination button {
-        min-width: 36px;
-        height: 36px;
-    }
-
-    .items-per-page-selector {
-        padding: 8px;
-    }
-
-    .items-per-page-selector select {
-        padding: 8px;
-    }
-
-    .actions-menu[style*="position: fixed"] {
-        position: fixed !important;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100% !important;
-        background: var(--background-color);
-        padding: 20px;
-        border-radius: 20px 20px 0 0;
-        z-index: 9999;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
-    }
-
-    .actions-menu[style*="position: fixed"]:before {
-        content: '';
-        width: 40px;
-        height: 4px;
-        background-color: #ddd;
-        border-radius: 4px;
-        margin: 0 auto 20px;
-        display: block;
-    }
-
-    .actions-menu[style*="position: fixed"] button {
-        width: 100%;
-        padding: 16px;
-        margin: 4px 0;
-        font-size: 16px;
-        background-color: var(--background-color);
-        color: var(--text-color);
-        border: 1px solid var(--border-color);
-        border-radius: 10px;
-        text-align: center;
-    }
+  .table-container {
+    margin-top: 10px;
+    overflow-x: hidden;
+  }
+
+  .data-table {
+    display: block;
+  }
+
+  .data-table thead {
+    display: none; 
+  }
+
+  .data-table tbody {
+    display: block;
+  }
+
+  .data-table tr {
+    display: block;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px;
+    background: var(--background-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .data-table td {
+    display: flex;
+    padding: 10px 5px;
+    border: none;
+    position: relative;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .data-table td:before {
+    content: attr(data-label);
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--text-color);
+    font-size: 14px;
+  }
+
+  td.actions {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  td.actions:before {
+    content: "Ações";
+    margin-right: auto;
+    margin-bottom: 0;
+  }
+
+  .data-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    width: 40%;
+    margin-right: 10px;
+  }
+
+  .actions {
+    justify-content: flex-end;
+    padding-top: 10px !important;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .actions-menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--background-color);
+    border-radius: 15px 15px 0 0;
+    padding: 15px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  }
+
+  .actions-menu button {
+    padding: 15px;
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .actions-menu button:last-child {
+    border-bottom: none;
+  }
+
+  .actions {
+    position: sticky;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    padding: 15px !important;
+    background: var(--background-color);
+    border-top: 1px solid var(--border-color);
+    margin-top: 10px;
+  }
+
+  .actions-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    font-size: 24px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+
+  .actions-btn:active {
+    background-color: var(--secondary-color);
+    transform: scale(0.95);
+  }
+
+  .actions-btn::after {
+    content: none;
+  }
+
+  .actions-menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 70vh;
+    overflow-y: auto;
+    background: var(--background-color);
+    border-radius: 15px 15px 0 0;
+    padding: 20px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 1100;
+  }
+
+  .actions-menu button {
+    width: 100%;
+    padding: 16px;
+    margin: 5px 0;
+    font-size: 16px;
+    text-align: center;
+    background: var(--secondary-color);
+    color: var(--text-color);
+    border-radius: 8px;
+    border: none;
+  }
+
+  .actions-menu button:last-child {
+    margin-bottom: 0;
+  }
+
+  .pagination {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--background-color);
+    padding: 15px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    margin: 0;
+    z-index: 1000;
+    gap: 8px;
+  }
+
+  .pagination button {
+    flex: 1;
+    min-width: 44px;
+    height: 44px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    background: var(--secondary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 8px;
+  }
+
+  .pagination span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .items-per-page-selector {
+    position: sticky;
+    bottom: 74px;
+    z-index: 999;
+  }
+
+  .items-per-page-selector select {
+    width: 100%;
+    padding: 12px;
+    font-size: 12px;
+  }
+
+  .table-container {
+    padding-bottom: 80px;
+  }
+
+  .actions {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 0 !important;
+    margin-top: 10px;
+  }
+
+  .actions-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    font-size: 20px;
+    padding: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .actions-menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 60vh;
+    overflow-y: auto;
+    background: var(--background-color);
+    border-radius: 15px 15px 0 0;
+    padding: 20px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 9999;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+  }
+
+  .actions-menu:before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: #ccc;
+    border-radius: 2px;
+    margin: 0 auto 15px;
+  }
+
+  .actions-menu button {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0;
+    font-size: 16px;
+    text-align: center;
+    background: var(--background-color);
+    color: var(--text-color);
+    border-radius: 8px;
+    border: none;
+  }
+
+  .actions-menu button:last-child {
+    margin-bottom: 0;
+  }
+
+  .actions-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+  }
+
+  .actions-overlay.active {
+    display: block;
+  }
+
+  .table-container {
+    padding-bottom: 100px;
+  }
+
+  .pagination {
+    z-index: 9997;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+  }
+
+  .actions-btn {
+    background: var(--primary-color);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .actions-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+  }
+
+  .actions-menu {
+    display: flex !important;
+    flex-direction: column;
+    position: fixed !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 20px;
+    border-radius: 20px 20px 0 0;
+    z-index: 9999;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  .actions-menu:before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: #ddd;
+    margin: 0 auto 20px;
+    border-radius: 4px;
+  }
+
+  .actions-menu button {
+    width: 100%;
+    padding: 16px;
+    margin: 4px 0;
+    border: none;
+    background: var(--background-color);
+    color: var(--text-color);
+    font-size: 16px;
+    text-align: center;
+    border-radius: 12px;
+    transition: background 0.2s;
+  }
+
+  .actions-menu button:active {
+    background: var(--hover-color);
+  }
+
+  .actions-menu-close {
+    margin-top: 10px;
+    padding: 16px !important;
+    background: var(--tertiary-color) !important;
+    color: var(--text-color) !important;
+    font-weight: bold;
+  }
+
+  .actions-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    font-size: 24px;
+    padding: 0;
+    margin-left: auto;
+    border: none;
+    cursor: pointer;
+  }
+
+  .actions-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    display: block;
+  }
+
+  .actions-menu {
+    display: flex !important;
+    flex-direction: column;
+    position: fixed !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100% !important;
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px 20px 0 0;
+    z-index: 9999;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+  }
+
+  .actions-menu:before {
+    content: '';
+    width: 40px;
+    height: 4px;
+    background-color: #ddd;
+    border-radius: 4px;
+    margin: 0 auto 20px;
+    display: block;
+  }
+
+  .actions-menu button {
+    width: 100%;
+    padding: 16px;
+    margin: 4px 0;
+    font-size: 16px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .actions-menu-close {
+    margin-top: 10px !important;
+    background-color: var(--tertiary-color) !important;
+    font-weight: bold;
+  }
+
+  .actions {
+    position: relative !important;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 0;
+    width: 100%;
+  }
+
+  td.actions {
+    justify-content: flex-end;
+  }
+
+  .actions-btn::after {
+    content: "⋮"; 
+  }
+
+  .data-table tr {
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+
+  .data-table td {
+    padding: 4px 5px;
+    min-height: 32px;
+    font-size: 14px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .data-table td::before {
+    content: attr(data-label);
+    font-weight: 500;
+    font-size: 13px;
+    width: auto;
+    min-width: 80px;
+    margin-right: 8px;
+    color: var(--text-color);
+  }
+
+  .data-table td:not(.actions) {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  td.actions {
+    margin-top: 4px;
+    padding-top: 8px !important;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .actions-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+
+  .pagination {
+    padding: 8px;
+  }
+
+  .pagination button {
+    min-width: 36px;
+    height: 36px;
+  }
+
+  .actions-menu[style*="position: fixed"] {
+    position: fixed !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100% !important;
+    background: var(--background-color);
+    padding: 20px;
+    border-radius: 20px 20px 0 0;
+    z-index: 9999;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+  }
+
+  .actions-menu[style*="position: fixed"]:before {
+    content: '';
+    width: 40px;
+    height: 4px;
+    background-color: #ddd;
+    border-radius: 4px;
+    margin: 0 auto 20px;
+    display: block;
+  }
+
+  .actions-menu[style*="position: fixed"] button {
+    width: 100%;
+    padding: 16px;
+    margin: 4px 0;
+    font-size: 16px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    text-align: center;
+  }
 }
 
 @media screen and (max-width: 480px) {
-    .pagination {
-        flex-wrap: nowrap;
-    }
+  .pagination {
+    flex-wrap: nowrap;
+  }
 
-    .pagination button {
-        min-width: 40px;
-    }
+  .pagination button {
+    min-width: 40px;
+  }
 
-    .pagination span {
-        font-size: 12px;
-    }
+  .pagination span {
+    font-size: 12px;
+  }
 
-    .actions-menu button {
-        padding: 14px;
-    }
+  .actions-menu button {
+    padding: 14px;
+  }
 
-    .actions-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 18px;
-    }
+  .actions-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
 
-    .actions-menu button {
-        padding: 12px;
-        font-size: 15px;
-    }
+  .actions-menu button {
+    padding: 12px;
+    font-size: 15px;
+  }
 
-    .data-table td {
-        font-size: 13px;
-    }
+  .data-table td {
+    font-size: 13px;
+  }
 
-    .data-table td::before {
-        font-size: 12px;
-        min-width: 70px;
-    }
+  .data-table td::before {
+    font-size: 12px;
+    min-width: 70px;
+  }
 
-    .actions-btn {
-        width: 28px;
-        height: 28px;
-        font-size: 16px;
-    }
+  .actions-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
 
-    .pagination button {
-        min-width: 32px;
-        height: 32px;
-        font-size: 12px;
-    }
+  .pagination button {
+    min-width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
 }
-
 
 tr.context-menu-open {
   background-color: var(--tertiary-color-opacity) !important;
 }
 
 .time-filters {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    width: 100%;
-    margin-right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  margin-right: 10px;
 }
 
 .time-filters span {
-    color: var(--text-color);
-    font-size: 14px;
-    white-space: nowrap;
+  color: var(--text-color);
+  font-size: 14px;
+  white-space: nowrap;
 }
 
 .filter-buttons {
-    display: flex;
-    gap: 8px;
-    margin-left: auto;
-    padding-bottom: 3px;
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+  padding-bottom: 3px;
 }
 
 .filter-button {
-    background-color: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 14px;
-    font-weight: 500;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 0 15px;
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 15px;
 }
 
 .filter-button:hover {
-    background-color: var(--hover-color);
-    border-color: var(--primary-color);
+  background-color: var(--hover-color);
+  border-color: var(--primary-color);
 }
 
 .filter-button svg {
-    width: 14px;
-    height: 14px;
+  width: 14px;
+  height: 14px;
 }
 
 .filter-button.primary {
-    background-color: var(--primary-color);
-    color: var(--header-color);
-    border: none;
+  background-color: var(--primary-color);
+  color: var(--header-color);
+  border: none;
 }
 
 .filter-button.primary:hover {
-    background-color: var(--secondary-color);
+  background-color: var(--secondary-color);
 }
 
 .switch-container {
@@ -1124,6 +1142,12 @@ tr.context-menu-open {
 }
 
 .switch {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 20px;
+}
+.filter-switch {
   position: relative;
   display: inline-block;
   width: 34px;
@@ -1176,11 +1200,45 @@ input:checked + .slider:before {
   border: 2px solid var(--secondary-color); 
 }
 
-
 .data-table img {
   transition: transform 0.3s ease-in-out;
 }
 
 .data-table img:hover {
   transform: scale(1.4);
+}
+
+.save-message {
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin: 10px 0;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: slideIn 0.3s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.save-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.save-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

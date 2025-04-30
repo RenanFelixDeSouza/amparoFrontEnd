@@ -1,0 +1,231 @@
+.edit-user-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+}
+
+.edit-user-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 20px;
+}
+
+.edit-user-tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  background-color: var(--action-btn-bg);
+  border: 1px solid var(--border-color);
+  border-bottom: none;
+  transition: background-color 0.3s;
+}
+
+.edit-user-tab.active {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}
+
+.edit-user-tab:hover {
+  background-color: var(--hover-color);
+}
+
+.edit-user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.edit-user-form input,
+.edit-user-form select {
+  width: 100%; 
+  max-width: 97%; 
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.edit-user-form button,
+.save-photo-button  {
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.remove-photo-button {
+  padding: 10px;
+  background-color: var(--error-color);
+  color: var(--background-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+
+}
+.edit-user-form button:hover {
+  background-color: var(--hover-color);
+}
+
+.photo-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.photo-buttons-row {
+  display: flex;
+  gap: 10px; /* Espaço entre os botões */
+}
+
+.photo-preview {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-color);
+}
+
+.photo-upload-input {
+  display: none;
+}
+
+.photo-upload-label,
+.save-photo-button,
+.remove-photo-button {
+  padding: 8px 15px;
+  color: var(--background-color);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-align: center;
+  border: none;
+  flex: 1;
+  max-width: 150px;
+}
+
+.photo-upload-label {
+  background-color: var(--primary-color);
+}
+
+.save-photo-button {
+  background-color: var(--primary-color);
+}
+
+.remove-photo-button {
+  background-color: var(--error-color);
+}
+
+.photo-upload-label:hover,
+.save-photo-button:hover {
+  background-color: var(--hover-color);
+}
+
+.remove-photo-button:hover {
+  opacity: 0.9;
+}
+
+.form-group-address-inline {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  max-width: 97%; 
+}
+
+.form-group-address {
+  flex: 1;
+}
+
+.cep-input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+
+.cep-search-button {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary-color);
+}
+
+.cep-search-button:hover {
+  color: var(--hover-color);
+}
+
+.form-group-personal-inline {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  max-width: 97%;
+}
+
+.form-group-personal {
+  flex: 1;
+}
+
+.city-list {
+  position: absolute;
+  width: 10%; 
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  max-height: 200px; 
+  overflow-y: auto; 
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--background-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 199;
+}
+
+.city-list li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.city-list li:hover {
+  background-color: var(--primary-color);
+  color: var(--header-color);
+}
+
+.city-list li:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.change-password-button {
+  background-color: var(--secondary-color);
+  color: white;
+  border: 2px solid var(--secondary-color);
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  width: auto;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.change-password-button:hover {
+  background-color: transparent;
+  color: var(--secondary-color);
+}

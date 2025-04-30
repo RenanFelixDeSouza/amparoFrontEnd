@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const api = axios.create({
     // Usar https:// antes da URL do backend
-    baseURL: `https://${process.env.REACT_APP_API_URL}/api`,
+    baseURL: process.env.REACT_APP_API_URL + '/api', 
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ api.interceptors.request.use(config => {
 // Nova instância para lidar com URLs estáticos (sem o prefixo /api)
 export const staticApi = axios.create({
     // Usar https:// antes da URL do backend
-    baseURL: `https://${process.env.REACT_APP_API_URL}`,
+    baseURL: process.env.REACT_APP_API_URL, 
     withCredentials: false,
 });
 

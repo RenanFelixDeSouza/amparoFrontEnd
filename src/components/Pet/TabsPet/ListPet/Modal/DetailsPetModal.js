@@ -33,12 +33,21 @@ function DetailsPetModal({ pet, onClose }) {
               />
             </div>
             <div className="form-group">
+              <label htmlFor="pet-birth-date">Data de Nascimento:</label>
+              <input
+                type="text"
+                disabled
+                id="pet-birth-date"
+                value={pet.birth_date ? new Date(pet.birth_date).toLocaleDateString("pt-BR") : "Desconhecida"}
+              />
+            </div>
+            <div className="form-group">
               <label htmlFor="pet-specie">Espécie:</label>
               <input
                 type="text"
                 disabled
                 id="pet-specie"
-                value={pet.specie}
+                value={pet.specie?.description || ''}
               />
             </div>
           </div>
@@ -49,7 +58,7 @@ function DetailsPetModal({ pet, onClose }) {
                 type="text"
                 disabled
                 id="pet-race"
-                value={pet.race}
+                value={pet.race?.description || ''}
               />
             </div>
             <div className="form-group">
@@ -59,15 +68,6 @@ function DetailsPetModal({ pet, onClose }) {
                 disabled
                 id="pet-castrated"
                 value={pet.is_castrated ? "Sim" : "Não"}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="pet-birth-date">Data de Nascimento:</label>
-              <input
-                type="text"
-                disabled
-                id="pet-birth-date"
-                value={pet.birth_date ? new Date(pet.birth_date).toLocaleDateString("pt-BR") : "Desconhecida"}
               />
             </div>
           </div>

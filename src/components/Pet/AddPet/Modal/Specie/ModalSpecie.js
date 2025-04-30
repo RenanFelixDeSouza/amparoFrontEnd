@@ -1,6 +1,22 @@
 import React, { useState, useEffect, useCallback } from "react";
 import api from "../../../../../services/api";
 
+const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+};
+
 /**
  * Modal para selecionar ou buscar espécies.
  * Permite a pesquisa, paginação, seleção e criação de uma nova espécie.
@@ -11,6 +27,7 @@ import api from "../../../../../services/api";
  */
 function ModalSpecie({ isOpen, onClose, onSave }) {
   const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const [selectedSpecie, setSelectedSpecie] = useState(null);
   const [newSpecie, setNewSpecie] = useState("");
   const [isAddingNewSpecie, setIsAddingNewSpecie] = useState(false);
@@ -34,7 +51,7 @@ function ModalSpecie({ isOpen, onClose, onSave }) {
       const params = {
         page: pagination.currentPage,
         limit: pagination.itemsPerPage,
-        search: searchTerm,
+        search: debouncedSearchTerm,
       };
       const response = await api.get("/species/index", { params });
       const data = response.data.data || [];
@@ -51,13 +68,13 @@ function ModalSpecie({ isOpen, onClose, onSave }) {
     } finally {
       setIsLoading(false);
     }
-  }, [pagination.currentPage, pagination.itemsPerPage, searchTerm]);
+  }, [pagination.currentPage, pagination.itemsPerPage, debouncedSearchTerm]);
 
   useEffect(() => {
     if (isOpen) {
       fetchSpecies();
     }
-  }, [isOpen, fetchSpecies]);
+  }, [isOpen, fetchSpecies, debouncedSearchTerm]);
 
   const addNewSpecie = async () => {
     try {
@@ -67,6 +84,7 @@ function ModalSpecie({ isOpen, onClose, onSave }) {
       setIsAddingNewSpecie(false);
       fetchSpecies();
     } catch (error) {
+      setError(error.response?.data?.message || "Erro ao adicionar nova espécie");
       console.error("Erro ao adicionar nova espécie:", error);
     }
   };
@@ -113,17 +131,25 @@ function ModalSpecie({ isOpen, onClose, onSave }) {
             ) : error ? (
               <p className="error-message">{error}</p>
             ) : (
-              <div className="categories-grid">
-                {species.map((specie, index) => (
-                  <div
-                    key={index}
-                    className={`category-grid-item ${selectedSpecie === specie ? "selected" : ""}`}
-                    onClick={() => handleSelectSpecie(specie)}
-                  >
-                    {specie.description}
+              <>
+                {species.length > 0 ? (
+                  <div className="categories-grid">
+                    {species.map((specie, index) => (
+                      <div
+                        key={index}
+                        className={`category-grid-item ${selectedSpecie === specie ? "selected" : ""}`}
+                        onClick={() => handleSelectSpecie(specie)}
+                      >
+                        {specie.description}
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                ) : (
+                  <div className="no-results">
+                    <p>Nenhuma espécie encontrada.</p>
+                  </div>
+                )}
+              </>
             )}
             <div className="add-new-data">
               {isAddingNewSpecie ? (

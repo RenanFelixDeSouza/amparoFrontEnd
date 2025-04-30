@@ -1,8 +1,25 @@
 import React, { useState, useEffect, useCallback } from "react";
 import api from "../../../../../services/api"; // Certifique-se de ajustar o caminho conforme necessário
 
+const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+};
+
 function ModalRace({ isOpen, onClose, onSave }) {
   const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const [selectedRace, setSelectedRace] = useState(null);
   const [newRace, setNewRace] = useState("");
   const [isAddingNewRace, setIsAddingNewRace] = useState(false);
@@ -25,7 +42,7 @@ function ModalRace({ isOpen, onClose, onSave }) {
       const params = {
         page: pagination.currentPage,
         limit: pagination.itemsPerPage,
-        search: searchTerm,
+        search: debouncedSearchTerm,
       };
       const response = await api.get("/races/index", { params });
       const data = response.data.data || [];
@@ -43,13 +60,13 @@ function ModalRace({ isOpen, onClose, onSave }) {
     } finally {
       setIsLoading(false);
     }
-  }, [pagination.currentPage, pagination.itemsPerPage, searchTerm]);
+  }, [pagination.currentPage, pagination.itemsPerPage, debouncedSearchTerm]);
 
   useEffect(() => {
     if (isOpen) {
       fetchRaces();
     }
-  }, [isOpen, fetchRaces]);
+  }, [isOpen, fetchRaces, debouncedSearchTerm]);
 
   const addNewRace = async () => {
     try {
@@ -59,9 +76,11 @@ function ModalRace({ isOpen, onClose, onSave }) {
       setIsAddingNewRace(false);
       fetchRaces();
     } catch (error) {
+      setError(error.response?.data?.message || "Erro ao adicionar nova raça");
       console.error("Erro ao adicionar nova raça:", error);
     }
   };
+
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     setPagination((prev) => ({ ...prev, currentPage: 1 }));
@@ -110,18 +129,25 @@ function ModalRace({ isOpen, onClose, onSave }) {
             ) : error ? (
               <p className="error-message">{error}</p>
             ) : (
-              <div className="categories-grid">
-                {races.map((race, index) => (
-                  <div
-                    key={index}
-                    className={`category-grid-item ${selectedRace === race ? "selected" : ""
-                      }`}
-                    onClick={() => handleSelectRace(race)}
-                  >
-                    {race.description}
+              <>
+                {races.length > 0 ? (
+                  <div className="categories-grid">
+                    {races.map((race, index) => (
+                      <div
+                        key={index}
+                        className={`category-grid-item ${selectedRace === race ? "selected" : ""}`}
+                        onClick={() => handleSelectRace(race)}
+                      >
+                        {race.description}
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                ) : (
+                  <div className="no-results">
+                    <p>Nenhuma raça encontrada.</p>
+                  </div>
+                )}
+              </>
             )}
             <div className="add-new-data">
               {isAddingNewRace ? (

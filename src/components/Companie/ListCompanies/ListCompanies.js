@@ -107,7 +107,7 @@ function ListCompanies() {
   ];
 
   return (
-    <div style={{ padding: "1px" }}>
+    <div style={{ padding: "0.1px", marginTop: "5px" }}>
       <h2>Lista de Empresas</h2>
 
       {isLoading && <LoadingSpinner />}

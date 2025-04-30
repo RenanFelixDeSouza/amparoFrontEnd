@@ -89,7 +89,7 @@ function AddCompany() {
         }
       } catch (error) {
         console.error("Erro ao buscar CNPJ:", error);
-        setError("Erro ao buscar CNPJ. Tente novamente.");
+        setError(error.response?.data?.message || "Erro ao buscar CNPJ. Tente novamente.");
       } 
     } else {
       setError("CNPJ inválido. Certifique-se de que possui 14 dígitos.");
@@ -130,7 +130,7 @@ function AddCompany() {
         }
       } catch (error) {
         console.error("Erro ao buscar CEP:", error);
-        setError("Erro ao buscar CEP. Tente novamente.");
+        setError(error.response?.data?.message || "Erro ao buscar CEP. Tente novamente.");
       }
     } else {
       setError("CEP inválido. Certifique-se de que possui 8 dígitos.");
@@ -233,7 +233,7 @@ function AddCompany() {
         });
       }
     } catch (error) {
-      setError("Erro ao criar empresa. Tente novamente.");
+      setError(error.response?.data?.message || "Erro ao criar empresa. Tente novamente.");
     }
   };
 

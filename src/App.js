@@ -18,11 +18,14 @@ import TabsPet from './components/Pet/TabsPet/TabsPet';
 
 import AddCompany from './components/Companie/AddCompany';
 import ListCompany from './components/Companie/ListCompanies/ListCompanies';
+import EditUser from './components/User/EditUser/EditUser';
+import ListUsers from './components/User/ListUser/ListUser';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [userType, setUserType] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [userName, setUserName] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [hasRequests, setHasRequests] = useState(false);
@@ -37,11 +40,13 @@ function App() {
   useEffect(() => {
     const token = Cookies.get('token');
     const storedUserType = Cookies.get('userType');
+    const storedUserId = Cookies.get('userId');
     const storedUserName = Cookies.get('userName');
     
     if (token) {
       setIsLoggedIn(true);
       setUserType(storedUserType);
+      setUserId(storedUserId);
       setUserName(storedUserName);
     }
   }, []);
@@ -66,8 +71,10 @@ function App() {
   const handleLoginSuccess = (token, user) => {
     setIsLoggedIn(true);
     setUserType(user.type);
+    setUserId(user.id);
     setUserName(user.name);
     Cookies.set('token', token, { secure: true, sameSite: 'strict' });
+    Cookies.set('userId', user.id, { secure: true, sameSite: 'strict' });
     Cookies.set('userType', user.type, { secure: true, sameSite: 'strict' });
     Cookies.set('userName', user.name, { secure: true, sameSite: 'strict' });
   };
@@ -83,6 +90,7 @@ function App() {
         <ProtectedRoute
           isLoggedIn={isLoggedIn}
           userType={userType}
+          userId={userId}
           requiredUserType={requiredUserType}
           element={Component}
         />
@@ -100,6 +108,7 @@ function App() {
               toggleSidebar={toggleSidebar}
               setIsLoggedIn={setIsLoggedIn}
               userType={userType}
+              userId={userId}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               hasRequests={hasRequests}
@@ -116,18 +125,22 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={isLoggedIn ? <Navigate to={isMobile ? "/dashboard" : "/dashboard"} /> : <Login setIsLoggedIn={handleLoginSuccess} />}
+              element={isLoggedIn ? <Navigate to="/dashboard" /> : <Login setIsLoggedIn={handleLoginSuccess} />}
             />
-          <Route
+            <Route
               path="/register"
               element={<Register setIsLoggedIn={handleLoginSuccess} />}
             />
-
+            {renderProtectedRoute("/configuracao-usuario", <EditUser onProfilePhotoUpdate={handleProfilePhotoUpdate} />)}
             {renderProtectedRoute("/dashboard", <Dashboard />)}
             {renderProtectedRoute("/adicionar-pet", <AddPet />)}
             {renderProtectedRoute("/listar-pets", <TabsPet />)}
             {renderProtectedRoute("/adicionar-empresa", <AddCompany />)}
             {renderProtectedRoute("/listar-empresas", <ListCompany />)}
+            
+            {/* Rota protegida apenas para master */}
+            {renderProtectedRoute("/listar-usuarios", <ListUsers />, "master")}
+          
           </Routes>
         </div>
       </div>

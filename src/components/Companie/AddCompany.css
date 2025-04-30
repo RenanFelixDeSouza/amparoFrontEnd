@@ -19,7 +19,7 @@
   color: #666;
 }
 
-.error-message {
+/* .error-message {
   color: var(--error-color);
   margin-bottom: 10px;
 }
@@ -27,4 +27,4 @@
 .success-message {
   color: var(--primary-color);
   margin-bottom: 10px;
-}
+} */

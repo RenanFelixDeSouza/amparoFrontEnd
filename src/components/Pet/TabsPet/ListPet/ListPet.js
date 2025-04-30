@@ -35,6 +35,17 @@ function ListPet() {
   const [sortColumn, setSortColumn] = useState("id");
   const [sortOrder, setSortOrder] = useState("asc");
 
+  useEffect(() => {
+    if (selectedPet) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedPet]);
 
   const formatDate = (dateString) => {
     if (!dateString) return "-";
@@ -81,13 +92,13 @@ function ListPet() {
     }
   }, [filterName, filterSpecie, filterRace, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
 
-useEffect(() => {
+  useEffect(() => {
     const delayDebounce = setTimeout(() => {
       handleRefresh();
-    }, 500); 
-  
-    return () => clearTimeout(delayDebounce); 
-  }, [ handleRefresh, filterName, filterSpecie, filterRace, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
+    }, 500);
+
+    return () => clearTimeout(delayDebounce);
+  }, [handleRefresh, filterName, filterSpecie, filterRace, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
 
   const handlePageChange = (page) => {
     setPagination({ ...pagination, currentPage: page });
@@ -122,7 +133,7 @@ useEffect(() => {
 
   const handleCloseEditModal = () => {
     setEditPet(null);
-    handleRefresh(); 
+    handleRefresh();
   };
 
   // Defina as colunas da tabela
@@ -146,13 +157,13 @@ useEffect(() => {
             style={{
               backgroundColor: "#e68c3a",
               cursor: "pointer",
-              borderRadius: "50%", 
-              width: "50px", 
-              height: "50px", 
-              display: "flex", 
-              alignItems: "center", 
-              justifyContent: "center", 
-              margin: "0 auto", 
+              borderRadius: "50%",
+              width: "50px",
+              height: "50px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto",
             }}
             onClick={() => setSelectedPet(item)}
           >
@@ -161,13 +172,23 @@ useEffect(() => {
         ),
     },
     { key: "name", label: "Nome", type: "text" },
-    { key: "specie", label: "Espécie", type: "text" },
-    { key: "race", label: "Raça", type: "text" },
+    { 
+      key: "specie", 
+      label: "Espécie", 
+      type: "text",
+      render: (value) => value?.description || "-"
+    },
+    { 
+      key: "race", 
+      label: "Raça", 
+      type: "text",
+      render: (value) => value?.description || "-"
+    },
     {
-      key: "birth_date", label: "Data de nascimento",
+      key: "birth_date", 
+      label: "Data de nascimento",
       type: "date",
       render: (value) => formatDate(value),
-
     },
     {
       key: "adoptions",
@@ -284,7 +305,7 @@ useEffect(() => {
           handleSort={handleSort}
           sortColumn={sortColumn}
           sortOrder={sortOrder}
-          getActionItems={getActionItems} 
+          getActionItems={getActionItems}
         />
       )}
 
@@ -294,7 +315,7 @@ useEffect(() => {
       {editPet && (
         <EditPetModal
           pet={editPet}
-          onClose={handleCloseEditModal} 
+          onClose={handleCloseEditModal}
           onSave={handleSaveEdit}
         />
       )}

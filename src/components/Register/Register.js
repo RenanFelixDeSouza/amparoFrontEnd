@@ -13,8 +13,7 @@ function Register({ setIsLoggedIn }) {
     email: '',
     password: '',
     confirmPassword: '',
-    phone: '',
-    reason: ''
+    phone: ''
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,49 +32,47 @@ function Register({ setIsLoggedIn }) {
     setError("");
     setIsLoading(true);
 
+    // Validação dos campos
+    if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword || !formData.phone) {
+      setError('Todos os campos são obrigatórios');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       if (formData.password !== formData.confirmPassword) {
         setError('As senhas não coincidem!');
+        setIsLoading(false);
         return;
       }
 
-      await api.post("/register", {
+      const response = await api.post("/register", {
+        name: formData.name,
         email: formData.email,
         password: formData.password,
-        phone: formData.phone,
-        name: formData.name,
         confirmPassword: formData.confirmPassword,
+        phone: formData.phone
       });
 
-      await performLogin();
-      
-      setIsModalOpen(true);
+      // Se o registro for bem sucedido, tenta fazer login
+      if (response.data) {
+        const loginResponse = await api.post("/login", {
+          email: formData.email,
+          password: formData.password,
+        });
+
+        if (loginResponse.data.token) {
+          localStorage.setItem("token", loginResponse.data.token);
+          api.defaults.headers.common['Authorization'] = `Bearer ${loginResponse.data.token}`;
+          setIsLoggedIn(loginResponse.data.token, loginResponse.data.user);
+          setIsModalOpen(true);
+        }
+      }
     } catch (error) {
-      console.error("Erro ao realizar registro:", error);
-      setError("Erro ao realizar registro. Tente novamente.");
+      setError(error.response?.data?.message || "Erro ao realizar registro. Tente novamente.");
       localStorage.clear();
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const performLogin = async () => {
-    try {
-      const loginResponse = await api.post("/login", {
-        email: formData.email,
-        password: formData.password,
-      });
-
-      if (!loginResponse.data.token) {
-        throw new Error("Falha na autenticação");
-      }
-      localStorage.setItem("token", loginResponse.data.token);
-      api.defaults.headers.common['Authorization'] = `Bearer ${loginResponse.data.token}`;
-
-        setIsLoggedIn(loginResponse.data.token, loginResponse.data.user);
-    } catch (error) {
-      console.error("Erro ao realizar login automático:", error);
-      throw new Error("Erro ao realizar login automático.");
     }
   };
 
@@ -84,8 +81,7 @@ function Register({ setIsLoggedIn }) {
     setIsLoading(true);
 
     try {
-      // Redireciona para a página de edição de usuário
-      navigate('/configuracao-usuario');
+      navigate('/configuracao-usuario', { state: { initialTab: 'address' } });
     } catch (error) {
       setError("Erro ao redirecionar para a edição de usuário.");
       localStorage.clear();
@@ -122,6 +118,7 @@ function Register({ setIsLoggedIn }) {
           value={formData.name}
           onChange={handleChange}
           placeholder="Nome"
+          required
         />
         <input
           type="email"
@@ -129,8 +126,8 @@ function Register({ setIsLoggedIn }) {
           value={formData.email}
           onChange={handleChange}
           placeholder="Email"
+          required
         />
-
         <div className="register-password-input">
           <input
             type={showPassword ? "text" : "password"}
@@ -169,19 +166,8 @@ function Register({ setIsLoggedIn }) {
           value={formData.phone}
           onChange={handleChange}
           placeholder="Telefone de Contato"
-        />
-        <select
-          name="reason"
-          value={formData.reason}
-          onChange={handleChange}
           required
-        >
-          <option value="" disabled>Selecione o motivo do registro</option>
-          <option value="fazer denuncia">Fazer Denúncia</option>
-          <option value="quero doar">Quero Doar</option>
-          <option value="quero fazer parte da causa">Quero Fazer Parte da Causa</option>
-          <option value="outros">Outros</option>
-        </select>
+        />
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Carregando..." : "Cadastrar"}
         </button>
@@ -194,13 +180,15 @@ function Register({ setIsLoggedIn }) {
       <Modal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
-        className="modal"
-        overlayClassName="modal-overlay"
+        className="modal-overlay"
+        overlayClassName="modal"
       >
-        <h2>Só mais 1 etapa!</h2>
-        <p>Obrigado por se cadastrar! Para finalizar, você precisa completar o cadastro. Deseja finalizar agora ou editar mais tarde?</p>
-        <button onClick={handleFinalizeNow}>Finalizar Agora</button>
-        <button onClick={handleEditLater}>Editar Mais Tarde</button>
+        <div className="modal-content">
+          <h2>Só mais 1 etapa!</h2>
+          <p>Obrigado por se cadastrar! Para finalizar, você precisa completar o cadastro. Deseja finalizar agora ou editar mais tarde?</p>
+          <button onClick={handleFinalizeNow}>Finalizar Agora</button>
+          <button onClick={handleEditLater}>Editar Mais Tarde</button>
+        </div>
       </Modal>
     </div>
   );

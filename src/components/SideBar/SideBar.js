@@ -1,15 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  FaClipboardList,
-  FaPlus,
   FaSignOutAlt,
-  FaUserFriends,
   FaUserCircle,
   FaChartPie,
-  FaBell,
-  FaFileAlt,
-  FaPaw,
+   FaPaw,
   FaBuilding,
 } from 'react-icons/fa';
 import './SideBar.css';
@@ -166,23 +161,7 @@ function Sidebar({ isOpen, toggleSidebar, setIsLoggedIn, userType, onMouseEnter,
 
   const menuItems = [
     { label: 'Dashboard', icon: <FaChartPie />, link: '/dashboard' },
-    { label: 'Solicitações', icon: <FaBell />, link: '/solicitacoes', hasRequests },
-    {
-      label: 'Oficinas',
-      icon: <FaClipboardList />,
-      submenu: [
-        { label: 'Lista de Oficinas', icon: <FaClipboardList />, link: '/listar-oficinas' },
-        { label: 'Criar nova Oficina', icon: <FaPlus />, link: '/criar-oficina' },
-      ]
-    },
-    {
-      label: 'Turmas',
-      icon: <FaUserFriends />,
-      submenu: [
-        { label: 'Listar turmas', icon: <FaUserFriends />, link: '/listar-turmas' },
-        { label: 'Adicionar turma', icon: <FaPlus />, link: '/adicionar-turma' },
-      ]
-    },
+    // { label: 'Solicitações', icon: <FaBell />, link: '/solicitacoes', hasRequests },
     {
       label: 'Pet',
       icon: <FaPaw />,
@@ -199,7 +178,7 @@ function Sidebar({ isOpen, toggleSidebar, setIsLoggedIn, userType, onMouseEnter,
         { label: 'Criar Empresa', icon: <FaBuilding />, link: '/adicionar-empresa' },
       ]
     },
-    { label: 'Relatórios', icon: <FaFileAlt />, link: '/relatorios' },
+    // { label: 'Relatórios', icon: <FaFileAlt />, link: '/relatorios' },
   ];
 
   const filteredMenuItems = filterMenuItems(menuItems);
@@ -232,56 +211,55 @@ function Sidebar({ isOpen, toggleSidebar, setIsLoggedIn, userType, onMouseEnter,
           </div>
         )}
 
-        {userType === 'master' && (
-          <ul className="sidebar-menu">
-            {filteredMenuItems.map((item, index) => (
-              <li key={index} className="sidebar-item">
-                {item.submenu ? (
-                  <>
-                    <div className="sidebar-link" onClick={() => handleSubmenuToggle(item.label)}>
-                      {item.icon} <span>{item.label}</span>
-                    </div>
-                    <ul className={`sidebar-submenu ${openSubmenu[item.label] ? 'open' : ''}`}>
-                      {item.submenu.map((subItem, subIndex) => (
-                        <li key={subIndex}>
-                          <Link
-                            to={subItem.link}
-                            onClick={() => setSearchText('')}
-                          >
-                            {subItem.icon} <span>{subItem.label}</span>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                ) : (
-                  <Link
-                    to={item.link}
-                    className="sidebar-link"
-                    onClick={() => setSearchText('')}
-                  >
+        <ul className="sidebar-menu">
+          {filteredMenuItems.map((item, index) => (
+            <li key={index} className="sidebar-item">
+              {item.submenu ? (
+                <>
+                  <div className="sidebar-link" onClick={() => handleSubmenuToggle(item.label)}>
                     {item.icon} <span>{item.label}</span>
-                  </Link>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
+                  </div>
+                  <ul className={`sidebar-submenu ${openSubmenu[item.label] ? 'open' : ''}`}>
+                    {item.submenu.map((subItem, subIndex) => (
+                      <li key={subIndex}>
+                        <Link
+                          to={subItem.link}
+                          onClick={() => setSearchText('')}
+                        >
+                          {subItem.icon} <span>{subItem.label}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <Link
+                  to={item.link}
+                  className="sidebar-link"
+                  onClick={() => setSearchText('')}
+                >
+                  {item.icon} <span>{item.label}</span>
+                </Link>
+              )}
+            </li>
+          ))}
+        </ul>
       </div>
 
       <div className="sidebar-footer">
         {userType === 'master' && (
-          <ul className="sidebar-menu">
-            <li className="sidebar-item">
-              <div className="sidebar-link" onClick={() => handleSubmenuToggle('usuario')}>
-                <FaUserCircle /> <span>Usuário</span>
-              </div>
-              <ul className={`sidebar-submenu ${openSubmenu.usuario ? 'open' : ''}`}>
-                <li><Link to="/listar-usuarios"><FaUserCircle /> <span>Listar Usuário</span></Link></li>
-                <li><Link to="/adicionar-usuario"><FaPlus /> <span>Adicionar Usuário</span></Link></li>
-              </ul>
-            </li>
-          </ul>
+          <>
+            <ul className="sidebar-menu">
+              <li className="sidebar-item">
+                <div className="sidebar-link" onClick={() => handleSubmenuToggle('usuario')}>
+                  <FaUserCircle /> <span>Usuário</span>
+                </div>
+                <ul className={`sidebar-submenu ${openSubmenu.usuario ? 'open' : ''}`}>
+                  <li><Link to="/listar-usuarios"><FaUserCircle /> <span>Listar Usuário</span></Link></li>
+                </ul>
+              </li>
+            </ul>
+          </>
         )}
 
         <div className="sidebar-link" onClick={handleLogout}>

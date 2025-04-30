@@ -6,9 +6,11 @@ import ModalSpecie from "../../../AddPet/Modal/Specie/ModalSpecie";
 function EditPetModal({ pet, onClose, onSave }) {
   const [formData, setFormData] = useState({
     name: pet?.name || "",
-    specie: pet?.specie || "",
-    race: pet?.race || "",
-    birth_date: pet?.birth_date || "",
+    specie: pet?.specie?.description || "",
+    specie_id: pet?.specie?.id || null,
+    race: pet?.race?.description || "",
+    race_id: pet?.race?.id || null,
+    birth_date: pet?.birth_date ? pet.birth_date.split(" ")[0] : "",
     is_castrated: pet?.is_castrated || false,
     photo: null,
   });
@@ -37,6 +39,13 @@ function EditPetModal({ pet, onClose, onSave }) {
       birth_date: pet?.birth_date ? pet.birth_date.split(" ")[0] : "",
     }));
   }, [pet]);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -110,13 +119,14 @@ function EditPetModal({ pet, onClose, onSave }) {
       const data = { ...formData };
       delete data.photo;
 
-      await api.put(`/pets/${pet.id}`, data);
+
+      await api.put(`/pet/${pet.id}`, data);
       setSuccess("Dados atualizados com sucesso!");
       onSave();
       onClose();
     } catch (error) {
-      console.error("Erro ao salvar pet:", error);
-      setError("Erro ao salvar os dados. Tente novamente.");
+      const backendMessage = error.response?.data?.message || "Erro ao salvar os dados. Tente novamente.";
+      setError(backendMessage);
     }
   };
 
@@ -142,7 +152,11 @@ function EditPetModal({ pet, onClose, onSave }) {
   };
 
   const handleRaceSelect = (race) => {
-    setFormData((prev) => ({ ...prev, race: race.description }));
+    setFormData((prev) => ({
+      ...prev,
+      race: race.description,
+      race_id: race.id
+    }));
     setFilteredRaces([]);
     setRaceError("");
   };
@@ -169,7 +183,11 @@ function EditPetModal({ pet, onClose, onSave }) {
   };
 
   const handleSpecieSelect = (specie) => {
-    setFormData((prev) => ({ ...prev, specie: specie.description }));
+    setFormData((prev) => ({
+      ...prev,
+      specie: specie.description,
+      specie_id: specie.id
+    }));
     setFilteredSpecies([]);
     setSpecieError("");
   };
@@ -333,14 +351,28 @@ function EditPetModal({ pet, onClose, onSave }) {
           <ModalRace
             isOpen={isRaceModalOpen}
             onClose={() => setIsRaceModalOpen(false)}
-            onSave={(selectedRace) => setFormData((prev) => ({ ...prev, race: selectedRace.description }))}
+            onSave={(selectedRace) => {
+              setFormData((prev) => ({
+                ...prev,
+                race: selectedRace.description,
+                race_id: selectedRace.id
+              }));
+              setIsRaceModalOpen(false);
+            }}
           />
         )}
         {isSpecieModalOpen && (
           <ModalSpecie
             isOpen={isSpecieModalOpen}
             onClose={() => setIsSpecieModalOpen(false)}
-            onSave={(selectedSpecie) => setFormData((prev) => ({ ...prev, specie: selectedSpecie.description }))}
+            onSave={(selectedSpecie) => {
+              setFormData((prev) => ({
+                ...prev,
+                specie: selectedSpecie.description,
+                specie_id: selectedSpecie.id
+              }));
+              setIsSpecieModalOpen(false);
+            }}
           />
         )}
       </div>

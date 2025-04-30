@@ -11,12 +11,15 @@ import api from "../../../services/api";
  * Inclui validações e integração com modais para seleção de raça e espécie.
  */
 function AddPet() {
-  const [petName, setPetName] = useState("");
-  const [color, setColor] = useState("");
-  const [age, setAge] = useState("");
-  const [race, setrace] = useState("");
-  const [species, setSpecies] = useState("");
-  const [isCastrated, setisCastrated] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    specie: "",
+    specie_id: null,
+    race: "",
+    race_id: null,
+    birth_date: "",
+    is_castrated: false,
+  });
   const [filteredRaces, setFilteredRaces] = useState([]);
   const [raceError, setRaceError] = useState("");
   const [filteredSpecies, setFilteredSpecies] = useState([]);
@@ -64,7 +67,7 @@ function AddPet() {
    * Manipula a alteração do campo de data de nascimento.
    */
   const handleBirthDateChange = (e) => {
-    setAge(e.target.value);
+    setFormData((prev) => ({ ...prev, birth_date: e.target.value }));
   };
 
   /**
@@ -73,7 +76,7 @@ function AddPet() {
   const handleUnknownBirthDateToggle = () => {
     setIsUnknownBirthDate((prev) => !prev);
     if (!isUnknownBirthDate) {
-      setAge(""); // Limpa o campo de data se for marcado como desconhecido
+      setFormData((prev) => ({ ...prev, birth_date: "" })); // Limpa o campo de data se for marcado como desconhecido
     }
   };
 
@@ -83,77 +86,30 @@ function AddPet() {
    */
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSuccessMessage("");
     setErrorMessage("");
-
-    if (!petName || !color || (!age && !isUnknownBirthDate) || !race || !species) {
-      setErrorMessage("Por favor, preencha todos os campos obrigatórios.");
-      return;
-    }
+    setSuccessMessage("");
 
     try {
-      const petData = {
-        name: petName,
-        color: color,
-        birth_date: age,
-        race_id: race.id,
-        specie_id: species.id,
-        is_castrated: isCastrated ? 1 : 0,
-      };
+      const data = { ...formData };
+      if (!data.race_id) delete data.race_id;
+      if (!data.specie_id) delete data.specie_id;
 
-      const response = await api.post("/pets/create", petData);
+      await api.post("/pets/create", data);
 
-      if (response.status === 201) {
-        const petId = response.data.pet.id;
-
-        if (photo) {
-          try {
-            const formData = new FormData();
-            formData.append("photo", photo);
-
-            const photoResponse = await api.post(`/pets/${petId}/upload-photo`, formData, {
-              headers: { "Content-Type": "multipart/form-data" },
-            });
-
-            if (photoResponse.status === 200) {
-              setSuccessMessage("Pet e foto criados com sucesso!");
-            } else {
-              setSuccessMessage("Pet criado, mas houve um problema ao salvar a foto.");
-            }
-          } catch {
-            setSuccessMessage("Pet criado, mas houve um problema ao salvar a foto.");
-          }
-        } else {
-          setSuccessMessage("Pet criado com sucesso!");
-        }
-
-        resetForm();
-      } else {
-        setErrorMessage("Erro ao criar pet. Por favor, tente novamente.");
-      }
-    } catch {
-      setErrorMessage("Erro ao criar pet. Por favor, tente novamente.");
-    } finally {
-      setTimeout(() => {
-        setErrorMessage("");
-        setSuccessMessage("");
-      }, 5000);
+      setSuccessMessage("Pet cadastrado com sucesso!");
+      setFormData({
+        name: "",
+        specie: "",
+        specie_id: null,
+        race: "",
+        race_id: null,
+        birth_date: "",
+        is_castrated: false,
+      });
+    } catch (error) {
+      const backendMessage = error.response?.data?.message || "Erro ao cadastrar pet. Tente novamente.";
+      setErrorMessage(backendMessage);
     }
-  };
-
-  /**
-   * Reseta os campos do formulário.
-   */
-  const resetForm = () => {
-    setPetName("");
-    setColor("");
-    setAge("");
-    setrace("");
-    setSpecies("");
-    setisCastrated(false);
-    setPhoto(null);
-    setPhotoPreview(null);
-    setPhotoError("");
   };
 
   /**
@@ -173,7 +129,7 @@ function AddPet() {
    */
   const handleRaceFilterChange = (e) => {
     const raceFilter = e.target.value;
-    setrace((prev) => ({ ...prev, id: "", description: raceFilter }));
+    setFormData((prev) => ({ ...prev, race: raceFilter, race_id: null }));
     setRaceError("");
 
     if (raceFilter.length >= 3) {
@@ -187,7 +143,11 @@ function AddPet() {
    * Seleciona uma raça da lista.
    */
   const handleRaceSelect = (race) => {
-    setrace(race);
+    setFormData((prev) => ({
+      ...prev,
+      race: race.description,
+      race_id: race.id,
+    }));
     setFilteredRaces([]);
     setRaceError("");
   };
@@ -209,7 +169,7 @@ function AddPet() {
    */
   const handleSpecieFilterChange = (e) => {
     const specieFilter = e.target.value;
-    setSpecies((prev) => ({ ...prev, id: "", description: specieFilter }));
+    setFormData((prev) => ({ ...prev, specie: specieFilter, specie_id: null }));
     setSpecieError("");
 
     if (specieFilter.length >= 3) {
@@ -223,7 +183,11 @@ function AddPet() {
    * Seleciona uma espécie da lista.
    */
   const handleSpecieSelect = (specie) => {
-    setSpecies(specie);
+    setFormData((prev) => ({
+      ...prev,
+      specie: specie.description,
+      specie_id: specie.id,
+    }));
     setFilteredSpecies([]);
     setSpecieError("");
   };
@@ -290,8 +254,8 @@ function AddPet() {
               <input
                 type="text"
                 id="pet-name"
-                value={petName}
-                onChange={(e) => setPetName(e.target.value)}
+                value={formData.name}
+                onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
                 required
               />
             </div>
@@ -300,8 +264,8 @@ function AddPet() {
               <input
                 type="text"
                 id="color"
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
+                value={formData.color}
+                onChange={(e) => setFormData((prev) => ({ ...prev, color: e.target.value }))}
                 required
               />
             </div>
@@ -310,10 +274,10 @@ function AddPet() {
               <input
                 type="date"
                 id="birth-date"
-                value={age}
+                value={formData.birth_date}
                 onChange={handleBirthDateChange}
-                disabled={isUnknownBirthDate} 
-                required={!isUnknownBirthDate} 
+                disabled={isUnknownBirthDate}
+                required={!isUnknownBirthDate}
               />
               <button
                 type="button"
@@ -331,7 +295,7 @@ function AddPet() {
                 <input
                   type="text"
                   id="race"
-                  value={race.description || ""}
+                  value={formData.race}
                   onChange={handleRaceFilterChange}
                   required
                   placeholder="Buscar raças"
@@ -361,7 +325,7 @@ function AddPet() {
                 <input
                   type="text"
                   id="species"
-                  value={species.description || ""}
+                  value={formData.specie}
                   onChange={handleSpecieFilterChange}
                   required
                   placeholder="Buscar espécies"
@@ -392,12 +356,12 @@ function AddPet() {
                   <input
                     type="checkbox"
                     id="is-neutered"
-                    checked={isCastrated}
-                    onChange={(e) => setisCastrated(e.target.checked)}
+                    checked={formData.is_castrated}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, is_castrated: e.target.checked }))}
                   />
                   <span className="slider round"></span>
                 </label>
-                <span>{isCastrated ? "Sim" : "Não"}</span>
+                <span>{formData.is_castrated ? "Sim" : "Não"}</span>
               </div>
             </div>
           </div>
@@ -413,14 +377,26 @@ function AddPet() {
         <ModalRace
           isOpen={isRaceModalOpen}
           onClose={() => setIsRaceModalOpen(false)}
-          onSave={(selectedRace) => setrace(selectedRace)}
+          onSave={(selectedRace) =>
+            setFormData((prev) => ({
+              ...prev,
+              race: selectedRace.description,
+              race_id: selectedRace.id,
+            }))
+          }
         />
       )}
       {isSpecieModalOpen && (
         <ModalSpecie
           isOpen={isSpecieModalOpen}
           onClose={() => setIsSpecieModalOpen(false)}
-          onSave={(selectedSpecie) => setSpecies(selectedSpecie)}
+          onSave={(selectedSpecie) =>
+            setFormData((prev) => ({
+              ...prev,
+              specie: selectedSpecie.description,
+              specie_id: selectedSpecie.id,
+            }))
+          }
         />
       )}
     </div>
