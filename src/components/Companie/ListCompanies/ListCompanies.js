@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import api from "../../../services/api";
 import Table from "../../Shared/Table.js";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
-import {  FaSync } from "react-icons/fa";
+import { FaSync } from "react-icons/fa";
 
 function ListCompanies() {
   const [companies, setCompanies] = useState([]);
@@ -108,8 +108,9 @@ function ListCompanies() {
 
   return (
     <div style={{ padding: "0.1px", marginTop: "5px" }}>
-      <h2>Lista de Empresas</h2>
-
+      <div className="list-header">
+        <h2>Lista de Empresas</h2>
+      </div>
       {isLoading && <LoadingSpinner />}
 
       <div className="header-container">

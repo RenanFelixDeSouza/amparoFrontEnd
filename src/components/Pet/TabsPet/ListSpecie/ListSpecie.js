@@ -53,13 +53,13 @@ function ListSpecie() {
     }
   }, [filterDescription, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
 
-useEffect(() => {
+  useEffect(() => {
     const delayDebounce = setTimeout(() => {
       handleRefresh();
-    }, 500); 
-  
-    return () => clearTimeout(delayDebounce); 
-  }, [ handleRefresh, filterDescription, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
+    }, 500);
+
+    return () => clearTimeout(delayDebounce);
+  }, [handleRefresh, filterDescription, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
   const handlePageChange = (page) => {
     setPagination({ ...pagination, currentPage: page });
   };
@@ -89,9 +89,11 @@ useEffect(() => {
   ];
 
   return (
-    <div>
-      <h2>Lista de especies</h2>
+    <div className="specie-list-container">
+      <div className="list-header">
 
+        <h2>Lista de especies</h2>
+      </div>
       {isLoading && <LoadingSpinner />}
 
       <div className="header-container">

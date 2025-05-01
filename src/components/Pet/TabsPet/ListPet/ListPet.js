@@ -235,8 +235,11 @@ function ListPet() {
   };
 
   return (
-    <div >
+    <div className="pet-list-container">
+      <div className="list-header">
+
       <h2>Lista de Pets</h2>
+      </div>
 
 
       {isLoading && <LoadingSpinner />}

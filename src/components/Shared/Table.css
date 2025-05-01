@@ -303,7 +303,7 @@
 
 .filters-container {
   display: flex;
-  gap: 10px;
+  gap: 20px;
   flex-wrap: wrap;
   padding: 10px; 
   border: 2px solid var(--primary-color);
@@ -329,17 +329,23 @@
 
 .filter-group fieldset {
   width: 100%;
-  border: none;
   padding: 0;
   margin: 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px;
+
 }
 
 .filter-group input,
 .filter-group select{
-  width: 100%;
   min-width: 100%;
   box-sizing: border-box;
+  width: 100%;
   padding: 8px;
+  border: 1px solid #b4abab;
+  border-radius: 4px;
+
 }
 
 .filters-container input,
@@ -358,6 +364,11 @@
   margin-bottom: 5px; 
   font-weight: bold; 
   color: var(--text-color);
+}
+
+.filter-group legend {
+  color: #666;
+  font-size: 0.9em;
 }
 
 .filters-container input:focus,
@@ -381,7 +392,7 @@
   font-size: 14px;
   font-weight: 500;
   margin: 0;
-  height: 62px;
+  height: 65px;
   white-space: nowrap;
   align-self: flex-end;
   display: flex;

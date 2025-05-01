@@ -4,8 +4,9 @@ import {
   FaSignOutAlt,
   FaUserCircle,
   FaChartPie,
-   FaPaw,
+  FaPaw,
   FaBuilding,
+  FaUniversity
 } from 'react-icons/fa';
 import './SideBar.css';
 import Cookies from 'js-cookie';
@@ -161,7 +162,6 @@ function Sidebar({ isOpen, toggleSidebar, setIsLoggedIn, userType, onMouseEnter,
 
   const menuItems = [
     { label: 'Dashboard', icon: <FaChartPie />, link: '/dashboard' },
-    // { label: 'Solicitações', icon: <FaBell />, link: '/solicitacoes', hasRequests },
     {
       label: 'Pet',
       icon: <FaPaw />,
@@ -178,7 +178,14 @@ function Sidebar({ isOpen, toggleSidebar, setIsLoggedIn, userType, onMouseEnter,
         { label: 'Criar Empresa', icon: <FaBuilding />, link: '/adicionar-empresa' },
       ]
     },
-    // { label: 'Relatórios', icon: <FaFileAlt />, link: '/relatorios' },
+    {
+      label: 'Conta Bancária',
+      icon: <FaUniversity />,
+      submenu: [
+        { label: 'Lista de Contas', icon: <FaUniversity />, link: '/listar-contas' },
+        { label: 'Nova Movimentação', icon: <FaUniversity />, link: '/nova-movimentacao' },
+      ]
+    },
   ];
 
   const filteredMenuItems = filterMenuItems(menuItems);

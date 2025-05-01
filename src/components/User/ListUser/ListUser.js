@@ -248,8 +248,9 @@ function ListUsers() {
 
   return (
     <div className="users-list-container">
-      <h2>Lista de Usuários</h2>
-
+      <div className="list-header">
+        <h2>Lista de Usuários</h2>
+      </div>
       {message && (
         <div className={`save-message ${message.type}`}>
           {message.text}

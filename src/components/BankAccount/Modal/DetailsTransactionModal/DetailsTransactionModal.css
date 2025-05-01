@@ -1,0 +1,119 @@
+.details-transaction-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.details-transaction-modal-content {
+  background: var(--background-color);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+}
+
+.details-transaction-modal-header {
+  padding: 20px;
+  background: var(--header-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.details-transaction-modal-header h2 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.5rem;
+  color: var(--text-color);
+}
+
+.modal-icon {
+  color: var(--tertiary-color);
+}
+
+.details-transaction-close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--tertiary-color);
+  padding: 0;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.details-transaction-close-button:hover {
+  color: var(--text-color);
+}
+
+.details-transaction-modal-body {
+  padding: 20px;
+}
+
+.details-transaction-section {
+  margin-bottom: 24px;
+}
+
+.details-transaction-section:last-child {
+  margin-bottom: 0;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.section-title h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--secondary-color);
+}
+
+.section-icon {
+  color: var(--tertiary-color);
+}
+
+.details-transaction-info {
+  padding-left: 28px;
+  color: var(--text-color);
+}
+
+.details-transaction-info p {
+  margin: 8px 0;
+  padding: 8px;
+  background: var(--card-background);
+  border-radius: 4px;
+}
+
+.entrada {
+  color: #2ecc71;
+}
+
+.saida {
+  color: var(--error-color);
+}
+
+@media (max-width: 480px) {
+  .details-transaction-modal-content {
+    margin: 0;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+  
+  .details-transaction-info {
+    padding-left: 16px;
+  }
+}

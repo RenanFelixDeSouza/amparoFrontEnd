@@ -51,16 +51,16 @@ function ListRace() {
     } finally {
       setIsLoading(false);
     }
-  }, [ filterDescription, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
+  }, [filterDescription, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       handleRefresh();
-    }, 500); 
-  
-    return () => clearTimeout(delayDebounce); 
-  }, [ handleRefresh, filterDescription, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
-  
+    }, 500);
+
+    return () => clearTimeout(delayDebounce);
+  }, [handleRefresh, filterDescription, pagination.currentPage, pagination.itemsPerPage, sortColumn, sortOrder]);
+
 
   const handlePageChange = (page) => {
     setPagination({ ...pagination, currentPage: page });
@@ -91,9 +91,10 @@ function ListRace() {
   ];
 
   return (
-    <div>
-      <h2>Lista de Raças</h2>
-
+    <div className="race-list-container">
+      <div className="list-header">
+        <h2>Lista de Raças</h2>
+      </div>
       {isLoading && <LoadingSpinner />}
 
       <div className="header-container">

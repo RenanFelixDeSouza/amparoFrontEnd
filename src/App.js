@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import './App.css';
 import Cookies from 'js-cookie';
 
-
 import Login from './components/Login/Login';
 import Dashboard from './components/Dashboard/Dashboard';
 import Sidebar from './components/SideBar/SideBar';
@@ -15,11 +14,17 @@ import Register from './components/Register/Register';
 import AddPet from './components/Pet/AddPet/AddPet';
 import TabsPet from './components/Pet/TabsPet/TabsPet';
 
-
 import AddCompany from './components/Companie/AddCompany';
 import ListCompany from './components/Companie/ListCompanies/ListCompanies';
 import EditUser from './components/User/EditUser/EditUser';
 import ListUsers from './components/User/ListUser/ListUser';
+
+import AddBankAccount from './components/BankAccount/TabsBank/AddBankAccount/AddBankAccount';
+import TabsBank from './components/BankAccount/TabsBank/TabsBank';
+import ListTransactions from './components/BankAccount/TabsBank/ListTransactions/ListTransactions';
+import AddTransaction from './components/BankAccount/TabsBank/AddTransaction/AddTransaction';
+import ListChartAccounts from './components/BankAccount/TabsBank/ListChartAccounts/ListChartAccounts';
+import AddChartAccount from './components/BankAccount/ChartAccount/AddChartAccount';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -140,6 +145,13 @@ function App() {
             
             {/* Rota protegida apenas para master */}
             {renderProtectedRoute("/listar-usuarios", <ListUsers />, "master")}
+            
+            {/* Rotas de Conta Bancária */}
+            {renderProtectedRoute("/criar-conta", <AddBankAccount />)}
+            {renderProtectedRoute("/movimentacoes", <ListTransactions />)}
+            {renderProtectedRoute("/nova-movimentacao", <AddTransaction />)}
+            {renderProtectedRoute("/listar-contas", <TabsBank />)}
+            {renderProtectedRoute("/listar-plano-contas", <AddChartAccount />)}
           
           </Routes>
         </div>

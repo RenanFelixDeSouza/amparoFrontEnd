@@ -1,0 +1,79 @@
+.edit-chart-account-form {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.edit-chart-account-form .form-group {
+  margin-bottom: 20px;
+}
+
+.edit-chart-account-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.edit-chart-account-form input,
+.edit-chart-account-form select,
+.edit-chart-account-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.edit-chart-account-form input.error,
+.edit-chart-account-form select.error {
+  border-color: #dc3545;
+}
+
+.edit-chart-account-form .error-message {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.edit-chart-account-form .submit-error {
+  margin-bottom: 20px;
+  padding: 10px;
+  background: #ffe6e6;
+  border-radius: 4px;
+}
+
+.edit-chart-account-form .modal-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 30px;
+}
+
+.edit-chart-account-form .cancel-button,
+.edit-chart-account-form .submit-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.edit-chart-account-form .cancel-button {
+  background: #f8f9fa;
+  color: #6c757d;
+}
+
+.edit-chart-account-form .submit-button {
+  background: #28a745;
+  color: white;
+}
+
+.edit-chart-account-form .submit-button:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
