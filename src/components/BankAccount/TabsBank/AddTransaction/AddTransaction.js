@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../../../services/api';
-import ChartAccountTree from '../../ChartAccount/SimpleChartAccountTree';
+import ChartAccountTree from '../../ChartAccount/ChartAccountTree';
 import './AddTransaction.css';
 
 function AddTransaction() {
@@ -26,7 +26,11 @@ function AddTransaction() {
   useEffect(() => {
     const fetchChartAccounts = async () => {
       try {
-        const response = await api.get('/chart-accounts/index');
+        const params = {
+          page: 1,
+          limit: 999
+        };
+        const response = await api.get('/chart-accounts/index', {params});
         setChartAccounts(response.data.data || []);
       } catch (error) {
         setError('Erro ao carregar plano de contas');
@@ -237,7 +241,7 @@ function AddTransaction() {
         </div>
 
         <div className="form-buttons">
-          <button type="button" onClick={() => navigate('/listar-contas')}>
+          <button type="button" onClick={() => navigate('/listar-contas', { state: { activeTab: 'ListTransactions' } })}>
             Cancelar
           </button>
           <button type="submit">
