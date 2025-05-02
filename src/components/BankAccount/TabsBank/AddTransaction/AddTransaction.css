@@ -132,3 +132,55 @@
   background-color: #d67b0d;
 }
 
+.chart-tree-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 400px;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.chart-tree-modal {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.chart-tree-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.chart-tree-header button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.chart-tree-header button:hover {
+  color: #333;
+}
+
+input[readonly] {
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+input[readonly]:hover {
+  background-color: #f0f0f0;
+}
+

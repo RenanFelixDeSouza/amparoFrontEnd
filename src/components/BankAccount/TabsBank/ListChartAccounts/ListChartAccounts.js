@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaChartLine, FaSync, FaPlus } from 'react-icons/fa';
+import { FaSync, FaPlus } from 'react-icons/fa';
 import api from '../../../../services/api';
 import Table from '../../../Shared/Table';
 import LoadingSpinner from '../../../LoadingSpinner/LoadingSpinner';
@@ -13,20 +13,15 @@ function ListChartAccounts() {
   const [error, setError] = useState(null);
   const [filterName, setFilterName] = useState('');
   const [filterType, setFilterType] = useState('');
-  const [filterBankAccount, setFilterBankAccount] = useState('');
   const [sortColumn, setSortColumn] = useState('id');
   const [sortOrder, setSortOrder] = useState('desc');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
+    itemsPerPage: 5,
+  });
   const [editAccount, setEditAccount] = useState(null);
-
-  const formatCurrency = (value) => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    }).format(value);
-  };
 
   const handleRefresh = useCallback(async () => {
     setIsLoading(true);
@@ -35,23 +30,26 @@ function ListChartAccounts() {
       const params = {
         name: filterName,
         type: filterType,
-        wallet_id: filterBankAccount,
         sort_column: sortColumn,
         sort_order: sortOrder,
-        page: currentPage
+        page: pagination.currentPage,
+        limit: pagination.itemsPerPage
       };
       const response = await api.get('/chart-accounts/index', { params });
-      // Garantindo que response.data.data é um array
       setAccounts(Array.isArray(response.data.data) ? response.data.data : []);
-      setCurrentPage(response.data.meta.current_page);
-      setTotalPages(response.data.meta.last_page);
-      setTotalItems(response.data.meta.total);
+      
+      setPagination({
+        currentPage: response.data.meta.current_page,
+        totalPages: response.data.meta.last_page,
+        totalItems: response.data.meta.total,
+        itemsPerPage: response.data.meta.per_page,
+      });
     } catch (error) {
       setError('Erro ao carregar plano de contas');
     } finally {
       setIsLoading(false);
     }
-  }, [filterName, filterType, filterBankAccount, sortColumn, sortOrder, currentPage]);
+  }, [filterName, filterType, sortColumn, sortOrder, pagination.currentPage, pagination.itemsPerPage]);
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
@@ -67,10 +65,20 @@ function ListChartAccounts() {
       setSortColumn(column);
       setSortOrder('asc');
     }
+    setPagination({ ...pagination, currentPage: 1 });
   };
 
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    setPagination({ ...pagination, currentPage: page });
+  };
+
+  const handleItemsPerPageChange = (event) => {
+    const newItemsPerPage = Number(event.target.value);
+    setPagination({
+      ...pagination,
+      itemsPerPage: newItemsPerPage,
+      currentPage: 1,
+    });
   };
 
   const handleSaveEdit = () => {
@@ -80,15 +88,31 @@ function ListChartAccounts() {
 
   const columns = [
     { key: 'id', label: 'ID', type: 'number' },
+    { key: 'account_code', label: 'Código', type: 'text' },
     { key: 'name', label: 'Nome da Conta', type: 'text' },
-    { key: 'type', label: 'Tipo', type: 'text',
+    { 
+      key: 'level', 
+      label: 'Nível', 
+      type: 'number',
+      render: (value) => `Nível ${value}`
+    },
+    {
+      key: 'parent',
+      label: 'Conta Pai',
+      type: 'text',
+      render: (value) => value ? value.name : '-'
+    },
+    { 
+      key: 'type', 
+      label: 'Tipo', 
+      type: 'text',
       render: (value) => value === 'analytical' ? 'Analítico' : 'Sintético'
     },
     {
-      key: 'total_value',
-      label: 'Valor Total',
+      key: 'children',
+      label: 'Sub-contas',
       type: 'number',
-      render: (value) => value ? formatCurrency(value) : '-',
+      render: (value) => value ? value.length : 0
     },
   ];
 
@@ -175,20 +199,47 @@ function ListChartAccounts() {
             isSortable={true}
           />
           
-          <div className="pagination">
-            <button 
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              Anterior
-            </button>
-            <span>Página {currentPage} de {totalPages}</span>
-            <button 
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              Próxima
-            </button>
+          <div className="pagination-container">
+            <div className="pagination">
+              <button
+                onClick={() => handlePageChange(1)}
+                disabled={pagination.currentPage <= 1}
+              >
+                {"<<"}
+              </button>
+              <button
+                onClick={() => handlePageChange(pagination.currentPage - 1)}
+                disabled={pagination.currentPage <= 1}
+              >
+                {"<"}
+              </button>
+              <span>Página {pagination.currentPage} de {pagination.totalPages}</span>
+              <button
+                onClick={() => handlePageChange(pagination.currentPage + 1)}
+                disabled={pagination.currentPage >= pagination.totalPages}
+              >
+                {">"}
+              </button>
+              <button
+                onClick={() => handlePageChange(pagination.totalPages)}
+                disabled={pagination.currentPage >= pagination.totalPages}
+              >
+                {">>"}
+              </button>
+            </div>
+
+            <div className="items-per-page-selector">
+              <label htmlFor="itemsPerPage">Itens por página: </label>
+              <select
+                id="itemsPerPage"
+                value={pagination.itemsPerPage}
+                onChange={handleItemsPerPageChange}
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={15}>15</option>
+              </select>
+            </div>
           </div>
         </>
       )}

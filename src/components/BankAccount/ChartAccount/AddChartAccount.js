@@ -21,7 +21,11 @@ function AddChartAccount() {
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
-        const response = await api.get('/chart-accounts/index');
+        const params = {
+          page: 1,
+          limit: 999
+        };
+        const response = await api.get('/chart-accounts/index', { params });
         setAccounts(Array.isArray(response.data.data) ? response.data.data : []);
       } catch (error) {
         setErrors({ fetch: 'Erro ao carregar plano de contas' });
@@ -106,16 +110,7 @@ function AddChartAccount() {
     }));
   };
 
-  const handleAddChild = (parentAccount) => {
-    setSelectedParent(parentAccount);
-    const newCode = `${parentAccount.account_code}.`;
-    setFormData(prev => ({
-      ...prev,
-      parent_id: parentAccount.id,
-      account_code: newCode,
-      type: parentAccount.type === 'synthetic' ? 'analytical' : 'synthetic'
-    }));
-  };
+
 
   return (
     <div className="chart-account-container">
@@ -123,7 +118,6 @@ function AddChartAccount() {
         <ChartAccountTree
           accounts={accounts}
           onSelect={handleParentSelect}
-          onAddChild={handleParentSelect}
           selectedId={selectedParent?.id}
         />
       </div>

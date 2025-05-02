@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaUniversity, FaSync, FaPlus } from 'react-icons/fa';
+import { FaSync, FaPlus } from 'react-icons/fa';
 import api from '../../../../services/api';
 import Table from '../../../Shared/Table';
 import LoadingSpinner from '../../../LoadingSpinner/LoadingSpinner';
@@ -15,12 +15,12 @@ function ListBankAccounts() {
   const [filterType, setFilterType] = useState('');
   const [sortColumn, setSortColumn] = useState('id');
   const [sortOrder, setSortOrder] = useState('desc');
-  
-  // Estados de paginação
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
-
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
+    itemsPerPage: 5,
+  });
   const [editAccount, setEditAccount] = useState(null);
 
   const formatCurrency = (value) => {
@@ -39,19 +39,31 @@ function ListBankAccounts() {
         account_type: filterType,
         sort_column: sortColumn,
         sort_order: sortOrder,
-        page: currentPage
+        page: pagination.currentPage,
+        limit: pagination.itemsPerPage
       };
       const response = await api.get('/wallets/index', { params });
-      setAccounts(response.data.data);
-      setCurrentPage(response.data.current_page);
-      setTotalPages(response.data.last_page);
-      setTotalItems(response.data.total);
+      
+      if (!response.data) {
+        throw new Error('Resposta inválida do servidor');
+      }
+
+      setAccounts(Array.isArray(response.data.wallets) ? response.data.wallets : []);
+      
+      const summary = response.data.summary;
+      setPagination({
+        currentPage: summary.current_page,
+        totalPages: summary.last_page,
+        totalItems: summary.total,
+        itemsPerPage: summary.per_page,
+      });
     } catch (error) {
+      console.error('Erro:', error);
       setError('Erro ao carregar contas bancárias');
     } finally {
       setIsLoading(false);
     }
-  }, [filterBank, filterType, sortColumn, sortOrder, currentPage]);
+  }, [filterBank, filterType, sortColumn, sortOrder, pagination.currentPage, pagination.itemsPerPage]);
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
@@ -68,21 +80,20 @@ function ListBankAccounts() {
       setSortColumn(column);
       setSortOrder('asc');
     }
-  };
-
-  const handleDelete = async (id) => {
-    if (window.confirm('Tem certeza que deseja excluir esta conta?')) {
-      try {
-        await api.delete(`/bank-accounts/${id}`);
-        handleRefresh();
-      } catch (error) {
-        setError('Erro ao excluir conta bancária');
-      }
-    }
+    setPagination({ ...pagination, currentPage: 1 });
   };
 
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    setPagination({ ...pagination, currentPage: page });
+  };
+
+  const handleItemsPerPageChange = (event) => {
+    const newItemsPerPage = Number(event.target.value);
+    setPagination({
+      ...pagination,
+      itemsPerPage: newItemsPerPage,
+      currentPage: 1,
+    });
   };
 
   const handleSaveEdit = () => {
@@ -111,8 +122,9 @@ function ListBankAccounts() {
     },
     {
       label: 'Ver Movimentações',
-      action: () => navigate('/movimentacoes', { 
+      action: () => navigate('.', { 
         state: { 
+          activeTab: 'ListTransactions',
           accountId: itemId,
           bankName: item.bank_name,
           accountNumber: item.account_number
@@ -190,19 +202,44 @@ function ListBankAccounts() {
           />
           
           <div className="pagination">
-            <button 
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
+            <button
+              onClick={() => handlePageChange(1)}
+              disabled={pagination.currentPage <= 1}
             >
-              Anterior
+              {"<<"}
             </button>
-            <span>Página {currentPage} de {totalPages}</span>
-            <button 
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
+            <button
+              onClick={() => handlePageChange(pagination.currentPage - 1)}
+              disabled={pagination.currentPage <= 1}
             >
-              Próxima
+              {"<"}
             </button>
+            <span>Página {pagination.currentPage} de {pagination.totalPages}</span>
+            <button
+              onClick={() => handlePageChange(pagination.currentPage + 1)}
+              disabled={pagination.currentPage >= pagination.totalPages}
+            >
+              {">"}
+            </button>
+            <button
+              onClick={() => handlePageChange(pagination.totalPages)}
+              disabled={pagination.currentPage >= pagination.totalPages}
+            >
+              {">>"}
+            </button>
+          </div>
+
+          <div className="items-per-page-selector">
+            <label htmlFor="itemsPerPage">Itens por página: </label>
+            <select
+              id="itemsPerPage"
+              value={pagination.itemsPerPage}
+              onChange={handleItemsPerPageChange}
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={15}>15</option>
+            </select>
           </div>
         </>
       )}

@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../../../services/api';
+import ChartAccountTree from '../../ChartAccount/SimpleChartAccountTree';
 import './AddTransaction.css';
 
 function AddTransaction() {
   const navigate = useNavigate();
-  const [accounts, setAccounts] = useState([]);
   const [filteredAccounts, setFilteredAccounts] = useState([]);
-  const [accountError, setAccountError] = useState("");
   const [formData, setFormData] = useState({
     account_id: '',
     account_name: '',
+    chart_account_id: '',
+    chart_account_name: '',
     type: 'entrada',
     amount: '',
     formattedAmount: '',
@@ -19,7 +20,20 @@ function AddTransaction() {
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [currentBalance, setCurrentBalance] = useState(0);
+  const [showChartTree, setShowChartTree] = useState(false);
+  const [chartAccounts, setChartAccounts] = useState([]);
+
+  useEffect(() => {
+    const fetchChartAccounts = async () => {
+      try {
+        const response = await api.get('/chart-accounts/index');
+        setChartAccounts(response.data.data || []);
+      } catch (error) {
+        setError('Erro ao carregar plano de contas');
+      }
+    };
+    fetchChartAccounts();
+  }, []);
 
   const formatCurrency = (value) => {
     if (!value) return '';
@@ -47,7 +61,6 @@ function AddTransaction() {
       });
       setFilteredAccounts(response.data.data || []);
     } catch (error) {
-      setAccountError('Erro ao buscar contas bancárias');
       setFilteredAccounts([]);
     }
   };
@@ -59,7 +72,6 @@ function AddTransaction() {
       account_name: value,
       account_id: ''
     }));
-    setAccountError("");
 
     if (value.length >= 3) {
       fetchAccounts(value);
@@ -75,7 +87,19 @@ function AddTransaction() {
       account_name: account.bank_name
     }));
     setFilteredAccounts([]);
-    setAccountError("");
+  };
+
+  const handleChartAccountSelect = (account) => {
+    if (account.type === 'analytical') {
+      setFormData(prev => ({
+        ...prev,
+        chart_account_id: account.id,
+        chart_account_name: account.name
+      }));
+      setShowChartTree(false);
+    } else {
+      setError('Selecione apenas contas analíticas');
+    }
   };
 
   const handleChange = (e) => {
@@ -100,7 +124,7 @@ function AddTransaction() {
       await api.post('/wallet/movement', submitData);
       setSuccess('Movimentação registrada com sucesso!');
       setTimeout(() => {
-        navigate('/movimentacoes');
+        navigate('/listar-contas');
       }, 2000);
     } catch (error) {
       setError(error.response?.data?.message || 'Erro ao registrar movimentação');
@@ -141,6 +165,24 @@ function AddTransaction() {
           </div>
 
           <div className="add-bank-form-group flex-1">
+            <label htmlFor="chart_account_name">Plano de Contas (Analítico) *</label>
+            <div className="input-with-button">
+              <input
+                type="text"
+                id="chart_account_name"
+                name="chart_account_name"
+                value={formData.chart_account_name}
+                readOnly
+                placeholder="Selecione um plano de contas analítico"
+                required
+                onClick={() => setShowChartTree(!showChartTree)}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="form-row">
+          <div className="add-bank-form-group flex-1">
             <label htmlFor="type">Tipo *</label>
             <select
               id="type"
@@ -153,9 +195,7 @@ function AddTransaction() {
               <option value="saida">Saída</option>
             </select>
           </div>
-        </div>
 
-        <div className="form-row">
           <div className="add-bank-form-group flex-1">
             <label htmlFor="amount">Valor *</label>
             <input
@@ -168,7 +208,9 @@ function AddTransaction() {
               placeholder="R$ 0,00"
             />
           </div>
+        </div>
 
+        <div className="form-row">
           <div className="add-bank-form-group flex-1">
             <label htmlFor="date">Data *</label>
             <input
@@ -195,7 +237,7 @@ function AddTransaction() {
         </div>
 
         <div className="form-buttons">
-          <button type="button" onClick={() => navigate('/movimentacoes')}>
+          <button type="button" onClick={() => navigate('/listar-contas')}>
             Cancelar
           </button>
           <button type="submit">
@@ -203,6 +245,22 @@ function AddTransaction() {
           </button>
         </div>
       </form>
+
+      {showChartTree && (
+        <div className="chart-tree-overlay">
+          <div className="chart-tree-modal">
+            <div className="chart-tree-header">
+              <h3>Selecione uma Conta Analítica</h3>
+              <button onClick={() => setShowChartTree(false)}>×</button>
+            </div>
+            <ChartAccountTree 
+              accounts={chartAccounts}
+              onSelect={handleChartAccountSelect}
+              selectedId={formData.chart_account_id}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

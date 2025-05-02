@@ -21,9 +21,7 @@ import ListUsers from './components/User/ListUser/ListUser';
 
 import AddBankAccount from './components/BankAccount/TabsBank/AddBankAccount/AddBankAccount';
 import TabsBank from './components/BankAccount/TabsBank/TabsBank';
-import ListTransactions from './components/BankAccount/TabsBank/ListTransactions/ListTransactions';
 import AddTransaction from './components/BankAccount/TabsBank/AddTransaction/AddTransaction';
-import ListChartAccounts from './components/BankAccount/TabsBank/ListChartAccounts/ListChartAccounts';
 import AddChartAccount from './components/BankAccount/ChartAccount/AddChartAccount';
 
 function App() {
@@ -148,7 +146,6 @@ function App() {
             
             {/* Rotas de Conta Bancária */}
             {renderProtectedRoute("/criar-conta", <AddBankAccount />)}
-            {renderProtectedRoute("/movimentacoes", <ListTransactions />)}
             {renderProtectedRoute("/nova-movimentacao", <AddTransaction />)}
             {renderProtectedRoute("/listar-contas", <TabsBank />)}
             {renderProtectedRoute("/listar-plano-contas", <AddChartAccount />)}

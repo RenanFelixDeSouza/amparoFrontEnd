@@ -77,3 +77,112 @@
   background: #6c757d;
   cursor: not-allowed;
 }
+
+.account-hierarchy-info {
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-left: 3px solid #0d6efd;
+}
+
+.account-hierarchy-path {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.account-hierarchy-path .path-item {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.account-hierarchy-path .path-item:not(:last-child):after {
+  content: ">";
+  margin-left: 8px;
+  color: #6c757d;
+}
+
+.account-hierarchy-path .current-account {
+  font-weight: bold;
+  color: #0d6efd;
+}
+
+.account-type-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  margin-left: 8px;
+}
+
+.account-type-badge.synthetic {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.account-type-badge.analytical {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.child-accounts-container {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+}
+
+.child-accounts-title {
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.parent-account, .child-accounts {
+  margin: 10px 0;
+}
+
+.parent-account h4, .child-accounts h4 {
+  color: #495057;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.child-accounts ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.child-accounts li {
+  padding: 4px 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.warning-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #856404;
+  background-color: #fff3cd;
+  padding: 8px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.warning-message svg {
+  color: #856404;
+}
+
+.account-code {
+  color: #666;
+  font-size: 0.85em;
+  margin-left: 8px;
+}

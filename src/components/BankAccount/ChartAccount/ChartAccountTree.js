@@ -122,20 +122,24 @@ function ChartAccountTree({ accounts = [], onSelect, selectedId }) {
         </div>
       </div>
       
-      <div className="tree-content custom-scrollbar" ref={contentRef}>
-        <div style={{ 
-          display: 'inline-block', 
-          minWidth: '100%',
-          paddingRight: '20px',
-          boxSizing: 'border-box'
-        }}>
-          {hierarchicalAccounts.map((account, index) => 
-            renderAccount(
-              account, 
-              0, 
-              index === hierarchicalAccounts.length - 1
-            )
-          )}
+      <div className="tree-content-wrapper">
+        {showLeftShadow && <div className="shadow-overlay left" />}
+        {showRightShadow && <div className="shadow-overlay right" />}
+        <div className="tree-content custom-scrollbar" ref={contentRef}>
+          <div style={{ 
+            display: 'inline-block', 
+            minWidth: '100%',
+            paddingRight: '20px',
+            boxSizing: 'border-box'
+          }}>
+            {hierarchicalAccounts.map((account, index) => 
+              renderAccount(
+                account, 
+                0, 
+                index === hierarchicalAccounts.length - 1
+              )
+            )}
+          </div>
         </div>
       </div>
     </div>

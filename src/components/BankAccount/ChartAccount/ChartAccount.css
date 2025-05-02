@@ -1,6 +1,7 @@
 .chart-account-list-container,
 .bank-account-list-container,
 .race-list-container, 
+.transactions-list-container
 .specie-list-container,
 .pet-list-container,
 .transactions-container,
@@ -27,10 +28,10 @@
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 100px);
+  height: 100%;
+  position: relative;
 }
 
 .chart-account-form-section {
@@ -58,7 +59,7 @@
   padding: 20px;
   border-bottom: 2px solid #eee;
   z-index: 2;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  min-width: fit-content;
 }
 
 .tree-header h3 {
@@ -82,11 +83,10 @@
 }
 
 .tree-content {
-  padding: 20px;
-  overflow: auto;
   flex: 1;
-  width: 100%;
-  position: relative;
+  overflow: auto;
+  padding: 20px;
+  height: calc(100% - 60px);
 }
 
 .tree-content > div {
@@ -96,9 +96,29 @@
 
 .tree-content-wrapper {
   display: inline-block;
-  min-width: max-content;
+  min-width: 100%;
   padding-bottom: 20px;
   padding-right: 40px;
+  position: relative;
+}
+
+.shadow-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 30px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.shadow-overlay.left {
+  left: 0;
+  background: linear-gradient(to right, rgba(255,255,255,0.9), rgba(255,255,255,0));
+}
+
+.shadow-overlay.right {
+  right: 0;
+  background: linear-gradient(to left, rgba(255,255,255,0.9), rgba(255,255,255,0));
 }
 
 .scroll-shadow {
@@ -168,6 +188,8 @@
 }
 
 .chart-account-item {
+  white-space: nowrap;
+  min-width: fit-content;
   margin: 8px 0;
 }
 
@@ -240,8 +262,6 @@
   padding-left: 20px;
   border-left: 2px dashed #dee2e6;
   position: relative;
-  overflow: hidden;
-  transition: height 0.3s ease;
 }
 
 .chart-account-children::before {
@@ -410,19 +430,18 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
   background: #f1f1f1;
-  border-radius: 10px;
+  border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #888;
-  border-radius: 10px;
-  border: 2px solid #f1f1f1;
+  border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
