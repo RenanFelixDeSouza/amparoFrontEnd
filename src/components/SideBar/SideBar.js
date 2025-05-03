@@ -6,7 +6,8 @@ import {
   FaChartPie,
   FaPaw,
   FaBuilding,
-  FaUniversity
+  FaUniversity,
+  FaCog
 } from 'react-icons/fa';
 import './SideBar.css';
 import Cookies from 'js-cookie';
@@ -257,6 +258,12 @@ function Sidebar({ isOpen, toggleSidebar, setIsLoggedIn, userType, onMouseEnter,
         {userType === 'master' && (
           <>
             <ul className="sidebar-menu">
+              <li className="sidebar-item">
+                <Link to="/configuracao" className="sidebar-link">
+                  <FaCog /> <span>Configurações</span>
+                </Link>
+              </li>
+
               <li className="sidebar-item">
                 <div className="sidebar-link" onClick={() => handleSubmenuToggle('usuario')}>
                   <FaUserCircle /> <span>Usuário</span>

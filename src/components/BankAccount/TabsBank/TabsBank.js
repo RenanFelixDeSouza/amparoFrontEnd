@@ -24,20 +24,17 @@ function TabsBank() {
       <div className="tabs">
         <button
           className={`tab-button ${activeTab === 'ListBankAccounts' ? 'active' : ''}`}
-          onClick={() => handleTabChange('ListBankAccounts')}
-        >
+          onClick={() => handleTabChange('ListBankAccounts')}>
           Contas
         </button>
         <button
           className={`tab-button ${activeTab === 'ListTransactions' ? 'active' : ''}`}
-          onClick={() => handleTabChange('ListTransactions')}
-        >
+          onClick={() => handleTabChange('ListTransactions')}>
           Movimentações
         </button>
         <button
           className={`tab-button ${activeTab === 'ListChartAccounts' ? 'active' : ''}`}
-          onClick={() => handleTabChange('ListChartAccounts')}
-        >
+          onClick={() => handleTabChange('ListChartAccounts')}>
           Plano de Contas
         </button>
       </div>

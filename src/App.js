@@ -23,6 +23,7 @@ import AddBankAccount from './components/BankAccount/TabsBank/AddBankAccount/Add
 import TabsBank from './components/BankAccount/TabsBank/TabsBank';
 import AddTransaction from './components/BankAccount/TabsBank/AddTransaction/AddTransaction';
 import AddChartAccount from './components/BankAccount/ChartAccount/AddChartAccount';
+import Configuration from './components/Configuration/Configuration';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -144,11 +145,17 @@ function App() {
             {/* Rota protegida apenas para master */}
             {renderProtectedRoute("/listar-usuarios", <ListUsers />, "master")}
             
-            {/* Rotas de Conta Bancária */}
-            {renderProtectedRoute("/criar-conta", <AddBankAccount />)}
+            {/* Rotas de Configurações */}
+            {/* Configurações Bancárias */}
+            {renderProtectedRoute("/criar-conta", <AddBankAccount />, "master")}
+            {renderProtectedRoute("/listar-plano-contas", <AddChartAccount />, "master")}
+            
+            {/* Nova rota de configuração unificada */}
+            {renderProtectedRoute("/configuracao", <Configuration />, "master")}
+            
+            {/* Rotas de Movimentação Bancária */}
             {renderProtectedRoute("/nova-movimentacao", <AddTransaction />)}
             {renderProtectedRoute("/listar-contas", <TabsBank />)}
-            {renderProtectedRoute("/listar-plano-contas", <AddChartAccount />)}
           
           </Routes>
         </div>

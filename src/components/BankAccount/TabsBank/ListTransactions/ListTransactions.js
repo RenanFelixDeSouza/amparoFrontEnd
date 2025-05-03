@@ -120,6 +120,11 @@ function ListTransactions() {
 
   const columns = [
     { key: 'id', label: 'ID', type: 'number' },
+    {
+      key: 'user_name',
+      label: 'Usuário',
+      render: (value, item) => item.user.name
+    },
     { 
       key: 'created_at', 
       label: 'Data',
@@ -147,19 +152,7 @@ function ListTransactions() {
         </span>
       ),
     },
-    {
-      key: 'wallet_balance',
-      label: 'Saldo',
-      render: (value, item) => new Intl.NumberFormat('pt-BR', { 
-        style: 'currency', 
-        currency: 'BRL' 
-      }).format(item.wallet.total_value)
-    },
-    {
-      key: 'user_name',
-      label: 'Usuário',
-      render: (value, item) => item.user.name
-    },
+
   ];
 
   const getActionItems = (itemId, item) => [

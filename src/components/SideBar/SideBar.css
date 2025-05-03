@@ -1,4 +1,3 @@
-
 .sidebar {
 
   display: flex;
@@ -136,6 +135,27 @@
 .sidebar-submenu svg {
   margin-right: 10px;
   font-size: 1.2rem;
+}
+
+.sidebar-submenu.nested {
+  padding-left: 25px;
+  background-color: var(--background-color);
+  border-left: 2px dashed var(--border-color);
+  margin: 5px 0;
+}
+
+.sidebar-submenu.nested li {
+  padding: 8px 0;
+}
+
+.sidebar-submenu.nested a {
+  color: var(--text-color);
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.sidebar-submenu.nested a:hover {
+  opacity: 1;
 }
 
 

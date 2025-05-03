@@ -511,3 +511,80 @@
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
 }
+
+.tree-node {
+  margin: 4px 0;
+}
+
+.tree-node-content {
+  display: flex;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.tree-node-content:hover {
+  background-color: #f8f9fa;
+}
+
+.tree-node-content.selected {
+  background-color: #e3f2fd;
+}
+
+.node-controls {
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.node-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.children-count {
+  color: #6c757d;
+  font-size: 0.9em;
+  margin-left: 4px;
+}
+
+.tree-node-children {
+  margin-left: 15px;
+}
+
+.close-all-folders-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: 1px solid #dee2e6;
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: #495057;
+  cursor: pointer;
+  margin: 0 20px 10px;
+  transition: all 0.2s;
+}
+
+.close-all-folders-button:hover {
+  background-color: #f8f9fa;
+  border-color: #adb5bd;
+}
+
+.tree-container {
+  overflow-y: auto;
+  height: calc(100% - 280px);
+  padding: 10px 0;
+}
+
+.tree-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}

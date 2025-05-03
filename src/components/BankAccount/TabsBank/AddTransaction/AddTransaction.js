@@ -8,14 +8,14 @@ function AddTransaction() {
   const navigate = useNavigate();
   const [filteredAccounts, setFilteredAccounts] = useState([]);
   const [formData, setFormData] = useState({
-    account_id: '',
+    wallet_id: '',
     account_name: '',
-    chart_account_id: '',
+    chart_of_account_id: '',
     chart_account_name: '',
     type: 'entrada',
-    amount: '',
+    value: '',
     formattedAmount: '',
-    description: '',
+    comments: '',
     date: new Date().toISOString().split('T')[0]
   });
   const [error, setError] = useState('');
@@ -53,7 +53,7 @@ function AddTransaction() {
     
     setFormData(prev => ({
       ...prev,
-      amount: value,
+      value: value,
       formattedAmount: formatCurrency(value)
     }));
   };
@@ -63,7 +63,7 @@ function AddTransaction() {
       const response = await api.get('/wallets/index', {
         params: { search: searchTerm }
       });
-      setFilteredAccounts(response.data.data || []);
+      setFilteredAccounts(response.data.wallets || []);
     } catch (error) {
       setFilteredAccounts([]);
     }
@@ -74,7 +74,7 @@ function AddTransaction() {
     setFormData(prev => ({
       ...prev,
       account_name: value,
-      account_id: ''
+      wallet_id: ''
     }));
 
     if (value.length >= 3) {
@@ -87,7 +87,7 @@ function AddTransaction() {
   const handleAccountSelect = (account) => {
     setFormData(prev => ({
       ...prev,
-      account_id: account.id,
+      wallet_id: account.id,
       account_name: account.bank_name
     }));
     setFilteredAccounts([]);
@@ -97,7 +97,7 @@ function AddTransaction() {
     if (account.type === 'analytical') {
       setFormData(prev => ({
         ...prev,
-        chart_account_id: account.id,
+        chart_of_account_id: account.id,
         chart_account_name: account.name
       }));
       setShowChartTree(false);
@@ -120,10 +120,13 @@ function AddTransaction() {
     
     try {
       const submitData = {
-        ...formData,
-        amount: formData.amount // usando o valor não formatado
+        wallet_id: formData.wallet_id,
+        type: formData.type,
+        value: formData.value,
+        comments: formData.comments,
+        chart_of_account_id: formData.chart_of_account_id,
+        date: formData.date
       };
-      delete submitData.formattedAmount; // remove o campo formatado antes de enviar
       
       await api.post('/wallet/movement', submitData);
       setSuccess('Movimentação registrada com sucesso!');
@@ -160,7 +163,7 @@ function AddTransaction() {
                 <ul className="add-pet-field-list">
                   {filteredAccounts.map(account => (
                     <li key={account.id} onClick={() => handleAccountSelect(account)}>
-                      {`${account.id} - ${account.bank_name}`}
+                      {`${account.bank_name} - Ag: ${account.agency} - CC: ${account.account_number}`}
                     </li>
                   ))}
                 </ul>
@@ -201,11 +204,11 @@ function AddTransaction() {
           </div>
 
           <div className="add-bank-form-group flex-1">
-            <label htmlFor="amount">Valor *</label>
+            <label htmlFor="value">Valor *</label>
             <input
               type="text"
-              id="amount"
-              name="amount"
+              id="value"
+              name="value"
               value={formData.formattedAmount || ''}
               onChange={handleAmountChange}
               required
@@ -229,11 +232,11 @@ function AddTransaction() {
         </div>
 
         <div className="add-bank-form-group">
-          <label htmlFor="description">Descrição *</label>
+          <label htmlFor="comments">Descrição *</label>
           <textarea
-            id="description"
-            name="description"
-            value={formData.description}
+            id="comments"
+            name="comments"
+            value={formData.comments}
             onChange={handleChange}
             rows="3"
             required
@@ -260,7 +263,7 @@ function AddTransaction() {
             <ChartAccountTree 
               accounts={chartAccounts}
               onSelect={handleChartAccountSelect}
-              selectedId={formData.chart_account_id}
+              selectedId={formData.chart_of_account_id}
             />
           </div>
         </div>
