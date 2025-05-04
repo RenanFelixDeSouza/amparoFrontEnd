@@ -6,7 +6,6 @@ import './AddTransaction.css';
 
 function AddTransaction() {
   const navigate = useNavigate();
-  const [filteredAccounts, setFilteredAccounts] = useState([]);
   const [formData, setFormData] = useState({
     wallet_id: '',
     account_name: '',
