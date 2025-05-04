@@ -56,7 +56,21 @@ function AddBankAccount() {
     setError('');
 
     try {
-      await api.post('/wallet/create', formData);
+      // Cria uma cópia do formData para não modificar o estado diretamente
+      const submitData = { ...formData };
+      
+      // Converte o valor do balance de string formatada para número
+      if (submitData.balance) {
+        submitData.balance = parseFloat(
+          submitData.balance
+            .replace('R$', '')
+            .replace(/\./g, '')
+            .replace(',', '.')
+            .trim()
+        );
+      }
+
+      await api.post('/wallet/create', submitData);
       setSuccess('Conta bancária criada com sucesso!');
       setTimeout(() => {
         navigate('/listar-contas');

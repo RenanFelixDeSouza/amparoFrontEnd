@@ -22,6 +22,7 @@ function AddTransaction() {
   const [success, setSuccess] = useState('');
   const [showChartTree, setShowChartTree] = useState(false);
   const [chartAccounts, setChartAccounts] = useState([]);
+  const [accounts, setAccounts] = useState([]);
 
   useEffect(() => {
     const fetchChartAccounts = async () => {
@@ -37,6 +38,37 @@ function AddTransaction() {
       }
     };
     fetchChartAccounts();
+  }, []);
+
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      try {
+        // Busca as contas bancárias
+        const response = await api.get('/wallets/index/simplified');
+        const accountsData = response.data?.data || response.data || [];
+        setAccounts(accountsData);
+
+        // Busca as configurações
+        const configResponse = await api.get('/configurations/index');
+        if (configResponse.data?.default_wallet?.id) {
+          const defaultAccount = accountsData.find(
+            acc => acc.id === configResponse.data.default_wallet.id
+          );
+          
+          if (defaultAccount) {
+            setFormData(prev => ({
+              ...prev,
+              wallet_id: defaultAccount.id.toString(),
+              account_name: defaultAccount.bank_name
+            }));
+          }
+        }
+      } catch (error) {
+        console.error('Erro ao carregar contas:', error);
+        setError('Erro ao carregar contas bancárias');
+      }
+    };
+    fetchAccounts();
   }, []);
 
   const formatCurrency = (value) => {
@@ -56,41 +88,6 @@ function AddTransaction() {
       value: value,
       formattedAmount: formatCurrency(value)
     }));
-  };
-
-  const fetchAccounts = async (searchTerm) => {
-    try {
-      const response = await api.get('/wallets/index', {
-        params: { search: searchTerm }
-      });
-      setFilteredAccounts(response.data.wallets || []);
-    } catch (error) {
-      setFilteredAccounts([]);
-    }
-  };
-
-  const handleAccountSearch = (e) => {
-    const value = e.target.value;
-    setFormData(prev => ({
-      ...prev,
-      account_name: value,
-      wallet_id: ''
-    }));
-
-    if (value.length >= 3) {
-      fetchAccounts(value);
-    } else {
-      setFilteredAccounts([]);
-    }
-  };
-
-  const handleAccountSelect = (account) => {
-    setFormData(prev => ({
-      ...prev,
-      wallet_id: account.id,
-      account_name: account.bank_name
-    }));
-    setFilteredAccounts([]);
   };
 
   const handleChartAccountSelect = (account) => {
@@ -148,27 +145,33 @@ function AddTransaction() {
 
         <div className="form-row">
           <div className="add-bank-form-group flex-1">
-            <label htmlFor="account_name">Conta Bancária *</label>
-            <div className="input-with-button">
-              <input
-                type="text"
-                id="account_name"
-                name="account_name"
-                value={formData.account_name}
-                onChange={handleAccountSearch}
-                placeholder="Digite para buscar conta"
-                required
-              />
-              {filteredAccounts.length > 0 && (
-                <ul className="add-pet-field-list">
-                  {filteredAccounts.map(account => (
-                    <li key={account.id} onClick={() => handleAccountSelect(account)}>
-                      {`${account.bank_name} - Ag: ${account.agency} - CC: ${account.account_number}`}
-                    </li>
-                  ))}
-                </ul>
+            <label htmlFor="wallet_id">Conta Bancária *</label>
+            <select
+              id="wallet_id"
+              name="wallet_id"
+              value={formData.wallet_id}
+              onChange={(e) => {
+                const selectedAccount = accounts.find(acc => acc.id === parseInt(e.target.value));
+                setFormData(prev => ({
+                  ...prev,
+                  wallet_id: e.target.value,
+                  account_name: selectedAccount ? selectedAccount.bank_name : ''
+                }));
+              }}
+              required
+              className="form-control"
+            >
+              <option value="">Selecione uma conta bancária</option>
+              {Array.isArray(accounts) && accounts.length > 0 ? (
+                accounts.map(account => (
+                  <option key={account.id} value={account.id}>
+                    {`${account.bank_name || ''} - Ag: ${account.agency || ''} - CC: ${account.account_number || ''}`}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>Nenhuma conta bancária disponível</option>
               )}
-            </div>
+            </select>
           </div>
 
           <div className="add-bank-form-group flex-1">

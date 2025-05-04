@@ -48,7 +48,7 @@
 }
 
 .add-button:hover {
-  background-color: var(--primary-color-dark);
+  background-color: var(--secondary-color);
 }
 
 .header-container {

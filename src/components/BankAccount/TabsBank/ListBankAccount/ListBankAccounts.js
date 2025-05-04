@@ -43,13 +43,13 @@ function ListBankAccounts() {
         limit: pagination.itemsPerPage
       };
       const response = await api.get('/wallets/index', { params });
-      
+
       if (!response.data) {
         throw new Error('Resposta inválida do servidor');
       }
 
       setAccounts(Array.isArray(response.data.wallets) ? response.data.wallets : []);
-      
+
       const summary = response.data.summary;
       setPagination({
         currentPage: summary.current_page,
@@ -111,7 +111,14 @@ function ListBankAccounts() {
       key: 'total_value',
       label: 'Saldo Total',
       type: 'number',
-      render: (value) => value ? formatCurrency(value) : '-',
+      render: (value, item) => (
+        <span style={{ color: item.type === 'entrada' ? '#4caf50' : '#f44336' }}>
+          {new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+          }).format(value)}
+        </span>
+      ),
     },
   ];
 
@@ -122,13 +129,13 @@ function ListBankAccounts() {
     },
     {
       label: 'Ver Movimentações',
-      action: () => navigate('.', { 
-        state: { 
+      action: () => navigate('.', {
+        state: {
           activeTab: 'ListTransactions',
           accountId: itemId,
           bankName: item.bank_name,
           accountNumber: item.account_number
-        } 
+        }
       }),
     },
   ];
@@ -137,7 +144,7 @@ function ListBankAccounts() {
     <div className="bank-account-list-container">
       <div className="list-header">
         <h2>Contas Bancárias</h2>
-        <button 
+        <button
           className="add-button"
           onClick={() => navigate('/criar-conta')}
         >
@@ -200,7 +207,7 @@ function ListBankAccounts() {
             getActionItems={getActionItems}
             isSortable={true}
           />
-          
+
           <div className="pagination">
             <button
               onClick={() => handlePageChange(1)}
@@ -251,7 +258,7 @@ function ListBankAccounts() {
           onSave={handleSaveEdit}
         />
       )}
-      
+
     </div>
   );
 }

@@ -33,7 +33,8 @@ function ListChartAccounts() {
         sort_column: sortColumn,
         sort_order: sortOrder,
         page: pagination.currentPage,
-        limit: pagination.itemsPerPage
+        limit: pagination.itemsPerPage,
+        table: true,
       };
       const response = await api.get('/chart-accounts/index', { params });
       setAccounts(Array.isArray(response.data.data) ? response.data.data : []);
@@ -89,7 +90,7 @@ function ListChartAccounts() {
   const columns = [
     { key: 'id', label: 'ID', type: 'number' },
     { key: 'account_code', label: 'Código', type: 'text' },
-    { key: 'name', label: 'Nome da Conta', type: 'text' },
+    { key: 'name', label: 'Plano de Contas', type: 'text' },
     { 
       key: 'level', 
       label: 'Nível', 
@@ -150,10 +151,10 @@ function ListChartAccounts() {
         <div className="filters-container">
           <div className="filter-group">
             <fieldset>
-              <legend>Nome da Conta:</legend>
+              <legend>Nome do plano de contas:</legend>
               <input
                 type="text"
-                placeholder="Digite o nome da conta..."
+                placeholder="Digite o nome plano de contas..."
                 value={filterName}
                 onChange={(e) => setFilterName(e.target.value)}
               />
