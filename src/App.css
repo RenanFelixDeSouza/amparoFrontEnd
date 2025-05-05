@@ -87,21 +87,7 @@ body.login-page .app-container {
 
 
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
+.modal-overlay,
 .modal-overlay-edit {
   position: fixed;
   top: 0;
@@ -110,28 +96,32 @@ body.login-page .app-container {
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   z-index: 9999;
+  padding: 20px;
 }
 
 .modal-form-body {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-top: 20px;
+  gap: 25px;
+  padding: 20px 0;
 }
 
 .form-group-inline {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
+  gap: 25px;
+  flex-wrap: wrap;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-width: 200px;
+  gap: 8px;
 }
 
 .form-group label {
@@ -140,10 +130,16 @@ body.login-page .app-container {
 }
 
 .form-group input {
-  padding: 8px;
+  padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
   background-color: #f9f9f9;
+  font-size: 14px;
+}
+
+.form-group input:disabled {
+  background-color: #e9ecef;
+  cursor: not-allowed;
 }
 
 .modal-content img {
@@ -159,17 +155,15 @@ body.login-page .app-container {
 .modal-content {
   background: var(--background-color);
   color: var(--text-color);
-  padding: 20px;
+  padding: 30px;
   border-radius: 8px;
-  max-width: 500px;
-  width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
   width: 800px;
   max-width: 90vw;
+  max-height: calc(100vh - 40px);
   box-shadow: var(--card-shadow);
   position: relative;
-  margin: 1.75rem auto;
+  margin: 0 auto;
+  overflow-y: auto;
 }
 
 .modal-divider {
