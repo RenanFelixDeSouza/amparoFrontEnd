@@ -105,6 +105,7 @@ function ChartAccountTree({ accounts = [], onSelect, selectedId }) {
       </div>
       <div className="tree-container custom-scrollbar">
         <button 
+          type="button"
           className="close-all-folders-button"
           onClick={closeAllFolders}
           title="Fechar todas as pastas"

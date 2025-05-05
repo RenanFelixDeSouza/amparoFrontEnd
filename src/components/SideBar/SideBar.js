@@ -7,7 +7,8 @@ import {
   FaPaw,
   FaBuilding,
   FaUniversity,
-  FaCog
+  FaCog,
+  FaMoneyBillWave
 } from 'react-icons/fa';
 import './SideBar.css';
 import Cookies from 'js-cookie';
@@ -185,6 +186,15 @@ function Sidebar({ isOpen, toggleSidebar, setIsLoggedIn, userType, onMouseEnter,
       submenu: [
         { label: 'Lista de Contas', icon: <FaUniversity />, link: '/listar-contas' },
         { label: 'Nova Movimentação', icon: <FaUniversity />, link: '/nova-movimentacao' },
+      ]
+    },
+    {
+      label: 'Assinaturas',
+      icon: <FaMoneyBillWave />,
+      submenu: [
+        { label: 'Gerenciar Assinaturas', icon: <FaMoneyBillWave />, link: '/assinaturas' },
+        { label: 'Adicionar Nova Assinatura', icon: <FaMoneyBillWave />, link: '/nova-assinatura' },
+        { label: 'Vincular Assinatura', icon: <FaMoneyBillWave />, link: '/vincular-assinatura' }
       ]
     },
   ];

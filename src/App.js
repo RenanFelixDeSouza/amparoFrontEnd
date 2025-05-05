@@ -25,6 +25,10 @@ import AddTransaction from './components/BankAccount/TabsBank/AddTransaction/Add
 import AddChartAccount from './components/BankAccount/ChartAccount/AddChartAccount';
 import Configuration from './components/Configuration/Configuration';
 
+import TabsSubscriptions from './components/Subscription/TabsSubscriptions';
+import AddSubscriptionPlan from './components/Subscription/ListSubscriptionPlans/Modal/AddSubscriptionPlan/AddSubscriptionPlan';
+import AddSubscriptionModal from './components/Subscription/MonthlySubscriptions/Modal/AddSubscriptionModal/AddSubscriptionModal';
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -156,6 +160,11 @@ function App() {
             {/* Rotas de Movimentação Bancária */}
             {renderProtectedRoute("/nova-movimentacao", <AddTransaction />)}
             {renderProtectedRoute("/listar-contas", <TabsBank />)}
+            
+            {/* Rotas de Assinaturas */}
+            {renderProtectedRoute("/assinaturas", <TabsSubscriptions />)}
+            {renderProtectedRoute("/nova-assinatura", <AddSubscriptionPlan />)}
+            {renderProtectedRoute("/vincular-assinatura", <AddSubscriptionModal visible={true} />)}
           
           </Routes>
         </div>
