@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import api from '../../../../../services/api';
 import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import './AddSubscriptionModal.css';
 
 const AddSubscriptionModal = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     plan_id: '',
     user_id: '',
+    user_name: '',
     responsible_id: '',
     start_date: '',
     value: ''
@@ -16,26 +18,57 @@ const AddSubscriptionModal = () => {
   const [error, setError] = useState('');
   const [users, setUsers] = useState([]);
   const [plans, setPlans] = useState([]);
+  const [showUserSearch, setShowUserSearch] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchPlans = async () => {
       try {
-        const [usersResponse, plansResponse] = await Promise.all([
-          api.get('/users/index'),
-          api.get('/subscription-plans')
-        ]);
-        
-        setUsers(usersResponse.data.data || []);
-        setPlans(plansResponse.data.data || []);
-        setError('');
+        const plansResponse = await api.get('/subscription-plans');
+        const sortedPlans = (plansResponse.data.data || []).sort((a, b) => 
+          a.name.localeCompare(b.name)
+        );
+        setPlans(sortedPlans);
       } catch (error) {
-        console.error('Erro ao carregar dados:', error);
-        setError('Erro ao carregar dados necessários');
+        console.error('Erro ao carregar planos:', error);
+        setError('Erro ao carregar planos');
+      }
+    };
+    fetchPlans();
+  }, []);
+
+  useEffect(() => {
+    const searchUsers = async () => {
+      if (!searchTerm) {
+        setFilteredUsers([]);
+        return;
+      }
+
+      try {
+        const params = {
+          name: searchTerm,
+          limit: 999,
+          active_status: 'active'
+        };
+        const response = await api.get('/users/index', { params });
+        const sortedUsers = (response.data.data || []).sort((a, b) => 
+          a.user_name.localeCompare(b.user_name)
+        );
+        setFilteredUsers(sortedUsers);
+      } catch (error) {
+        console.error('Erro ao buscar usuários:', error);
+        setError('Erro ao buscar usuários');
       }
     };
 
-    fetchData();
-  }, []);
+    // Debounce para evitar muitas requisições
+    const timeoutId = setTimeout(() => {
+      searchUsers();
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm]);
 
   const onClose = () => {
     navigate('/assinaturas');
@@ -98,6 +131,16 @@ const AddSubscriptionModal = () => {
     }
   };
 
+  const handleUserSelect = (user) => {
+    setForm(prev => ({
+      ...prev,
+      user_id: user.id,
+      user_name: user.user_name
+    }));
+    setShowUserSearch(false);
+    setSearchTerm('');
+  };
+
   return (
     <div className="bank-account-container">
       <div className="bank-form">
@@ -128,23 +171,49 @@ const AddSubscriptionModal = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="user_id">Assinante:</label>
-            <select
-              id="user_id"
-              name="user_id"
-              value={form.user_id}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Selecione o assinante...</option>
-              {users.map(user => (
-                <option key={user.id} value={user.id}>
-                  {user.user_name}
-                </option>
-              ))}
-            </select>
+            <label htmlFor="user_name">Assinante:</label>
+            <div className="input-with-button">
+              <input
+                type="text"
+                id="user_name"
+                name="user_name"
+                value={form.user_name}
+                onClick={() => setShowUserSearch(true)}
+                readOnly
+                placeholder="Selecione o assinante..."
+                required
+              />
+            </div>
           </div>
 
+          {showUserSearch && (
+            <div className="search-overlay">
+              <div className="search-modal">
+                <div className="search-header">
+                  <h3>Selecione um Assinante</h3>
+                  <button type="button" onClick={() => setShowUserSearch(false)}>×</button>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Buscar assinante..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="search-input"
+                />
+                <div className="search-results">
+                  {filteredUsers.map(user => (
+                    <div
+                      key={user.id}
+                      className="search-item"
+                      onClick={() => handleUserSelect(user)}
+                    >
+                      {user.user_name}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="form-group">
             <label htmlFor="start_date">Data de Início:</label>

@@ -175,41 +175,22 @@ function ListUsers() {
   // Defina as colunas da tabela
   const columns = [
     { key: 'id', label: 'ID', type: 'number' },
-    {
-      key: 'photo_url',
-      label: 'Foto',
-      sortable: false,
-      align: 'center',
-      render: (value, item) =>
-        value ? (
-          <img
-            src={value}
-            alt="Foto do Usuário"
-            style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '50%' }}
-          />
-        ) : (
-          <div
-            style={{
-              backgroundColor: '#e68c3a',
-              borderRadius: '50%',
-              width: '50px',
-              height: '50px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto',
-            }}
-          >
-            {item.user_name?.charAt(0).toUpperCase() || '?'}
-          </div>
-        ),
-    },
-    { key: 'user_name', label: 'Nome', type: 'text' },
-    {
-      key: 'type',
-      label: 'Tipo',
+    { 
+      key: 'chart_of_account', 
+      label: 'Conta', 
       type: 'text',
-      render: (value) => value?.description || '-'
+      render: (value) => value?.name || '-'
+    },
+    { 
+      key: 'comments', 
+      label: 'Descrição', 
+      type: 'text' 
+    },
+    { 
+      key: 'date', 
+      label: 'Data', 
+      type: 'date',
+      render: (value) => value ? new Date(value).toLocaleDateString('pt-BR') : '-'
     },
     {
       key: "is_active",

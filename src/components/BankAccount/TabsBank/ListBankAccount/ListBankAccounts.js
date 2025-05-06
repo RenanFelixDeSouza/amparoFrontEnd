@@ -112,7 +112,7 @@ function ListBankAccounts() {
       label: 'Saldo Total',
       type: 'number',
       render: (value, item) => (
-        <span style={{ color: item.type === 'entrada' ? '#4caf50' : '#f44336' }}>
+        <span style={{ color: item.total_value > 0  ? '#4caf50' : '#f44336' }}>
           {new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL'

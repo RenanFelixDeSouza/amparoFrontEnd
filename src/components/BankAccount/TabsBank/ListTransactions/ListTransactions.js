@@ -15,12 +15,12 @@ function ListTransactions() {
   const [accounts, setAccounts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  
+
   const [filterAccount, setFilterAccount] = useState(accountId || '');
   const [filterType, setFilterType] = useState('');
   const [filterStartDate, setFilterStartDate] = useState('');
   const [filterEndDate, setFilterEndDate] = useState('');
-  
+
   const [sortColumn, setSortColumn] = useState('id');
   const [sortOrder, setSortOrder] = useState('desc');
   const [pagination, setPagination] = useState({
@@ -30,6 +30,8 @@ function ListTransactions() {
     itemsPerPage: 5,
   });
   const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [totalEntries, setTotalEntries] = useState(0);
+  const [totalExits, setTotalExits] = useState(0);
 
   const fetchAccounts = async () => {
     try {
@@ -65,20 +67,24 @@ function ListTransactions() {
         limit: pagination.itemsPerPage
       };
       const response = await api.get('/wallet/movements/index', { params });
-      
-      if (!response.data || !response.data.movements) {
+
+      if (!response.data || !response.data.data || !response.data.data.movements) {
         throw new Error('Resposta inválida do servidor');
       }
 
-      setTransactions(response.data.movements.data || []);
-      
-      const movements = response.data.movements;
+      const { movements, meta } = response.data.data;
+
+      setTransactions(movements || []);
       setPagination({
-        currentPage: movements.current_page,
-        totalPages: movements.last_page,
-        totalItems: movements.total,
-        itemsPerPage: movements.per_page,
+        currentPage: meta.current_page,
+        totalPages: meta.last_page,
+        totalItems: meta.total,
+        itemsPerPage: meta.per_page,
       });
+
+      setTotalEntries(meta.total_entries || 0);
+      setTotalExits(meta.total_exits || 0);
+
     } catch (error) {
       console.error('Erro:', error);
       setError('Erro ao carregar movimentações');
@@ -119,40 +125,42 @@ function ListTransactions() {
   };
 
   const columns = [
-    { key: 'id', label: 'ID', type: 'number' },
+    { key: 'id', label: 'ID' },
     {
-      key: 'user_name',
-      label: 'Usuário',
-      render: (value, item) => item.user.name
-    },
-    { 
-      key: 'created_at', 
-      label: 'Data',
-      render: (value) => new Date(value).toLocaleDateString('pt-BR')
-    },
-    { 
-      key: 'wallet_info', 
+      key: 'chart_of_account',
       label: 'Conta',
-      render: (value, item) => `${item.wallet.bank_name} - ${item.wallet.account_number}`,
+      render: (value) => value?.name || '-'
     },
-    { 
+    {
+      key: 'comments',
+      label: 'Descrição',
+      render: (value) => value || '-'
+    },
+    {
+      key: 'date',
+      label: 'Data',
+      render: (value) => value ? new Date(value).toLocaleDateString('pt-BR') : '-'
+    },
+    {
       key: 'type',
       label: 'Tipo',
-      render: (value) => value === 'entrada' ? 'Entrada' : 'Saída',
+      render: (value) => value === 'entrada' ? 'Entrada' : 'Saída'
     },
     {
       key: 'value',
       label: 'Valor',
-      render: (value, item) => (
-        <span style={{ color: item.type === 'entrada' ? '#4caf50' : '#f44336' }}>
-          {new Intl.NumberFormat('pt-BR', { 
-            style: 'currency', 
-            currency: 'BRL' 
+      render: (value, row) => (
+        <span style={{
+          color: row.type === 'entrada' ? '#28a745' : '#dc3545',
+          fontWeight: 'bold'
+        }}>
+          {new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
           }).format(value)}
         </span>
-      ),
-    },
-
+      )
+    }
   ];
 
   const getActionItems = (itemId, item) => [
@@ -166,7 +174,7 @@ function ListTransactions() {
     <div className="transactions-list-container">
       <div className="list-header">
         <h2>Movimentações Bancárias</h2>
-        <button 
+        <button
           className="add-button"
           onClick={() => navigate('/nova-movimentacao')}
         >
@@ -254,8 +262,42 @@ function ListTransactions() {
             sortOrder={sortOrder}
             getActionItems={getActionItems}
             isSortable={true}
+            itemsPerPage={pagination.itemsPerPage}
           />
-          
+
+          <div className="totals-container" style={{
+            display: 'flex',
+            justifyContent: 'space-around', // Distribuir elementos uniformemente
+            alignItems: 'center',
+            width: '98..3%', // Ocupar toda a largura disponível
+            padding: '0.75rem',
+            margin: '1rem 0',
+            backgroundColor: '#fff',
+            borderRadius: '4px',
+            border: '1px solid #e0e0e0'
+          }}>
+            <div style={{ textAlign: 'center' }}>
+              <small>Entradas</small>
+              <div style={{ color: '#28a745', marginTop: '4px' }}>
+                {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalEntries)}
+              </div>
+            </div>
+
+            <div style={{ textAlign: 'center' }}>
+              <small>Saídas</small>
+              <div style={{ color: '#dc3545', marginTop: '4px' }}>
+                {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalExits)}
+              </div>
+            </div>
+
+            <div style={{ textAlign: 'center' }}>
+              <small>Saldo</small>
+              <div style={{ fontWeight: 500, marginTop: '4px' }}>
+                {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalEntries + totalExits)}
+              </div>
+            </div>
+          </div>
+
           <div className="pagination-container">
             <div className="pagination">
               <button
@@ -301,9 +343,9 @@ function ListTransactions() {
         </>
       )}
 
-      <DetailsTransactionModal 
-        transaction={selectedTransaction} 
-        onClose={() => setSelectedTransaction(null)} 
+      <DetailsTransactionModal
+        transaction={selectedTransaction}
+        onClose={() => setSelectedTransaction(null)}
       />
     </div>
   );

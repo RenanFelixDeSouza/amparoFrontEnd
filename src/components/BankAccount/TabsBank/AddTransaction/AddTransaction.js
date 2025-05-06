@@ -31,7 +31,14 @@ function AddTransaction() {
           limit: 999
         };
         const response = await api.get('/chart-accounts/index', {params});
-        setChartAccounts(response.data.data || []);
+        const chartAccountsData = response.data.data || [];
+        
+        // Ordenando o plano de contas por nome
+        const sortedChartAccounts = chartAccountsData.sort((a, b) => 
+          a.name.localeCompare(b.name)
+        );
+        
+        setChartAccounts(sortedChartAccounts);
       } catch (error) {
         setError('Erro ao carregar plano de contas');
       }
@@ -45,12 +52,18 @@ function AddTransaction() {
         // Busca as contas bancárias
         const response = await api.get('/wallets/index/simplified');
         const accountsData = response.data?.data || response.data || [];
-        setAccounts(accountsData);
+        
+        // Ordenando as contas bancárias por nome
+        const sortedAccounts = accountsData.sort((a, b) => 
+          (a.bank_name || '').localeCompare(b.bank_name || '')
+        );
+        
+        setAccounts(sortedAccounts);
 
         // Busca as configurações
         const configResponse = await api.get('/configurations/index');
         if (configResponse.data?.default_wallet?.id) {
-          const defaultAccount = accountsData.find(
+          const defaultAccount = sortedAccounts.find(
             acc => acc.id === configResponse.data.default_wallet.id
           );
           
@@ -127,7 +140,20 @@ function AddTransaction() {
       await api.post('/wallet/movement', submitData);
       setSuccess('Movimentação registrada com sucesso!');
       setTimeout(() => {
-        navigate('/listar-contas');
+        // navigate('/listar-contas');
+
+        setFormData({
+          wallet_id: '',
+          account_name: '',
+          chart_of_account_id: '',
+          chart_account_name: '',
+          type: 'entrada',
+          value: '',
+          formattedAmount: '',
+          comments: '',
+          date: new Date().toISOString().split('T')[0]
+        });
+
       }, 2000);
     } catch (error) {
       setError(error.response?.data?.message || 'Erro ao registrar movimentação');

@@ -52,7 +52,7 @@ function DetailsTransactionModal({ transaction, onClose }) {
               <h3>Detalhes</h3>
             </div>
             <div className="details-transaction-info">
-              <p>Data: {formatDate(transaction.created_at)}</p>
+              <p>Data: {new Date(transaction.date).toLocaleDateString('pt-BR')}</p>
               <p>Tipo: <span className={transaction.type === 'entrada' ? 'entrada' : 'saida'}>
                 {transaction.type === 'entrada' ? 'Entrada' : 'Saída'}
               </span></p>
