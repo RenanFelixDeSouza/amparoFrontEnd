@@ -12,11 +12,31 @@
 .details-transaction-modal-content {
   background: var(--background-color);
   border-radius: 8px;
-  width: 100%;
+  width: 90%;
   max-width: 500px;
   position: relative;
   overflow: hidden;
   box-shadow: var(--card-shadow);
+}
+
+.details-transaction-modal-content.with-receipt {
+  max-width: 1200px;
+}
+
+.details-transaction-modal-content.with-receipt .details-transaction-modal-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 20px;
+}
+
+.details-transaction-modal-content:not(.with-receipt) .details-transaction-modal-body {
+  padding: 20px;
+}
+
+.details-transaction-info-container {
+  overflow-y: auto;
+  max-height: 80vh;
 }
 
 .details-transaction-modal-header {
@@ -98,6 +118,21 @@
   border-radius: 4px;
 }
 
+.pdf-viewer-container {
+  margin-top: 15px;
+  width: 100%;
+  height: 80vh;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f5f5f5;
+  overflow: hidden;
+}
+
+.pdf-viewer-container iframe {
+  height: 100%;
+  width: 100%;
+}
+
 .entrada {
   color: #2ecc71;
 }
@@ -115,5 +150,11 @@
   
   .details-transaction-info {
     padding-left: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .details-transaction-modal-content.with-receipt .details-transaction-modal-body {
+    grid-template-columns: 1fr;
   }
 }

@@ -1,17 +1,17 @@
 .bank-account-container {
-  max-width: 800px;
-  margin: 60px auto;
-  padding: 20px;
+  max-width: 100%;
 }
 
-.bank-form {
-  background-color: #fff;
+.add-bank-form {
+  max-width: 65%;
+  margin: 0 auto;
   padding: 30px;
+  background: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.bank-form h2 {
+.add-bank-form h2 {
   color: #2c3e50;
   font-size: 28px;
   margin: 0 0 30px;
@@ -23,7 +23,7 @@
   padding-bottom: 15px;
 }
 
-.bank-form h2::after {
+.add-bank-form h2::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -50,6 +50,7 @@
 .add-bank-form-group {
   margin-bottom: 20px;
   width: 100%;
+  position: relative;
 }
 
 .add-bank-form-group label {
@@ -94,6 +95,29 @@
 .add-bank-form-group textarea:focus {
   border-color: var(--primary-color);
   outline: none;
+}
+
+.input-container {
+  position: relative;
+}
+
+
+
+.tree-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 70px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+.tree-button:hover {
+  background-color: var(--secondary-color);
 }
 
 .form-buttons {
@@ -182,5 +206,69 @@ input[readonly] {
 
 input[readonly]:hover {
   background-color: #f0f0f0;
+}
+
+.add-pet-field-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: calc(100% - 80px);
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 1000;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.add-pet-field-list li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.add-pet-field-list li:hover {
+  background-color: #f0f0f0;
+}
+
+.add-pet-field-list li:last-child {
+  border-bottom: none;
+}
+
+.add-pet-field-list li:hover {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+.file-recommendation {
+  color: #ff6b6b;
+  font-size: 0.9em;
+  margin-left: 5px;
+}
+
+.file-info {
+  color: #666;
+  font-size: 0.8em;
+  display: block;
+  margin-top: 5px;
+}
+
+input[type="file"] {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background: var(--primary-color);
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
 }
 

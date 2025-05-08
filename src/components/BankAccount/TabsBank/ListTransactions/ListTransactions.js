@@ -5,6 +5,8 @@ import api from '../../../../services/api';
 import Table from '../../../Shared/Table';
 import LoadingSpinner from '../../../LoadingSpinner/LoadingSpinner';
 import DetailsTransactionModal from '../../Modal/DetailsTransactionModal/DetailsTransactionModal';
+import { IoIosDocument } from "react-icons/io";
+
 
 function ListTransactions() {
   const navigate = useNavigate();
@@ -32,6 +34,10 @@ function ListTransactions() {
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [totalEntries, setTotalEntries] = useState(0);
   const [totalExits, setTotalExits] = useState(0);
+
+  const [documentError, setDocumentError] = useState('');
+  const [documentSuccess, setDocumentSuccess] = useState('');
+  const [uploadingDocument, setUploadingDocument] = useState(false);
 
   const fetchAccounts = async () => {
     try {
@@ -160,6 +166,15 @@ function ListTransactions() {
           }).format(value)}
         </span>
       )
+    },
+    {
+      key: 'receipt_url',
+      label: 'Nota Fiscal',
+      render: (value) => value ? (
+        <a href={value} target="_blank" rel="noopener noreferrer" style={{ color: '#213e60' }}>
+          <IoIosDocument />
+        </a>
+      ) : '-'
     }
   ];
 
@@ -168,7 +183,59 @@ function ListTransactions() {
       label: "Detalhar",
       action: () => setSelectedTransaction(item),
     },
+    ...(item.receipt_url ? [] : [{
+      label: "Anexar Documento",
+      action: () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'application/pdf';
+        input.onchange = (e) => handleDocumentUpload(e, item.id);
+        input.click();
+      },
+    }]),
   ];
+
+  const handleDocumentUpload = async (event, movementId) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Validações do arquivo
+    if (file.type !== 'application/pdf') {
+      setDocumentError('Por favor, selecione apenas arquivos PDF.');
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setDocumentError('O tamanho do documento deve ser menor que 5MB.');
+      return;
+    }
+
+    setUploadingDocument(true);
+    setDocumentError('');
+
+    try {
+      const documentData = new FormData();
+      documentData.append('receipt', file);
+
+      await api.post(`/wallet/movement/${movementId}/upload-receipt`, documentData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      setDocumentSuccess('Documento anexado com sucesso!');
+      handleRefresh(); // Atualiza a lista após o upload
+
+      // Limpa a mensagem de sucesso após 3 segundos
+      setTimeout(() => {
+        setDocumentSuccess('');
+      }, 3000);
+
+    } catch (error) {
+      console.error('Erro ao enviar documento:', error);
+      setDocumentError('Erro ao enviar o documento. Tente novamente.');
+    } finally {
+      setUploadingDocument(false);
+    }
+  };
 
   return (
     <div className="transactions-list-container">
@@ -181,6 +248,22 @@ function ListTransactions() {
           <FaPlus /> Nova Movimentação
         </button>
       </div>
+
+      {documentError && (
+        <div className="error-message" style={{ margin: '10px 0' }}>
+          {documentError}
+        </div>
+      )}
+      {documentSuccess && (
+        <div className="success-message" style={{ margin: '10px 0' }}>
+          {documentSuccess}
+        </div>
+      )}
+      {uploadingDocument && (
+        <div className="info-message" style={{ margin: '10px 0' }}>
+          Enviando documento...
+        </div>
+      )}
 
       {isLoading && <LoadingSpinner />}
 
